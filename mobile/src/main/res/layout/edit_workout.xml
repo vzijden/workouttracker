@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter"/>
+    </data>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/frame_layout"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/workout_name"
+                    android:id="@+id/textInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Chest and Biceps"
+                        android:text="@={viewModel.workoutName}"
+                        android:id="@+id/editText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="14dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                app:data="@{viewModel.exercises}"
+                app:changedPositions="@{viewModel.changedPositions}"
+                android:layout_height="0dp"
+                android:id="@+id/edit_schedule_recyclerView"/>
+    </LinearLayout>
+</layout>
