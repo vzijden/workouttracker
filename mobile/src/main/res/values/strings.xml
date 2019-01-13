@@ -3,12 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="schedule">Schedule</string>
     <string name="workouts">Workouts</string>
     <string name="exercise_name">Exercise name</string>
     <string name="sets">Sets:</string>
     <string name="reps">reps:</string>
     <string name="workout_name">Workout name</string>
     <string name="day">Day </string>
-    <string name="add_exercise">Add exercise</string>
+    <string name="add">Add</string>
+    <string name="edit_workout_activity_name">Edit workout</string>
+    <string name="edit_exercise">Edit exercise</string>
+    <string name="schedule">Schedule</string>
 </resources>

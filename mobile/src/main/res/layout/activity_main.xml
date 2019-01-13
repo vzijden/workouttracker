@@ -9,6 +9,10 @@
         tools:context=".view.main.MainActivity"
         android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       app:title="@string/schedule"
+                                       style="@style/actionbar"/>
 
     <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
@@ -23,5 +27,5 @@
             android:id="@+id/navigation_view"
             android:layout_gravity="bottom"
             app:menu="@menu/navigation"
-            />
+    />
 </LinearLayout>

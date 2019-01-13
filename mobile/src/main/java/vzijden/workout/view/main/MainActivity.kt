@@ -11,9 +11,11 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import vzijden.workout.R
 import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.*
+import vzijden.workout.data.model.Registration
+import vzijden.workout.data.model.Schedule
 import vzijden.workout.data.model.Set
-import java.util.*
+import vzijden.workout.data.model.Workout
+import vzijden.workout.util.initialize
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,28 +28,22 @@ class MainActivity : AppCompatActivity() {
 
     val schedule = Schedule("firstSchedule")
     doAsync {
+
       val scheduleDatabase = ScheduleDatabase.getInstance(applicationContext)
-      val scheduleId = scheduleDatabase.scheduleDao().insert(schedule)
-      val workout1Id = scheduleDatabase.workoutDao().insert(Workout(Date(), scheduleId.toInt(), "Chest and triceps", 1))
-      val workout2Id = scheduleDatabase.workoutDao().insert(Workout(Date(), scheduleId.toInt(), "Shoulders and abs", 2))
-      val workout3Id = scheduleDatabase.workoutDao().insert(Workout(Date(), scheduleId.toInt(), "Back and biceps", 3))
-
-      val exercise1Id = scheduleDatabase.exerciseDao().insert(Exercise("Bench press", workout1Id.toInt(), MuscleGroup.BICEPS))
-      scheduleDatabase.setsDao().insert(Set(8, exercise1Id.toInt()))
-      scheduleDatabase.setsDao().insert(Set(8, exercise1Id.toInt()))
-      scheduleDatabase.setsDao().insert(Set(8, exercise1Id.toInt()))
-
-      scheduleDatabase.exerciseDao().insert(Exercise("Leg press", workout1Id.toInt(), MuscleGroup.LEGS))
-      scheduleDatabase.exerciseDao().insert(Exercise("Overhead press", workout1Id.toInt(), MuscleGroup.SHOULDERS))
-      scheduleDatabase.exerciseDao().insert(Exercise("Barbell curl", workout1Id.toInt(), MuscleGroup.BICEPS))
-      scheduleDatabase.exerciseDao().insert(Exercise("Squats", workout1Id.toInt(), MuscleGroup.LEGS))
+      if (scheduleDatabase.exerciseDao().getAll().isEmpty()) {
+        initialize(this@MainActivity)
+        val scheduleId = scheduleDatabase.scheduleDao().insert(schedule)
+        val workoutId = scheduleDatabase.workoutDao().insert(Workout(scheduleId.toInt(), "Chest", 1))
+        val exercises = scheduleDatabase.exerciseDao().getAll()
+        val registrationId = scheduleDatabase.registrationDao().insert(Registration(workoutId.toInt(),exercises[0]))
+        scheduleDatabase.setsDao().insert(Set(8, registrationId.toInt(), exercises[0]))
+      }
 
       uiThread {
         setupViewPager()
         setupNavigationView()
       }
     }
-
   }
 
   private lateinit var viewPager: ViewPager

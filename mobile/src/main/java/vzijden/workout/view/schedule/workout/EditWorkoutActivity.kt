@@ -1,69 +1,54 @@
 package vzijden.workout.view.schedule.workout
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.edit_workout.*
 import vzijden.workout.R
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.Exercise
-import vzijden.workout.data.model.WorkoutAndExercices
-import vzijden.workout.databinding.EditWorkoutBinding
 
-class EditWorkoutActivity : AppCompatActivity(), EditWorkoutPresenter.View {
+class EditWorkoutActivity : AppCompatActivity() {
   companion object {
-
+    private const val FRAGMENT_CONTAINER_ID = 1
     private const val WORKOUT_ID = "WORKOUT_ID"
     fun createIntent(workoutId: Int): Bundle {
       val bundle = Bundle()
       bundle.putInt(WORKOUT_ID, workoutId)
       return bundle
     }
-
   }
-  private lateinit var workoutAndExercises: WorkoutAndExercices
 
   private lateinit var presenter: EditWorkoutPresenter
-  private lateinit var adapter: EditWorkoutAdapter
-  override fun setWorkoutAndExercises(workoutAndExercises: WorkoutAndExercices) {
-//    adapter.setData(workoutAndExercises)
-  }
 
 
-  override fun addExercise(exercise: Exercise) {
-//    adapter.addExercise(exercise)
-  }
-
-  override fun openExercise(exercise: Exercise) {
-  }
-
+  @SuppressLint("ResourceType")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    presenter = EditWorkoutPresenter(ScheduleDatabase.getInstance(this), this)
-    val binding: EditWorkoutBinding = DataBindingUtil.setContentView(this, R.layout.edit_workout)
-    binding.viewModel = presenter
-
-    setupRecyclerView()
-
+    presenter = EditWorkoutPresenter(ScheduleDatabase.getInstance(this))
     if (intent.hasExtra(WORKOUT_ID)) {
       presenter.loadWorkout(intent.getIntExtra(WORKOUT_ID, 0))
     } else {
-      workoutAndExercises = presenter.newWorkoutAndExercises()
+      presenter.newWorkoutAndExercises()
     }
 
-  }
+    val exercisesFragment = ExercisesFragment();
+    exercisesFragment.presenter = presenter
 
-  private fun setupRecyclerView() {
-    adapter = EditWorkoutAdapter()
-    edit_schedule_recyclerView.apply {
-      layoutManager = LinearLayoutManager(this@EditWorkoutActivity)
-      adapter = this@EditWorkoutActivity.adapter
+    val frameLayout = FrameLayout(this)
+    frameLayout.id = FRAGMENT_CONTAINER_ID
+
+    setContentView(frameLayout, ViewGroup.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+
+    if (savedInstanceState == null) {
+      supportFragmentManager.beginTransaction().add(FRAGMENT_CONTAINER_ID, exercisesFragment).commit()
+      presenter.exercisesFragmentView = exercisesFragment
     }
-    adapter.setOnExerciseAddListener {
-      presenter.newExercise()
-    }
+
+
   }
 }

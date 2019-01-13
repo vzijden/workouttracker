@@ -4,78 +4,43 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.edit_workout_add_item_view.view.*
 import vzijden.workout.R
-import vzijden.workout.data.model.Exercise
 import vzijden.workout.databinding.WorkoutItemViewBinding
-import vzijden.workout.view.BindableAdapter
-import vzijden.workout.view.schedule.workout.exercise.ExerciseItemViewModel
+import vzijden.workout.view.AbstractAdapter
 
-class EditWorkoutAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<Exercise> {
-  override fun setData(items: List<Exercise>) {
-    exercises = items
+class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPresenter>() {
+  companion object {
+    const val VIEW_HOLDER_TYPE = 1
   }
 
-  override fun changedPositions(positions: Set<Int>) {
-    positions.forEach {
-      notifyItemChanged(it)
-    }
+  var exerciseItemPresenters: List<EditWorkoutPresenter.ExerciseItemPresenter>? = null
+
+  override fun getHolderViewType(): Int = VIEW_HOLDER_TYPE
+
+  override fun setData(items: List<EditWorkoutPresenter.ExerciseItemPresenter>) {
+    exerciseItemPresenters = items
   }
 
-
-
-  private var exercises: List<Exercise>? = null
-  private var listener: (() -> Unit)? = null
-
-  override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-    return if (p1 == 1) {
-      val binding: WorkoutItemViewBinding = DataBindingUtil.inflate(
-        LayoutInflater.from(p0.context),
-        R.layout.workout_item_view,
-        p0,
-        false
-      )
-      binding.viewModel = ExerciseItemViewModel()
-      ExerciseViewHolder(binding)
-    } else {
-      AddItemViewHolder(
-        LayoutInflater.from(p0.context).inflate(R.layout.edit_workout_add_item_view, p0, false) as ViewGroup
-      )
-    }
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    val inflater = LayoutInflater.from(parent.context)
+    return if (viewType == 1) {
+      val binder: WorkoutItemViewBinding = DataBindingUtil.inflate(inflater, R.layout.workout_item_view, parent, false)
+      ExerciseViewHolder(binder)
+    } else super.onCreateViewHolder(parent, viewType)
   }
 
-  override fun getItemCount(): Int {
-    val exerciseCount = exercises?.size ?: 0
-    return exerciseCount + 1
-  }
+  override fun getItemCount(): Int = (exerciseItemPresenters?.size ?: 0) + 1
 
-  override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-    if (p0.itemViewType == 1) {
-      (p0 as ExerciseViewHolder).let { exerciseViewHolder ->
-        exercises?.get(p1)?.let {
-          exerciseViewHolder.workoutItemViewBinding.viewModel?.exerciseName?.set(it.name)
-          exerciseViewHolder.workoutItemViewBinding.viewModel?.muscleGroup?.set(it.muscleGroup.normalName)
-          exerciseViewHolder.workoutItemViewBinding.viewModel?.index?.set(p1.toString())
+
+  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    if (holder.itemViewType == getHolderViewType()) {
+      (holder as ExerciseViewHolder).let { workoutItemViewBinding ->
+        exerciseItemPresenters?.getOrNull(position)?.let { exerciseItemView ->
+          workoutItemViewBinding.workoutItemViewBinding.exerciseItemPresenter = exerciseItemView
         }
       }
-    } else (p0 as AddItemViewHolder).let {addItemViewHolder ->
-      addItemViewHolder.viewGroup.edit_workout_add_item_view_button.setOnClickListener {
-        listener?.invoke()
-      }
-    }
+    } else super.onBindViewHolder(holder, position)
   }
 
-  override fun getItemViewType(position: Int): Int {
-    if (position == exercises?.size ?: 1) {
-      return 0
-    } else return 1
-  }
-
-  fun setOnExerciseAddListener(listener: () -> Unit) {
-    this.listener = listener
-  }
-
-  inner class ExerciseViewHolder(var workoutItemViewBinding: WorkoutItemViewBinding) : RecyclerView.ViewHolder(workoutItemViewBinding.root)
-
-  inner class AddItemViewHolder(var viewGroup: ViewGroup) : RecyclerView.ViewHolder(viewGroup)
+  inner class ExerciseViewHolder(val workoutItemViewBinding: WorkoutItemViewBinding) : RecyclerView.ViewHolder(workoutItemViewBinding.root)
 }

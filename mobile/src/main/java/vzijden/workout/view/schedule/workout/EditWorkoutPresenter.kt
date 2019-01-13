@@ -1,34 +1,30 @@
 package vzijden.workout.view.schedule.workout
 
+import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import org.jetbrains.anko.doAsync
 import vzijden.workout.BR
 import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Exercise
-import vzijden.workout.data.model.MuscleGroup
-import vzijden.workout.data.model.WorkoutAndExercices
+import vzijden.workout.data.model.*
+import vzijden.workout.data.model.Set
 
-class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase, private val view: EditWorkoutPresenter.View) : BaseObservable() {
-  private var workoutAndExercises: WorkoutAndExercices? = null
-  private var workoutName = ObservableField<String>()
-
-  fun loadWorkout(workoutId: Int) {
-    doAsync {
-      val byWorkoutId = scheduleDatabase.workoutAndExercisesDao().byWorkoutId(workoutId)
-      byWorkoutId?.let {
-        workoutAndExercises = it
-        workoutName.set(it.workout.name)
-        view.setWorkoutAndExercises(it)
-      }
+class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : BaseObservable() {
+  private var workoutAndRegistrations: WorkoutAndRegistrations? = null
+    set(value) {
+      field = value
+      notifyPropertyChanged(BR.exerciseItemPresenters)
     }
-  }
 
-  @get:Bindable
-  var exercises = mutableListOf<Exercise>()
-    get() {
-      return workoutAndExercises?.exercices ?: mutableListOf()
+  var workoutName = ObservableField<String>()
+  var registrationBeingEdited = ObservableField<RegistrationAndSets>()
+  var exercisesFragmentView: ExercisesFragmentView? = null
+  var registrationsAndSets: MutableList<RegistrationAndSets>? = null
+    set(value) {
+      field = value
+      notifyPropertyChanged(BR.sets)
     }
 
   @get:Bindable
@@ -38,37 +34,86 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase, priva
       notifyPropertyChanged(BR.changedPositions)
     }
 
-  fun newWorkoutAndExercises(): WorkoutAndExercices {
-    this.workoutAndExercises = WorkoutAndExercices()
-    return this.workoutAndExercises!!
-  }
+  @get:Bindable
+  var exerciseItemPresenters: List<ExerciseItemPresenter> = listOf()
+    get() {
+      return registrationsAndSets?.mapIndexed { pos, registrationAndSets ->
+        object : ExerciseItemPresenter() {
+          override val sets: ObservableArrayList<Set> =
+              ObservableArrayList<Set>().apply { addAll(registrationAndSets.sets) }
 
-  fun newExercise() {
-    workoutAndExercises?.workout?.let { workout ->
-      val exercise = Exercise("New exercise", workout.id, MuscleGroup.BICEPS)
-      workoutAndExercises?.exercices?.add(exercise)
-      view.addExercise(exercise)
-      notifyPropertyChanged(BR.exercises)
-      changedPositions = mutableSetOf(exercises.size - 1)
+          override fun onClick(pos: Int) =
+              onExerciseClicked(pos)
+
+          override val index: ObservableField<Int> =
+              ObservableField<Int>().apply { set(pos) }
+
+          override val muscleGroup: ObservableField<String> =
+              ObservableField<String>().apply {
+                set(registrationAndSets.registration.exercise?.muscleGroups?.getOrNull(0)?.normalName ?: "")
+              }
+
+          override val exerciseName: ObservableField<String> =
+              ObservableField<String>().apply { set(registrationAndSets.registration.exercise?.name) }
+
+
+        }
+      } ?: listOf()
+    }
+
+  fun loadWorkout(workoutId: Int) {
+    doAsync {
+      val byWorkoutId = scheduleDatabase.workoutAndRegistrationsDao().byWorkoutId(workoutId)
+      byWorkoutId?.let {
+        workoutAndRegistrations = it
+        workoutName.set(it.workout.name)
+      }
+      scheduleDatabase.registrationAndSetsDao().getAllForWorkout(workoutId).let {
+        registrationsAndSets = it
+      }
+
     }
   }
 
-  public fun onExerciseClicked(view: View) {
-
+  fun newWorkoutAndExercises(): WorkoutAndRegistrations? {
+    this.workoutAndRegistrations = WorkoutAndRegistrations();
+    return this.workoutAndRegistrations!!
   }
 
-  interface View {
-    fun setWorkoutAndExercises(workoutAndExercises: WorkoutAndExercices)
-
-    fun addExercise(exercise: Exercise)
-
-    fun openExercise(exercise: Exercise)
+  private fun onExerciseClicked(pos: Int) {
+    try {
+      registrationsAndSets?.get(pos)?.let { registrationAndSets ->
+        registrationBeingEdited.set(registrationAndSets)
+        this.exercisesFragmentView?.openRegistration(registrationAndSets, registrationAndSets.registration.workoutId)
+      }
+    } catch (e: IndexOutOfBoundsException) {
+      Log.e(EditWorkoutPresenter::class.simpleName, "Exercise with index: $pos not found")
+    }
   }
 
-  interface ExerciseItemView {
-    fun setName(name: String)
-    fun setMuscleType(muscleType: String)
-    fun setIndex(index: String)
-    fun setOnClickListener(): () -> Exercise
+  fun onExerciseAdded() {
+    workoutAndRegistrations?.workout?.id?.let {
+      exercisesFragmentView?.newRegistration(it)
+    }
   }
+
+  interface ExercisesFragmentView {
+    fun setWorkoutAndExercises(workoutAndRegistrations: WorkoutAndRegistrations)
+    fun openRegistration(registrationAndSets: RegistrationAndSets, workoutId: Int)
+    fun newRegistration(workoutId: Int)
+  }
+
+  abstract class ExerciseItemPresenter : BaseObservable() {
+    @get:Bindable
+    abstract val exerciseName: ObservableField<String>
+    @get:Bindable
+    abstract val index: ObservableField<Int>
+    @get:Bindable
+    abstract val muscleGroup: ObservableField<String>
+    @get:Bindable
+    abstract val sets: ObservableArrayList<Set>
+
+    abstract fun onClick(pos: Int)
+  };
+
 }

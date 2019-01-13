@@ -6,38 +6,26 @@
 
     <data>
         <variable
-                name="setItemViewModel"
-                type="vzijden.workout.view.schedule.workout.exercise.set.SetViewModel"/>
+                name="set"
+                type="vzijden.workout.data.model.Set"/>
     </data>
 
-    <vzijden.workout.view.schedule.workout.exercise.set.SetView
+    <vzijden.workout.view.exercise.SetView
             android:layout_gravity="center"
             android:id="@+id/schedule_item_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_height="wrap_content">
 
 
         <TextView
                 android:text="@string/reps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/set_item_view_index"
+                android:id="@+id/set_item_view_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="1"
+                tools:text="Reps:"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.0"/>
-
-        <TextView
-                android:text="@string/reps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/set_item_view_text_View"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/set_item_view_index"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.0"/>
 
@@ -46,14 +34,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/set_item_view_amount"
-                app:layout_constraintStart_toEndOf="@+id/set_item_view_text_View"
+                app:layout_constraintStart_toEndOf="@id/set_item_view_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="8"
+                android:text="@{String.valueOf(set.reps)}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <SeekBar
                 android:max="@integer/max_set_reps"
+                android:progress="@{set.reps}"
                 android:layout_height="wrap_content"
                 android:id="@+id/set_item_view_seek_bar"
                 android:layout_width="0dp"
@@ -64,5 +54,5 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"/>
-    </vzijden.workout.view.schedule.workout.exercise.set.SetView>
+    </vzijden.workout.view.exercise.SetView>
 </layout>

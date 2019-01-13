@@ -7,5 +7,6 @@ enum class MuscleGroup(val normalName: String) {
   CHEST("Chest"),
   ABS("Abs"),
   BACK("Back"),
-  SHOULDERS("Shoulders")
+  SHOULDERS("Shoulders"),
+  TRAPS("Traps")
 }

@@ -1,46 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:clickable="true"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:id="@+id/edit_exercise_add_set_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="16dp"/>
+    <data>
+
+        <variable
+                name="editExercisePresenter"
+                type="vzijden.workout.view.exercise.EditExercisePresenter"/>
+    </data>
 
     <LinearLayout
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <EditText
+        <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content"
+                app:title="@string/edit_workout_activity_name"
+                android:id="@+id/actionbar"
+                style="@style/actionbar"/>
+
+        <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="@string/exercise_name"
-                android:ems="10"
-                android:id="@+id/edit_exercise_name_edit_text"/>
+                android:layout_margin="8dp"
+                android:transitionName="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name + `cardview`}">
 
-        <Spinner
+                <LinearLayout
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:transitionName="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name + `textview`}"
+                            android:textColor="@color/text_dark"
+                            android:text="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name}"
+                            android:id="@+id/edit_exercise_name_edit_text"
+                            tools:text="Bench press"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            tools:text="Biceps"
+                            app:muscleGroups="@{editExercisePresenter.RegistrationAndSets.registration.exercise.muscleGroups}"
+                    />
+
+                    <TextView
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            app:fromHtml="@{editExercisePresenter.RegistrationAndSets.registration.exercise.description}"
+                    />
+
+
+                </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_exercise_material_spinner"/>
+                android:layout_margin="8dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:padding="16dp"
+                    android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/edit_exercise_sets_recycler_view"/>
-
+                <androidx.recyclerview.widget.RecyclerView
+                        app:data="@{editExercisePresenter.RegistrationAndSets.sets}"
+                        app:changedPositions="@{editExercisePresenter.changedPositions}"
+                        app:onItemAdded="@{() -> editExercisePresenter.addSet()}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edit_exercise_sets_recycler_view"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

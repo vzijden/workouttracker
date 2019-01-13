@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+                name="scheduleItemView"
+                type="vzijden.workout.view.main.SchedulePresenter.ScheduleItemView"/>
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="16dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:onClick="@{() -> scheduleItemView.onClick()}"
+        android:clickable="true"
+        android:focusable="true">
 
     <TextView
             android:layout_width="match_parent"
@@ -13,6 +24,7 @@
             android:id="@+id/schedule_item_view_workout_name_text_field"
             tools:text="Chest and triceps"
             android:textSize="16sp"
+            android:text="@{scheduleItemView.workoutName}"
             android:textColor="@color/text_dark"/>
     <TextView
             android:layout_width="wrap_content"
@@ -27,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1"
+            android:text="@{String.valueOf(scheduleItemView.workoutDay)}"
             android:layout_marginStart="2sp"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -35,3 +48,4 @@
             app:layout_constraintTop_toBottomOf="@+id/schedule_item_view_workout_name_text_field"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+</layout>

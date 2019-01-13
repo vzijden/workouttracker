@@ -10,46 +10,68 @@
                 type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter"/>
     </data>
 
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/frame_layout"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
+                android:background="@color/background"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_marginBottom="16dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/workout_name"
-                    android:id="@+id/textInputLayout">
+                    app:title="@string/edit_workout_activity_name"
+                    android:id="@+id/actionbar"
+                    style="@style/actionbar"/>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/frame_layout"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:inputType="text"
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginEnd="8dp"
                         android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                         android:layout_height="wrap_content"
-                        tools:text="Chest and Biceps"
-                        android:text="@={viewModel.workoutName}"
-                        android:id="@+id/editText"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="@string/workout_name"
+                        app:boxCornerRadiusBottomEnd="0dp"
+                        app:boxCornerRadiusBottomStart="0dp"
+                        app:boxCornerRadiusTopEnd="0dp"
+                        app:boxCornerRadiusTopStart="0dp"
+                        android:id="@+id/textInputLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:inputType="text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Chest and Biceps"
+                            android:text="@={viewModel.workoutName}"
+                            android:id="@+id/editText"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-        </FrameLayout>
+            </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="14dp"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                app:data="@{viewModel.exercises}"
-                app:changedPositions="@{viewModel.changedPositions}"
-                android:layout_height="0dp"
-                android:id="@+id/edit_schedule_recyclerView"/>
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:paddingTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    app:data="@{viewModel.exerciseItemPresenters}"
+                    app:changedPositions="@{viewModel.changedPositions}"
+                    app:onItemAdded="@{() -> viewModel.onExerciseAdded()}"
+                    android:layout_height="0dp"
+                    android:id="@+id/edit_schedule_recyclerView"/>
+        </LinearLayout>
+    </ScrollView>
 </layout>

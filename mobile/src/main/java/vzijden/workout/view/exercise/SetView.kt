@@ -1,11 +1,11 @@
-package vzijden.workout.view.schedule.workout.exercise.set
+package vzijden.workout.view.exercise
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.android.synthetic.main.set_item_view.view.*
+import kotlinx.android.synthetic.main.edit_exercise_set_item_view.view.*
 
 
 class SetView(context: Context, attributeSet: AttributeSet) : ConstraintLayout(context, attributeSet) {

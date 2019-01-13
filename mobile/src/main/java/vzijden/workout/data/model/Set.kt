@@ -1,6 +1,7 @@
 package vzijden.workout.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,7 +9,9 @@ import androidx.room.PrimaryKey
 data class Set(
         @ColumnInfo(name = "reps")
         var reps: Int,
-        var exerciseId: Int
+        var registrationId: Int,
+        @Embedded(prefix = "exercise_")
+        var exercise: Exercise
 ) {
         @PrimaryKey(autoGenerate = true)
         var id: Int = 0
