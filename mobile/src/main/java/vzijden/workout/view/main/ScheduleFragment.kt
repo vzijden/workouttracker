@@ -16,7 +16,8 @@ import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.Workout
 import vzijden.workout.databinding.ScheduleFragmentBinding
 import vzijden.workout.databinding.ScheduleItemViewBinding
-import vzijden.workout.view.BindableAdapter
+import vzijden.workout.databinding.BindableAdapter
+import vzijden.workout.databinding.OnItemClickedListener
 import vzijden.workout.view.schedule.workout.EditWorkoutActivity
 
 
@@ -69,6 +70,9 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
   }
 
   inner class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleItemViewholder>(), BindableAdapter<SchedulePresenter.ScheduleItemView> {
+    override fun addOnItemClickedListener(listener: OnItemClickedListener<SchedulePresenter.ScheduleItemView>) {
+    }
+
     private var scheduleAndWorkouts: List<SchedulePresenter.ScheduleItemView>? = null
 
     override fun setData(items: List<SchedulePresenter.ScheduleItemView>) {

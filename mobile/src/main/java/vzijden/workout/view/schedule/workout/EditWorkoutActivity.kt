@@ -28,25 +28,21 @@ class EditWorkoutActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    presenter = EditWorkoutPresenter(ScheduleDatabase.getInstance(this))
-    if (intent.hasExtra(WORKOUT_ID)) {
-      presenter.loadWorkout(intent.getIntExtra(WORKOUT_ID, 0))
-    } else {
-      presenter.newWorkoutAndExercises()
-    }
-
-    val exercisesFragment = ExercisesFragment();
-    exercisesFragment.presenter = presenter
-
     val frameLayout = FrameLayout(this)
     frameLayout.id = FRAGMENT_CONTAINER_ID
 
     setContentView(frameLayout, ViewGroup.LayoutParams(
-      ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+
+    val workoutId = intent.getIntExtra(WORKOUT_ID, -1)
+    val exercisesFragment = if (workoutId != -1) {
+      ExercisesFragment.createInstance(workoutId)
+    } else {
+      ExercisesFragment()
+    }
 
     if (savedInstanceState == null) {
       supportFragmentManager.beginTransaction().add(FRAGMENT_CONTAINER_ID, exercisesFragment).commit()
-      presenter.exercisesFragmentView = exercisesFragment
     }
 
 

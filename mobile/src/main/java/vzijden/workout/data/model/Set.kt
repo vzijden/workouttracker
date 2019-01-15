@@ -9,9 +9,7 @@ import androidx.room.PrimaryKey
 data class Set(
         @ColumnInfo(name = "reps")
         var reps: Int,
-        var registrationId: Int,
-        @Embedded(prefix = "exercise_")
-        var exercise: Exercise
+        var registrationId: Int
 ) {
         @PrimaryKey(autoGenerate = true)
         var id: Int = 0

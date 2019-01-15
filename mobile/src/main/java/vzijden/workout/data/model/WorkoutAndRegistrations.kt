@@ -7,5 +7,5 @@ class WorkoutAndRegistrations {
   @Embedded
   lateinit var workout: Workout
   @Relation(parentColumn = "id", entityColumn = "workoutId", entity = Registration::class)
-  var exercises: MutableList<Registration> = mutableListOf()
+  var registrations: MutableList<Registration> = mutableListOf()
 }

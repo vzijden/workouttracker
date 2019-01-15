@@ -8,11 +8,12 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.workout_item_view.view.*
+import kotlinx.android.synthetic.main.activity_edit_workout_workout_item.view.*
 import vzijden.workout.data.model.Set
 import vzijden.workout.R
 import vzijden.workout.databinding.ExerciseViewSetItemBinding
-import vzijden.workout.view.BindableAdapter
+import vzijden.workout.databinding.BindableAdapter
+import vzijden.workout.databinding.OnItemClickedListener
 
 class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
     override fun onAttachedToWindow() {
@@ -26,6 +27,9 @@ class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLay
     }
 
     inner class SetsAdapter : RecyclerView.Adapter<SetsAdapter.SetViewHolder>(), BindableAdapter<Set> {
+        override fun addOnItemClickedListener(listener: OnItemClickedListener<Set>) {
+        }
+
         var sets: List<Set>? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {

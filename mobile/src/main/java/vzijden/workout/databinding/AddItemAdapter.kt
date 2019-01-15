@@ -1,4 +1,4 @@
-package vzijden.workout.view
+package vzijden.workout.databinding
 
 interface AddItemAdapter {
   fun onAddItemClickedListener(listener: () -> Unit)

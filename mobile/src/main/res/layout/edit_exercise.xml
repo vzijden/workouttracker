@@ -42,9 +42,9 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:transitionName="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name + `textview`}"
-                            android:textColor="@color/text_dark"
                             android:text="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name}"
-                            android:id="@+id/edit_exercise_name_edit_text"
+                            android:textColor="@color/text_dark"
+                            android:id="@+id/edit_exercise_exercise_spinner"
                             tools:text="Bench press"/>
 
                     <TextView

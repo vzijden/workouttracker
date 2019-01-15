@@ -10,22 +10,20 @@ import vzijden.workout.BR
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.*
 import vzijden.workout.data.model.Set
+import vzijden.workout.databinding.OnItemClickedListener
 
 class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : BaseObservable() {
-  private var workoutAndRegistrations: WorkoutAndRegistrations? = null
-    set(value) {
-      field = value
-      notifyPropertyChanged(BR.exerciseItemPresenters)
-    }
+  val onItemDeletedListener = object: OnItemClickedListener<ExerciseItemPresenter> {
+    override fun onItemClicked(item: ExerciseItemPresenter, pos: Int) {
 
+    }
+  }
+
+  private var workout: Workout? = null
+  private var registrationsAndSets: MutableList<RegistrationAndSets> = mutableListOf()
   var workoutName = ObservableField<String>()
   var registrationBeingEdited = ObservableField<RegistrationAndSets>()
   var exercisesFragmentView: ExercisesFragmentView? = null
-  var registrationsAndSets: MutableList<RegistrationAndSets>? = null
-    set(value) {
-      field = value
-      notifyPropertyChanged(BR.sets)
-    }
 
   @get:Bindable
   var changedPositions = mutableSetOf<Int>()
@@ -37,7 +35,7 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
   @get:Bindable
   var exerciseItemPresenters: List<ExerciseItemPresenter> = listOf()
     get() {
-      return registrationsAndSets?.mapIndexed { pos, registrationAndSets ->
+      return registrationsAndSets.mapIndexed { pos, registrationAndSets ->
         object : ExerciseItemPresenter() {
           override val sets: ObservableArrayList<Set> =
               ObservableArrayList<Set>().apply { addAll(registrationAndSets.sets) }
@@ -58,31 +56,63 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
 
 
         }
-      } ?: listOf()
+      }
     }
 
   fun loadWorkout(workoutId: Int) {
     doAsync {
-      val byWorkoutId = scheduleDatabase.workoutAndRegistrationsDao().byWorkoutId(workoutId)
-      byWorkoutId?.let {
-        workoutAndRegistrations = it
-        workoutName.set(it.workout.name)
+      val byWorkoutId = scheduleDatabase.workoutDao().getById(workoutId)
+      byWorkoutId.let {
+        workout = it
+        workoutName.set(it.name)
       }
+    }
+
+    doAsync {
       scheduleDatabase.registrationAndSetsDao().getAllForWorkout(workoutId).let {
         registrationsAndSets = it
+        notifyPropertyChanged(BR.exerciseItemPresenters)
       }
-
     }
   }
 
-  fun newWorkoutAndExercises(): WorkoutAndRegistrations? {
-    this.workoutAndRegistrations = WorkoutAndRegistrations();
-    return this.workoutAndRegistrations!!
+  fun newWorkout(): Workout {
+    this.workout = Workout(0, "Workout1", 0)
+    return this.workout!!
+  }
+
+  fun onAddExerciseClick() {
+    workout?.id?.let {
+      exercisesFragmentView?.newRegistration(it)
+    }
+  }
+
+  fun onExerciseSelected(exerciseId: Int) {
+    workout?.let { workout ->
+      doAsync {
+        val selectedExercise = scheduleDatabase.exerciseDao().get(exerciseId)
+        val newRegistration = Registration(workout.id, selectedExercise)
+        val newRegistrationAndSets = RegistrationAndSets(newRegistration)
+        val newRegistrationId = scheduleDatabase.registrationDao().insert(newRegistration)
+        val set = Set(8, newRegistrationId.toInt())
+        newRegistrationAndSets.sets.add(set)
+        scheduleDatabase.setsDao().insert(set)
+        loadWorkout(workout.id)
+
+      }
+    }
+  }
+
+  fun deleteRegistration(registration: Registration) {
+    doAsync {
+      scheduleDatabase.registrationDao().delete(registration)
+      registrationsAndSets.removeIf { it.registration.id == registration.id }
+    }
   }
 
   private fun onExerciseClicked(pos: Int) {
     try {
-      registrationsAndSets?.get(pos)?.let { registrationAndSets ->
+      registrationsAndSets[pos].let { registrationAndSets ->
         registrationBeingEdited.set(registrationAndSets)
         this.exercisesFragmentView?.openRegistration(registrationAndSets, registrationAndSets.registration.workoutId)
       }
@@ -91,14 +121,7 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
     }
   }
 
-  fun onExerciseAdded() {
-    workoutAndRegistrations?.workout?.id?.let {
-      exercisesFragmentView?.newRegistration(it)
-    }
-  }
-
   interface ExercisesFragmentView {
-    fun setWorkoutAndExercises(workoutAndRegistrations: WorkoutAndRegistrations)
     fun openRegistration(registrationAndSets: RegistrationAndSets, workoutId: Int)
     fun newRegistration(workoutId: Int)
   }

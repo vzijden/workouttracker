@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val workoutId = scheduleDatabase.workoutDao().insert(Workout(scheduleId.toInt(), "Chest", 1))
         val exercises = scheduleDatabase.exerciseDao().getAll()
         val registrationId = scheduleDatabase.registrationDao().insert(Registration(workoutId.toInt(),exercises[0]))
-        scheduleDatabase.setsDao().insert(Set(8, registrationId.toInt(), exercises[0]))
+        scheduleDatabase.setsDao().insert(Set(8, registrationId.toInt()))
       }
 
       uiThread {
