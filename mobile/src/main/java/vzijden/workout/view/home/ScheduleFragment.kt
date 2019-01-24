@@ -1,4 +1,4 @@
-package vzijden.workout.view.main
+package vzijden.workout.view.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +16,10 @@ import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.Workout
 import vzijden.workout.databinding.ScheduleFragmentBinding
 import vzijden.workout.databinding.ScheduleItemViewBinding
-import vzijden.workout.databinding.BindableAdapter
 import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.view.AbstractAdapter
 import vzijden.workout.view.schedule.workout.EditWorkoutActivity
+import vzijden.workout.view.workout.CurrentWorkoutActivity
 
 
 class ScheduleFragment : Fragment(), SchedulePresenter.View {
@@ -39,9 +40,9 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
 
 
   override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
+      inflater: LayoutInflater,
+      container: ViewGroup?,
+      savedInstanceState: Bundle?
   ): View {
     binding = DataBindingUtil.inflate(inflater, R.layout.schedule_fragment, container, false)
     return binding.root
@@ -69,34 +70,28 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
     startActivityForResult(intent, EDIT_WORKOUT_REQUEST)
   }
 
-  inner class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleItemViewholder>(), BindableAdapter<SchedulePresenter.ScheduleItemView> {
-    override fun addOnItemClickedListener(listener: OnItemClickedListener<SchedulePresenter.ScheduleItemView>) {
+  override fun startWorkout(workout: Workout) {
+    val intent = Intent(context, CurrentWorkoutActivity::class.java)
+    val bundle = CurrentWorkoutActivity.createBundle(workout.id)
+    intent.putExtras(bundle)
+    startActivity(intent)
+  }
+
+  inner class ScheduleAdapter : AbstractAdapter<SchedulePresenter.ScheduleItemView>() {
+    override fun getHolderViewType(): Int = 1
+
+    override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
+      val binding: ScheduleItemViewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.schedule_item_view, parent, false)
+      return ScheduleItemViewholder(binding)
     }
 
-    private var scheduleAndWorkouts: List<SchedulePresenter.ScheduleItemView>? = null
-
-    override fun setData(items: List<SchedulePresenter.ScheduleItemView>) {
-      scheduleAndWorkouts = items
-      notifyDataSetChanged()
-    }
-
-    override fun changedPositions(positions: Set<Int>) {
-      positions.forEach(this::notifyItemChanged)
-    }
-
-    override fun getItemCount(): Int = scheduleAndWorkouts?.size ?: 0
-
-
-    override fun onBindViewHolder(p0: ScheduleItemViewholder, p1: Int) {
-      scheduleAndWorkouts?.get(p1)?.let { scheduleItemView ->
-        p0.scheduleItemViewBinding.scheduleItemView = scheduleItemView
+    override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+      observableList[position]?.let { scheduleItemView ->
+        (holder as ScheduleItemViewholder).scheduleItemViewBinding.scheduleItemView = scheduleItemView
       }
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ScheduleItemViewholder {
-      val inflater = LayoutInflater.from(viewGroup.context)
-      val binding: ScheduleItemViewBinding = DataBindingUtil.inflate(inflater, R.layout.schedule_item_view, viewGroup, false)
-      return ScheduleItemViewholder(binding)
+    override fun addOnItemClickedListener(listener: OnItemClickedListener<SchedulePresenter.ScheduleItemView>) {
     }
 
     inner class ScheduleItemViewholder(val scheduleItemViewBinding: ScheduleItemViewBinding) : RecyclerView.ViewHolder(scheduleItemViewBinding.root)

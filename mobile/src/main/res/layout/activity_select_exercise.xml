@@ -18,7 +18,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:title="@string/select_exercise"
-                style="@style/actionbar"/>
+                style="@style/actionbar">
+
+            <SearchView
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/search_exercises"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:setSearchQueryTextListener="@{presenter.onQueryTextListener}"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

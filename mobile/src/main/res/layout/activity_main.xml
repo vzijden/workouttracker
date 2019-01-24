@@ -6,7 +6,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.main.MainActivity"
+        tools:context=".view.home.MainActivity"
         android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
@@ -27,5 +27,8 @@
             android:id="@+id/navigation_view"
             android:layout_gravity="bottom"
             app:menu="@menu/navigation"
+            app:itemIconTint="@drawable/selectable_item_state"
+            app:itemTextColor="@drawable/selectable_item_state"
+            style="@style/Widget.MaterialComponents.BottomNavigationView"
     />
 </LinearLayout>

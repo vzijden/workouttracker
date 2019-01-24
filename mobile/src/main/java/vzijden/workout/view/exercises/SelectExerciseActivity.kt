@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.R.attr.layoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_exercise.*
 import vzijden.workout.R
+import vzijden.workout.R.id.recycler_view_select_exercise
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.Exercise
 import vzijden.workout.databinding.ActivitySelectExerciseBinding
@@ -54,24 +57,17 @@ class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.Sele
     recycler_view_select_exercise.apply {
       layoutManager = LinearLayoutManager(this@SelectExerciseActivity)
       adapter = ExercisesAdapter()
+      addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
   }
 
   internal class ExercisesAdapter : AbstractAdapter<Exercise>() {
-    var exercises: List<Exercise> = listOf()
-
     override fun getHolderViewType(): Int = 1
 
-    override fun getItemCount(): Int = exercises.size
-
-    override fun setData(items: List<Exercise>) {
-      exercises = items
-      notifyDataSetChanged()
-    }
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       (holder as ExerciseViewHolder).apply {
-        binding.exercise = exercises[position]
+        binding.exercise = observableList[position]
       }
     }
 
@@ -79,10 +75,6 @@ class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.Sele
       val inflater = LayoutInflater.from(parent.context)
       val binding: ItemSelectExercisesActivityBinding = DataBindingUtil.inflate(inflater, R.layout.item_select_exercises_activity, parent, false)
       return ExerciseViewHolder(binding)
-    }
-
-    override fun getItem(position: Int): Exercise {
-      return exercises[position]
     }
 
     internal class ExerciseViewHolder(val binding: ItemSelectExercisesActivityBinding) : RecyclerView.ViewHolder(binding.root)

@@ -10,7 +10,7 @@ interface ExerciseDao {
   @Insert
   fun insert(exercise: Exercise): Long
 
-  @Query("SELECT * FROM Exercise")
+  @Query("SELECT * FROM Exercise ORDER BY Exercise.name")
   fun getAll(): List<Exercise>
 
   @Query("SELECT * from Exercise WHERE Exercise.id = :id")

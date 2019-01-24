@@ -3,6 +3,7 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import vzijden.workout.data.model.LoggedWorkout
 import vzijden.workout.data.model.Workout
 
 @Dao
@@ -12,4 +13,7 @@ interface WorkoutDao {
 
   @Query("SELECT * from Workout where Workout.id = :workoutId")
   fun getById(workoutId: Int): Workout
+
+  @Insert
+  fun insertLogged(loggedWorkout: LoggedWorkout): Long
 }

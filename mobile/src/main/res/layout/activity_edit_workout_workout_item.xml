@@ -8,6 +8,9 @@
         <variable
                 name="exerciseItemPresenter"
                 type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter.ExerciseItemPresenter"/>
+        <variable
+                name="index"
+                type="Integer"/>
     </data>
 
     <vzijden.workout.view.schedule.workout.exercise.ExerciseItemView
@@ -27,7 +30,7 @@
                 android:textSize="28sp"
                 android:textColor="@color/colorAccent"
                 android:id="@+id/schedule_item_view_workout_name_text_field"
-                android:text="@{String.valueOf(exerciseItemPresenter.index + 1)}"
+                android:text="@{index.toString()}"
                 tools:text="1"/>
 
         <com.google.android.material.card.MaterialCardView
@@ -63,9 +66,9 @@
 
                 <TextView
                         app:layout_constraintTop_toBottomOf="@id/workout_item_view_muscle_group"
+                        android:layout_marginTop="16dp"
                         android:textSize="21sp"
                         android:textStyle="bold"
-                        android:paddingBottom="8dp"
                         tools:text="Bench Press"
                         android:textColor="@color/text_dark"
                         android:text="@{exerciseItemPresenter.exerciseName}"
@@ -75,6 +78,7 @@
                         android:id="@+id/workout_item_view_name" android:fontFamily="@font/work_sans_bold"/>
 
                 <View
+                        android:layout_marginTop="24dp"
                         android:id="@+id/tile_divider"
                         android:layout_height="1dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -83,11 +87,12 @@
                         android:layout_width="match_parent"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:paddingTop="8dp"
+                        android:layout_marginTop="24dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxHeight="100dp"
                         app:data="@{exerciseItemPresenter.sets}"
+                        app:onItemAdded="@{() -> exerciseItemPresenter.onAddItemClick()}"
                         app:layout_constraintTop_toBottomOf="@id/tile_divider"
                         android:id="@+id/workout_item_view_sets_list"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="currentExercisePresenter"
+                type="vzijden.workout.view.workout.CurrentWorkoutPresenter.CurrentExercisePresenter"/>
+    </data>
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_current_exercise_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:textStyle="bold"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:textColor="#000"
+                            android:text="@{currentExercisePresenter.loggedRegistration.registration.exercise.name}"
+                            tools:text="Barbell bench-press"/>
+
+                    <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Chip"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            app:muscleGroups="@{currentExercisePresenter.loggedRegistration.registration.exercise.muscleGroups}"
+                            tools:text="Biceps"/>
+
+                    <View
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginBottom="24dp"
+                            android:id="@+id/tile_divider"
+                            android:layout_height="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/workout_item_view_name"
+                            android:background="?android:attr/dividerVertical"
+                            android:layout_width="match_parent"/>
+
+                    <LinearLayout
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/index"/>
+                        <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/reps"/>
+                        <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/weight"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            app:data="@{currentExercisePresenter.sets}"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/fragment_current_exercise_recycler_view"
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_current_exercise_card_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                            android:layout_margin="8dp"
+                            android:gravity="start"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:text="@string/edit"
+                                android:minWidth="0dp"
+                                android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:padding="8dp"
+                                android:textSize="16dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+</layout>

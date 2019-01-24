@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        app:data="@{editExercisePresenter.RegistrationAndSets.sets}"
+                        app:data="@{editExercisePresenter.sets}"
                         app:changedPositions="@{editExercisePresenter.changedPositions}"
                         app:onItemAdded="@{() -> editExercisePresenter.addSet()}"
                         android:layout_width="match_parent"

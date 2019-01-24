@@ -9,52 +9,36 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_edit_workout_workout_item.view.*
-import vzijden.workout.data.model.Set
 import vzijden.workout.R
+import vzijden.workout.data.model.Set
 import vzijden.workout.databinding.ExerciseViewSetItemBinding
-import vzijden.workout.databinding.BindableAdapter
-import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.view.AbstractAdapter
 
 class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
 
-        if (!isInEditMode)
-            workout_item_view_sets_list.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = SetsAdapter()
-            }
+    if (!isInEditMode)
+      workout_item_view_sets_list.apply {
+        layoutManager = LinearLayoutManager(context)
+        adapter = SetsAdapter()
+      }
+  }
+
+  inner class SetsAdapter : AbstractAdapter<Set>() {
+    override fun getHolderViewType(): Int = 1
+
+    override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
+      val binder: ExerciseViewSetItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.exercise_view_set_item, parent, false)
+      return SetViewHolder(binder)
     }
 
-    inner class SetsAdapter : RecyclerView.Adapter<SetsAdapter.SetViewHolder>(), BindableAdapter<Set> {
-        override fun addOnItemClickedListener(listener: OnItemClickedListener<Set>) {
-        }
-
-        var sets: List<Set>? = null
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            val binder: ExerciseViewSetItemBinding = DataBindingUtil.inflate(inflater, R.layout.exercise_view_set_item, parent, false)
-            return SetViewHolder(binder)
-        }
-
-        override fun getItemCount(): Int = sets?.size ?: 0
-
-        override fun onBindViewHolder(holder: SetViewHolder, position: Int) {
-            sets?.get(position)?.let { exerciseItemPresenter ->
-                holder.exerciseViewSetItemBinding.set = exerciseItemPresenter
-            }
-        }
-
-        override fun setData(items: List<Set>) {
-            sets = items
-            notifyDataSetChanged()
-        }
-
-        override fun changedPositions(positions: kotlin.collections.Set<Int>) {
-            positions.forEach(this::notifyItemChanged)
-        }
-
-        inner class SetViewHolder(val exerciseViewSetItemBinding: ExerciseViewSetItemBinding) : RecyclerView.ViewHolder(exerciseViewSetItemBinding.root)
+    override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+      observableList[position]?.let { exerciseItemPresenter ->
+        (holder as SetViewHolder).exerciseViewSetItemBinding.set = exerciseItemPresenter
+      }
     }
+
+    inner class SetViewHolder(val exerciseViewSetItemBinding: ExerciseViewSetItemBinding) : RecyclerView.ViewHolder(exerciseViewSetItemBinding.root)
+  }
 }

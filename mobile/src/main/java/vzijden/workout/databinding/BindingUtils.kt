@@ -3,14 +3,15 @@ package vzijden.workout.databinding
 import android.text.Html
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import vzijden.workout.data.model.MuscleGroup
 
 @BindingAdapter("data")
-fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: List<T>?) {
+fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: ObservableArrayList<T>?) {
   if (recyclerView.adapter is BindableAdapter<*>) {
     items?.let {
-      (recyclerView.adapter as BindableAdapter<T>).setData(it)
+      (recyclerView.adapter as BindableAdapter<T>).bindData(it)
     }
   }
 }

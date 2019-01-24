@@ -15,10 +15,8 @@ import androidx.transition.ChangeTransform
 import androidx.transition.TransitionSet
 import kotlinx.android.synthetic.main.edit_exercise.*
 import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.startActivityForResult
 import vzijden.workout.R
 import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Registration
 import vzijden.workout.data.model.Set
 import vzijden.workout.databinding.EditExerciseBinding
 import vzijden.workout.databinding.EditExerciseSetItemViewBinding
@@ -130,19 +128,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
 
 
   class SetsAdapter : AbstractAdapter<Set>() {
-    var sets: List<Set> = mutableListOf()
-
-
-    override fun getItemCount(): Int {
-      return sets.size + 1
-    }
-
     override fun getHolderViewType(): Int = 1
-
-    override fun setData(items: List<Set>) {
-      sets = items
-      notifyDataSetChanged()
-    }
 
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
@@ -154,12 +140,8 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       (holder as SetViewHolder).let {
-        it.binding.set = sets[position]
+        it.binding.set = observableList[position]
       }
-    }
-
-    override fun getItem(position: Int): Set {
-      return sets[position]
     }
 
     class SetViewHolder(var binding: EditExerciseSetItemViewBinding) : RecyclerView.ViewHolder(binding.root)

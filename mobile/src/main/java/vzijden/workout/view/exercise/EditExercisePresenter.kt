@@ -14,6 +14,7 @@ class EditExercisePresenter(private val workoutId: Int) : BaseObservable() {
   lateinit var fragment: EditExercisesFragmentView
 
   var registrationAndSets = ObservableField<RegistrationAndSets>()
+  var sets = ObservableArrayList<Set>()
   var changedPositions = ObservableField<kotlin.collections.Set<Int>>()
   var exercises = ObservableArrayList<Exercise>()
 
@@ -36,7 +37,8 @@ class EditExercisePresenter(private val workoutId: Int) : BaseObservable() {
         uiThread {
           this@EditExercisePresenter.registrationAndSets.apply {
             set(registrationAndSets)
-            notifyChange()
+//            notifyChange()
+            sets.addAll(registrationAndSets.sets)
           }
         }
       }
@@ -55,10 +57,10 @@ class EditExercisePresenter(private val workoutId: Int) : BaseObservable() {
   }
 
   fun selectExercise(exerciseId: Int) {
-    val registrationAndSets = this.registrationAndSets.get()?: RegistrationAndSets(Registration(workoutId))
+    val registrationAndSets = this.registrationAndSets.get() ?: RegistrationAndSets(Registration(workoutId))
     doAsync {
       val selectedExercise = fragment.getDatabase().exerciseDao().get(exerciseId)
-      registrationAndSets.registration.exercise  = selectedExercise
+      registrationAndSets.registration.exercise = selectedExercise
       registrationAndSets.sets.add(Set(8, registrationAndSets.registration.id))
       fragment.getDatabase().registrationDao().insert(registrationAndSets.registration)
 

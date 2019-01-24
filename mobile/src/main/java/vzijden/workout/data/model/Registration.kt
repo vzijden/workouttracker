@@ -17,5 +17,4 @@ class Registration(
   var exercise: Exercise? = null
   @PrimaryKey(autoGenerate = true)
   var id: Int = 0
-  var date: Date = Date()
 }

@@ -1,9 +1,14 @@
 package vzijden.workout.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.Observable
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.edit_workout_add_item_view.view.*
+import vzijden.workout.App
 import vzijden.workout.R
 import vzijden.workout.databinding.AddItemAdapter
 import vzijden.workout.databinding.BindableAdapter
@@ -18,8 +23,11 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
   private var onAddItemClicked: (() -> Unit)? = null
   private var onItemClickedListener: OnItemClickedListener<T>? = null
 
+  protected var observableList = ObservableArrayList<T>()
+
   final override fun onAddItemClickedListener(listener: () -> Unit) {
     onAddItemClicked = listener
+    notifyItemChanged(observableList.size - 1)
   }
 
   override fun addOnItemClickedListener(listener: OnItemClickedListener<T>) {
@@ -41,7 +49,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
   final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-    when(holder.itemViewType) {
+    when (holder.itemViewType) {
       ADD_ITEM_VIEW_TYPE -> {
         (holder as AbstractAdapter<*>.AddItemViewHolder).let { addItemViewHolder ->
           addItemViewHolder.viewGroup.edit_workout_add_item_view_button.setOnClickListener {
@@ -52,7 +60,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
       getItemViewType(position) -> {
         bindItemViewHolder(holder, position)
         holder.itemView.setOnClickListener {
-          onItemClickedListener?.onItemClicked(getItem(position), position)
+          onItemClickedListener?.onItemClicked(observableList[position], position)
         }
       }
       else -> throw RuntimeException("Unknown viewType")
@@ -60,16 +68,57 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
   }
 
   final override fun getItemViewType(position: Int): Int {
-    return if (position == itemCount - 1) ADD_ITEM_VIEW_TYPE else getHolderViewType()
+    return if (onAddItemClicked != null && position == itemCount - 1) ADD_ITEM_VIEW_TYPE else getHolderViewType()
   }
 
-  abstract fun getItem(position: Int): T
+  final override fun getItemCount(): Int {
+    return if (onAddItemClicked != null) {
+      observableList.size + 1
+    } else observableList.size
+  }
+
+  override fun bindData(observableList: ObservableArrayList<T>) {
+    if (this.observableList.isEmpty()) {
+      this.observableList = observableList
+      this.observableList.addOnListChangedCallback(onListChangedCallback)
+      notifyDataSetChanged()
+      Log.d(App.TAG, "AbstractAdapter observable list bound with: ${observableList.size} items")
+    }
+  }
 
   abstract fun getHolderViewType(): Int
 
   abstract fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder
 
   abstract fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int)
+
+  private val onListChangedCallback = object : ObservableList.OnListChangedCallback<ObservableArrayList<T>>() {
+    override fun onChanged(sender: ObservableArrayList<T>?) {
+      notifyDataSetChanged()
+      Log.d(App.TAG, "AbstractAdapter observable list changed")
+    }
+
+    override fun onItemRangeRemoved(sender: ObservableArrayList<T>?, positionStart: Int, itemCount: Int) {
+      notifyItemRangeRemoved(positionStart, itemCount)
+      if (positionStart != observableList.size) {
+        notifyItemRangeChanged(positionStart, observableList.size)
+      }
+    }
+
+    override fun onItemRangeMoved(sender: ObservableArrayList<T>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
+      notifyItemRangeChanged(fromPosition, itemCount)
+    }
+
+    override fun onItemRangeInserted(sender: ObservableArrayList<T>?, positionStart: Int, itemCount: Int) {
+      notifyItemRangeInserted(positionStart, itemCount)
+      Log.d(App.TAG, "AbstractAdapter $itemCount inserted at: $positionStart")
+    }
+
+    override fun onItemRangeChanged(sender: ObservableArrayList<T>?, positionStart: Int, itemCount: Int) {
+      notifyItemRangeChanged(positionStart, itemCount)
+    }
+
+  }
 
   inner class AddItemViewHolder(val viewGroup: ViewGroup) : RecyclerView.ViewHolder(viewGroup)
 }

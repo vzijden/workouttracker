@@ -1,4 +1,4 @@
-package vzijden.workout.view.main
+package vzijden.workout.view.home
 
 import androidx.fragment.app.Fragment
 

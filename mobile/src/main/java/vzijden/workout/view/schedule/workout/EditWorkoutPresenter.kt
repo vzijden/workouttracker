@@ -6,58 +6,35 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import vzijden.workout.BR
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.*
 import vzijden.workout.data.model.Set
+import vzijden.workout.databinding.AddItemAdapter
 import vzijden.workout.databinding.OnItemClickedListener
 
 class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : BaseObservable() {
-  val onItemDeletedListener = object: OnItemClickedListener<ExerciseItemPresenter> {
+  val onItemDeletedListener = object : OnItemClickedListener<ExerciseItemPresenter> {
     override fun onItemClicked(item: ExerciseItemPresenter, pos: Int) {
-
+      deleteRegistration(pos)
     }
   }
 
   private var workout: Workout? = null
   private var registrationsAndSets: MutableList<RegistrationAndSets> = mutableListOf()
+  private var registrationBeingEdited = ObservableField<RegistrationAndSets>()
   var workoutName = ObservableField<String>()
-  var registrationBeingEdited = ObservableField<RegistrationAndSets>()
   var exercisesFragmentView: ExercisesFragmentView? = null
-
   @get:Bindable
-  var changedPositions = mutableSetOf<Int>()
+  var changedPositions: kotlin.collections.Set<Int> = setOf()
     set(value) {
       field = value
       notifyPropertyChanged(BR.changedPositions)
     }
 
   @get:Bindable
-  var exerciseItemPresenters: List<ExerciseItemPresenter> = listOf()
-    get() {
-      return registrationsAndSets.mapIndexed { pos, registrationAndSets ->
-        object : ExerciseItemPresenter() {
-          override val sets: ObservableArrayList<Set> =
-              ObservableArrayList<Set>().apply { addAll(registrationAndSets.sets) }
-
-          override fun onClick(pos: Int) =
-              onExerciseClicked(pos)
-
-          override val index: ObservableField<Int> =
-              ObservableField<Int>().apply { set(pos) }
-
-          override val muscleGroup: ObservableField<String> =
-              ObservableField<String>().apply {
-                set(registrationAndSets.registration.exercise?.muscleGroups?.getOrNull(0)?.normalName ?: "")
-              }
-
-          override val exerciseName: ObservableField<String> =
-              ObservableField<String>().apply { set(registrationAndSets.registration.exercise?.name) }
-
-
-        }
-      }
-    }
+  var exerciseItemPresenters: ObservableArrayList<ExerciseItemPresenter> = ObservableArrayList()
 
   fun loadWorkout(workoutId: Int) {
     doAsync {
@@ -69,9 +46,12 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
     }
 
     doAsync {
-      scheduleDatabase.registrationAndSetsDao().getAllForWorkout(workoutId).let {
-        registrationsAndSets = it
-        notifyPropertyChanged(BR.exerciseItemPresenters)
+      val allForWorkout = scheduleDatabase.registrationAndSetsDao().getAllForWorkout(workoutId)
+      uiThread {
+        allForWorkout.forEach { registrationsAndSets ->
+          addRegistrationAndSet(registrationsAndSets)
+        }
+
       }
     }
   }
@@ -97,17 +77,51 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
         val set = Set(8, newRegistrationId.toInt())
         newRegistrationAndSets.sets.add(set)
         scheduleDatabase.setsDao().insert(set)
-        loadWorkout(workout.id)
 
+        uiThread {
+          addRegistrationAndSet(newRegistrationAndSets)
+        }
       }
     }
   }
 
-  fun deleteRegistration(registration: Registration) {
+  fun deleteRegistration(index: Int) {
+    val registrationToDelete = registrationsAndSets[index].registration
+    registrationsAndSets.removeAt(index)
+    exerciseItemPresenters.removeAt(index)
     doAsync {
-      scheduleDatabase.registrationDao().delete(registration)
-      registrationsAndSets.removeIf { it.registration.id == registration.id }
+      scheduleDatabase.registrationDao().delete(registrationToDelete)
     }
+  }
+
+  private fun addRegistrationAndSet(registrationAndSets: RegistrationAndSets) {
+    registrationsAndSets.add(registrationAndSets)
+    val index = registrationsAndSets.size - 1
+    exerciseItemPresenters.add(object : ExerciseItemPresenter() {
+      override val sets: ObservableArrayList<Set> =
+          ObservableArrayList<Set>().apply { addAll(registrationAndSets.sets) }
+
+      override fun onClick(pos: Int) =
+          onExerciseClicked(pos)
+
+      override val index: ObservableField<Int> =
+          ObservableField<Int>().apply { set(index) }
+
+      override val muscleGroup: ObservableField<String> =
+          ObservableField<String>().apply {
+            set(registrationAndSets.registration.exercise?.muscleGroups?.getOrNull(0)?.normalName ?: "")
+          }
+
+      override val exerciseName: ObservableField<String> =
+          ObservableField<String>().apply { set(registrationAndSets.registration.exercise?.name) }
+
+      override fun onAddItemClick() {
+        val set = Set(8, registrationAndSets.registration.id)
+        doAsync { scheduleDatabase.setsDao().insert(set) }
+        sets.add(set)
+      }
+
+    })
   }
 
   private fun onExerciseClicked(pos: Int) {
@@ -137,6 +151,7 @@ class EditWorkoutPresenter(private val scheduleDatabase: ScheduleDatabase) : Bas
     abstract val sets: ObservableArrayList<Set>
 
     abstract fun onClick(pos: Int)
+    abstract fun onAddItemClick()
   };
 
 }

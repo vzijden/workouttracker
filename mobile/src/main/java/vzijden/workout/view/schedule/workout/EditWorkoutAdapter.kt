@@ -15,14 +15,9 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
     const val VIEW_HOLDER_TYPE = 1
   }
 
-  var exerciseItemPresenters: List<EditWorkoutPresenter.ExerciseItemPresenter>? = null
-  var onItemDeletedListener: OnItemClickedListener<EditWorkoutPresenter.ExerciseItemPresenter>? = null
+  private var onItemDeletedListener: OnItemClickedListener<EditWorkoutPresenter.ExerciseItemPresenter>? = null
 
   override fun getHolderViewType(): Int = VIEW_HOLDER_TYPE
-
-  override fun setData(items: List<EditWorkoutPresenter.ExerciseItemPresenter>) {
-    exerciseItemPresenters = items
-  }
 
   override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
     val inflater = LayoutInflater.from(parent.context)
@@ -32,20 +27,13 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
 
   override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
     (holder as ExerciseViewHolder).let { workoutItemViewBinding ->
-      exerciseItemPresenters?.getOrNull(position)?.let { exerciseItemView ->
-        workoutItemViewBinding.workoutItemViewBinding.exerciseItemPresenter = exerciseItemView
+      observableList.getOrNull(position)?.let { exerciseItemView ->
+        workoutItemViewBinding.workoutItemViewBinding.apply {
+          exerciseItemPresenter = exerciseItemView
+          index = position + 1
+        }
       }
 
-    }
-  }
-
-  override fun getItemCount(): Int = (exerciseItemPresenters?.size ?: 0) + 1
-
-  override fun getItem(position: Int): EditWorkoutPresenter.ExerciseItemPresenter {
-    exerciseItemPresenters?.get(position)?.let {
-      return it
-    } ?: run {
-      throw RuntimeException("exerciseItemPresenter not found")
     }
   }
 
@@ -54,7 +42,7 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
   }
 
   override fun deleteItem(viewHolderPosition: Int) {
-    onItemDeletedListener?.onItemClicked(exerciseItemPresenters!![viewHolderPosition], viewHolderPosition)
+    onItemDeletedListener?.onItemClicked(observableList[viewHolderPosition], viewHolderPosition)
   }
 
   class ExerciseViewHolder(val workoutItemViewBinding: ActivityEditWorkoutWorkoutItemBinding) : RecyclerView.ViewHolder(workoutItemViewBinding.root)
