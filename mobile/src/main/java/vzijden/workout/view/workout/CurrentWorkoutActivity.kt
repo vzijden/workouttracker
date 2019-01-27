@@ -80,8 +80,8 @@ class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View
     }
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-      (holder as CurrentExerciseViewHolder).currentExerciseView.setRegistrationAndSets(currentWorkoutPresenter.getCurrentRegistration(),
-          currentWorkoutPresenter.workoutAndHistory.workoutHistory)
+//      (holder as CurrentExerciseViewHolder).currentExerciseView.setRegistrationAndSets(currentWorkoutPresenter.getCurrentRegistration(),
+//          currentWorkoutPresenter.workoutAndHistory.workoutHistory)
     }
   }
 

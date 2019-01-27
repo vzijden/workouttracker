@@ -1,7 +1,8 @@
-package vzijden.workout.data.model
+package vzijden.workout.data.views
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import vzijden.workout.data.model.*
 
 data class WorkoutAndHistory(
     @Embedded

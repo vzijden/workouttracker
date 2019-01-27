@@ -25,7 +25,7 @@ class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {
 
   @Bindable
   fun getCurrentRegistration(): Registration {
-    return workoutAndHistory.registrationsAndSets[currentRegistrationIndex]
+    return workoutAndHistory.registrationsAndSets[currentRegistrationIndex].registration
   }
 
   fun loadWorkout(workoutId: Int) {

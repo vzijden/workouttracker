@@ -24,7 +24,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:overScrollMode="never"
-                        app:data="@{currentWorkoutPresenter.registrations}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/activity_current_workout_recyclerview"/>
