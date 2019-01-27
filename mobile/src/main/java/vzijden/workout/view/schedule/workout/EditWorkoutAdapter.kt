@@ -17,7 +17,7 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
 
   private var onItemDeletedListener: OnItemClickedListener<EditWorkoutPresenter.ExerciseItemPresenter>? = null
 
-  override fun getHolderViewType(): Int = VIEW_HOLDER_TYPE
+  override fun getHolderViewType(pos: Int): Int = VIEW_HOLDER_TYPE
 
   override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
     val inflater = LayoutInflater.from(parent.context)

@@ -3,7 +3,6 @@ package vzijden.workout.view.workout
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
@@ -13,8 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_current_workout.*
 import vzijden.workout.R
 import vzijden.workout.data.ScheduleDatabase
+import vzijden.workout.data.model.RegistrationAndLoggedSets
 import vzijden.workout.databinding.ActivityCurrentWorkoutBinding
 import vzijden.workout.view.AbstractAdapter
+import vzijden.workout.view.workout.exercise.CurrentExerciseView
 
 class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View {
   companion object {
@@ -65,8 +66,8 @@ class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View
     return ScheduleDatabase.getInstance(this)
   }
 
-  inner class CurrentWorkoutAdapter : AbstractAdapter<CurrentWorkoutPresenter.CurrentExercisePresenter>() {
-    override fun getHolderViewType(): Int = 1
+  inner class CurrentWorkoutAdapter : AbstractAdapter<RegistrationAndLoggedSets>() {
+    override fun getHolderViewType(pos: Int): Int = 1
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
       val currentExerciseView = CurrentExerciseView(parent.context).apply {
@@ -79,7 +80,8 @@ class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View
     }
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-      (holder as CurrentExerciseViewHolder).currentExerciseView.setRegistrationAndSets(observableList[position])
+      (holder as CurrentExerciseViewHolder).currentExerciseView.setRegistrationAndSets(currentWorkoutPresenter.getCurrentRegistration(),
+          currentWorkoutPresenter.workoutAndHistory.workoutHistory)
     }
   }
 

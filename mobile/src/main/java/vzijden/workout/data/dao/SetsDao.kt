@@ -11,5 +11,5 @@ interface SetsDao {
   fun insert(set: Set): Long
 
   @Insert
-  fun inserLogged(loggedSet: LoggedSet): Long
+  fun insertLogged(loggedSet: LoggedSet): Long
 }

@@ -35,7 +35,7 @@ internal class DatabaseInitializerKtTest {
         "      \"license\": 1,\n" +
         "      \"name\": \"Hammercurls on cable\"\n" +
         "    },\n" +
-        "    \"model\": \"registrations.exercise\"\n" +
+        "    \"model\": \"registrationsAndSets.exercise\"\n" +
         "  }")
 
     val exercise = readExercise(exerciseJSON)

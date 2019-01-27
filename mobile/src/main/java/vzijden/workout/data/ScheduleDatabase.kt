@@ -9,7 +9,7 @@ import vzijden.workout.data.dao.*
 import vzijden.workout.data.model.*
 import vzijden.workout.data.model.Set
 
-@Database(entities = [Schedule::class, Workout::class, Exercise::class, Set::class, Equipment::class, Registration::class, LoggedWorkout::class, LoggedSet::class, LoggedRegistration::class], version = 1)
+@Database(entities = [Schedule::class, Workout::class, Exercise::class, Set::class, Equipment::class, Registration::class, LoggedWorkout::class, LoggedSet::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ScheduleDatabase: RoomDatabase() {
     abstract fun scheduleDao(): ScheduleDao

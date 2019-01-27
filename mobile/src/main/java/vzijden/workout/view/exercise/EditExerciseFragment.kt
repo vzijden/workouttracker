@@ -128,7 +128,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
 
 
   class SetsAdapter : AbstractAdapter<Set>() {
-    override fun getHolderViewType(): Int = 1
+    override fun getHolderViewType(pos: Int): Int = 1
 
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {

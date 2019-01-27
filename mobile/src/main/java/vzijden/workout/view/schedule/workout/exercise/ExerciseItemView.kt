@@ -26,7 +26,7 @@ class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLay
   }
 
   inner class SetsAdapter : AbstractAdapter<Set>() {
-    override fun getHolderViewType(): Int = 1
+    override fun getHolderViewType(pos: Int): Int = 1
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
       val binder: ExerciseViewSetItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.exercise_view_set_item, parent, false)

@@ -6,8 +6,8 @@
     <data>
 
         <variable
-                name="currentExercisePresenter"
-                type="vzijden.workout.view.workout.CurrentWorkoutPresenter.CurrentExercisePresenter"/>
+                name="currentExerciseViewModel"
+                type="vzijden.workout.view.workout.exercise.CurrentExerciseViewModel"/>
     </data>
 
 
@@ -34,7 +34,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="24sp"
                             android:textColor="#000"
-                            android:text="@{currentExercisePresenter.loggedRegistration.registration.exercise.name}"
+                            android:text="@{currentExerciseViewModel.registration.exercise.name}"
                             tools:text="Barbell bench-press"/>
 
                     <com.google.android.material.chip.Chip
@@ -45,7 +45,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
-                            app:muscleGroups="@{currentExercisePresenter.loggedRegistration.registration.exercise.muscleGroups}"
+                            app:muscleGroups="@{currentExerciseViewModel.registration.exercise.muscleGroups}"
                             tools:text="Biceps"/>
 
                     <View
@@ -60,36 +60,14 @@
                             android:background="?android:attr/dividerVertical"
                             android:layout_width="match_parent"/>
 
-                    <LinearLayout
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/index"/>
-                        <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"/>
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/reps"/>
-                        <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"/>
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/weight"/>
-                    </LinearLayout>
+                   <TextView
+                           android:layout_marginLeft="16dp"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textStyle="bold"
+                           android:text="@string/sets"/>
 
                     <androidx.recyclerview.widget.RecyclerView
-                            app:data="@{currentExercisePresenter.sets}"
                             android:layout_marginTop="8dp"
                             android:id="@+id/fragment_current_exercise_recycler_view"
                             app:layout_constraintTop_toBottomOf="@+id/fragment_current_exercise_card_view"

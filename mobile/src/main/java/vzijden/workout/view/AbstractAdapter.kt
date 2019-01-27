@@ -3,7 +3,6 @@ package vzijden.workout.view
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.Observable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +41,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
     val inflater = LayoutInflater.from(parent.context)
     return when (viewType) {
       ADD_ITEM_VIEW_TYPE -> AddItemViewHolder(inflater.inflate(R.layout.edit_workout_add_item_view, parent, false) as ViewGroup)
-      getHolderViewType() -> createItemViewHolder(inflater, parent)
+      viewType -> createItemViewHolder(inflater, parent)
       else -> throw RuntimeException("Unknown viewType")
     }
   }
@@ -68,7 +67,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
   }
 
   final override fun getItemViewType(position: Int): Int {
-    return if (onAddItemClicked != null && position == itemCount - 1) ADD_ITEM_VIEW_TYPE else getHolderViewType()
+    return if (onAddItemClicked != null && position == itemCount - 1) ADD_ITEM_VIEW_TYPE else getHolderViewType(position)
   }
 
   final override fun getItemCount(): Int {
@@ -86,7 +85,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
     }
   }
 
-  abstract fun getHolderViewType(): Int
+  abstract fun getHolderViewType(pos: Int): Int
 
   abstract fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder
 

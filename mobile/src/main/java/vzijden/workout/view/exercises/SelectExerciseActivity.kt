@@ -4,17 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.R.attr.layoutManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_exercise.*
 import vzijden.workout.R
-import vzijden.workout.R.id.recycler_view_select_exercise
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.Exercise
 import vzijden.workout.databinding.ActivitySelectExerciseBinding
@@ -62,7 +59,7 @@ class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.Sele
   }
 
   internal class ExercisesAdapter : AbstractAdapter<Exercise>() {
-    override fun getHolderViewType(): Int = 1
+    override fun getHolderViewType(pos: Int): Int = 1
 
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

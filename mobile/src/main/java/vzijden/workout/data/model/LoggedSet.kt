@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class LoggedSet(
-    @Embedded(prefix = "_set")
+    @Embedded(prefix = "set_")
     val set: Set,
-    var weight: Int
+    var weight: Int,
+    var loggedWorkoutId: Int
 ) {
     var unit: Int = 0
     @PrimaryKey(autoGenerate = true)

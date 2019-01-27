@@ -7,11 +7,11 @@ import java.util.*
 
 @Entity
 data class LoggedWorkout(
-    @Embedded(prefix = "_workout")
+    @Embedded(prefix = "workout_")
     val workout: Workout,
-    val date: Date,
-    val finished: Boolean
+    val date: Date
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
+    var finished: Boolean = false
 }

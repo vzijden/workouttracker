@@ -78,7 +78,7 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
   }
 
   inner class ScheduleAdapter : AbstractAdapter<SchedulePresenter.ScheduleItemView>() {
-    override fun getHolderViewType(): Int = 1
+    override fun getHolderViewType(pos: Int): Int = 1
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
       val binding: ScheduleItemViewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.schedule_item_view, parent, false)

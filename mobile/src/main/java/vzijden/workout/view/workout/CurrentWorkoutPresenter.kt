@@ -1,7 +1,9 @@
 package vzijden.workout.view.workout
 
+import android.util.Log
 import androidx.databinding.*
 import org.jetbrains.anko.doAsync
+import vzijden.workout.App
 import vzijden.workout.BR
 import vzijden.workout.data.ScheduleDatabase
 import vzijden.workout.data.model.*
@@ -9,27 +11,35 @@ import vzijden.workout.data.model.Set
 import java.util.*
 
 class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {
-
   @get:Bindable
-  var loggedWorkout: LoggedWorkout? = null
+  lateinit var workoutAndHistory: WorkoutAndHistory
   @get:Bindable
-  val currentExercisesPresenters = ObservableArrayList<CurrentExercisePresenter>()
+  lateinit var loggedWorkoutAndRegistrations: LoggedWorkoutAndRegistrations
   @Bindable
   val currentReps = ObservableField<String>()
   @Bindable
   val currentWeight = ObservableField<String>()
-  @get:Bindable
-  val currentRegistration = ObservableField<LoggedRegistration>()
 
-  private var currentExerciseIndex = 0
+  private var currentRegistrationIndex = 0
   private var repsViewShowing = false
+
+  @Bindable
+  fun getCurrentRegistration(): Registration {
+    return workoutAndHistory.registrationsAndSets[currentRegistrationIndex]
+  }
 
   fun loadWorkout(workoutId: Int) {
     doAsync {
-      val workout = activity.getDatabase().workoutDao().getById(workoutId)
-      val registrationAndSets = activity.getDatabase().registrationAndSetsDao().getAllForWorkout(workoutId)
-      createLoggedWorkout(workout, registrationAndSets)
+      workoutAndHistory = activity.getDatabase().workoutDao().getWorkoutAndHistory(workoutId)
+      startWorkout()
     }
+  }
+
+  private fun startWorkout() {
+    val loggedWorkout = LoggedWorkout(workoutAndHistory.workout, Date());
+    loggedWorkoutAndRegistrations = LoggedWorkoutAndRegistrations(loggedWorkout)
+    setCurrentExercise(0)
+    notifyPropertyChanged(BR.workoutAndHistory)
   }
 
   fun finishRepClicked() {
@@ -39,8 +49,8 @@ class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {
     } else {
       activity.hideRepsView()
       logSet()
-      if (currentExerciseIndex < currentExercisesPresenters.size) {
-        setCurrentExercise(++currentExerciseIndex)
+      if (currentRegistrationIndex < workoutAndHistory.registrationsAndSets.size) {
+        setCurrentExercise(currentRegistrationIndex + 1)
       }
       false
     }
@@ -50,30 +60,20 @@ class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {
   private fun logSet() {
     val reps = currentReps.get()?.toInt() ?: 0
     val weight = currentWeight.get()?.toInt() ?: 0
-    currentRegistration.get()?.let { currentRegistration ->
-      val loggedSet = LoggedSet(Set(reps, currentRegistration.registration.id), weight)
-      currentExercisesPresenters[currentExerciseIndex].loggedSets.add(loggedSet)
+    getCurrentRegistration().let { currentRegistration ->
+      val loggedSet = LoggedSet(Set(reps, currentRegistration.id), weight, workoutAndHistory.workout.id)
+
       doAsync {
-        activity.getDatabase().setsDao().inserLogged(loggedSet)
+        activity.getDatabase().setsDao().insertLogged(loggedSet)
+        Log.d(App.TAG, "Inserted 1 loggedSet: $loggedSet")
       }
     }
   }
 
-  private fun createLoggedWorkout(workout: Workout, registrationsAndSets: List<RegistrationAndSets>) {
-    loggedWorkout = LoggedWorkout(workout, Date(), false)
-    registrationsAndSets.forEach { registrationsAndSets ->
-      val currentExercisePresenter = CurrentExercisePresenter()
-      currentExercisePresenter.setRegistration(registrationsAndSets)
-      currentExercisesPresenters.add(currentExercisePresenter)
-    }
-    setCurrentExercise(0)
-    notifyPropertyChanged(BR.loggedWorkout)
-  }
-
   private fun setCurrentExercise(index: Int) {
-    currentExerciseIndex = index
-    currentExercisesPresenters.getOrNull(index)?.let {
-      currentRegistration.set(it.loggedRegistration)
+    if (index < workoutAndHistory.registrationsAndSets.size) {
+      currentRegistrationIndex = index
+      notifyPropertyChanged(BR.currentRegistration)
     }
   }
 
@@ -83,16 +83,4 @@ class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {
     fun hideRepsView()
   }
 
-  class CurrentExercisePresenter : BaseObservable() {
-    @get:Bindable
-    var loggedRegistration: LoggedRegistration? = null
-    @get:Bindable
-    val loggedSets: ObservableArrayList<LoggedSet> = ObservableArrayList()
-    val plannedSets = ObservableArrayList<Set>()
-
-    fun setRegistration(registrationAndSets: RegistrationAndSets) {
-      plannedSets.addAll(registrationAndSets.sets)
-      this.loggedRegistration = LoggedRegistration(registrationAndSets.registration)
-    }
-  }
 }
