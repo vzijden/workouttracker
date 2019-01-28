@@ -6,8 +6,8 @@ import org.jetbrains.anko.doAsync
 import vzijden.workout.App
 import vzijden.workout.BR
 import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.*
 import vzijden.workout.data.model.Set
+import vzijden.workout.data.views.LoggedWorkoutAndRegistrations
 import java.util.*
 
 class CurrentWorkoutPresenter(var activity: View) : BaseObservable() {

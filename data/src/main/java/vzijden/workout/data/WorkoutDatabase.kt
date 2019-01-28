@@ -9,7 +9,7 @@ import vzijden.workout.data.dao.*
 import vzijden.workout.data.model.*
 import vzijden.workout.data.model.PlannedSetPojo
 
-@Database(entities = [SchedulePojo::class, PlannedWorkoutPojo::class, ExercisePojo::class, PlannedSetPojo::class, EquipmentPojo::class, PlannedExercisePojo::class, LoggedWorkoutPojo::class, LoggedSetPojo::class], version = 1)
+@Database(entities = [SchedulePojo::class, PlannedWorkoutPojo::class, ExercisePojo::class, PlannedSetPojo::class, EquipmentPojo::class, PlannedExercisePojo::class, LoggedWorkoutPojo::class, LoggedSetPojo::class, LoggedExercisePojo::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class WorkoutDatabase: RoomDatabase() {
     abstract fun scheduleDao(): ScheduleDao

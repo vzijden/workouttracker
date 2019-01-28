@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_current_workout.*
 import vzijden.workout.R
 import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.RegistrationAndLoggedSets
+import vzijden.workout.data.views.LoggedExerciseAndLoggedSets
 import vzijden.workout.databinding.ActivityCurrentWorkoutBinding
 import vzijden.workout.view.AbstractAdapter
 import vzijden.workout.view.workout.exercise.CurrentExerciseView
@@ -66,7 +66,7 @@ class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View
     return ScheduleDatabase.getInstance(this)
   }
 
-  inner class CurrentWorkoutAdapter : AbstractAdapter<RegistrationAndLoggedSets>() {
+  inner class CurrentWorkoutAdapter : AbstractAdapter<LoggedExerciseAndLoggedSets>() {
     override fun getHolderViewType(pos: Int): Int = 1
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {

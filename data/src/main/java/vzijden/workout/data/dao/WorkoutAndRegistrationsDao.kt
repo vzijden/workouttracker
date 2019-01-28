@@ -2,7 +2,7 @@ package vzijden.workout.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import vzijden.workout.data.model.WorkoutAndRegistrations
+import vzijden.workout.data.views.WorkoutAndRegistrations
 
 @Dao
 interface WorkoutAndRegistrationsDao {

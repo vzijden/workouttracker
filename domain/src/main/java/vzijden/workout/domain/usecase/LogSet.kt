@@ -12,7 +12,7 @@ import vzijden.workout.domain.repository.WorkoutRepository
 class LogSet(private var workoutRepository: WorkoutRepository, subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
     SingleUseCase<Long, LoggedSet>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun buildUseSingle(loggedSet: LoggedSet?): Single<Long> {
+  override fun build(loggedSet: LoggedSet?): Single<Long> {
     return workoutRepository.logSet(loggedSet!!)
   }
 }

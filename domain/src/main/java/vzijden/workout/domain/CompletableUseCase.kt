@@ -10,10 +10,10 @@ abstract class CompletableUseCase< in Params>(private val subscribeScheduler: Sc
 
   private val disposables: CompositeDisposable = CompositeDisposable()
 
-  abstract fun buildCompletable(params: Params?): Completable
+  abstract fun build(params: Params?): Completable
 
   fun execute(observer: DisposableCompletableObserver, params: Params? = null) {
-    val completable: Completable = this.buildCompletable(params)
+    val completable: Completable = this.build(params)
         .subscribeOn(subscribeScheduler)
         .observeOn(postExecutionScheduler)
     disposables.add(completable.subscribeWith(observer))

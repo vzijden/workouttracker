@@ -11,7 +11,7 @@ import vzijden.workout.domain.model.PlannedSet
 
 interface WorkoutRepository {
   fun getPlannedWorkout(workoutId: Int): Observable<PlannedWorkout>
-  fun createWorkout(PlannedWorkout: PlannedWorkout): Single<Long>
+  fun createWorkout(plannedWorkout: PlannedWorkout): Single<Long>
   fun createPlannedSet(plannedSet: PlannedSet): Single<Long>
   fun saveLoggedWorkout(loggedWorkout: LoggedWorkout): Single<Long>
   fun getLoggedWorkout(loggedWorkoutId: Int): Observable<LoggedWorkout>

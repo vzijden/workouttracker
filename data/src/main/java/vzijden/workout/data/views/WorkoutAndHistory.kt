@@ -6,13 +6,8 @@ import vzijden.workout.data.model.*
 
 data class WorkoutAndHistory(
     @Embedded
-    val plannedWorkoutPojo: PlannedWorkoutPojo,
-    @Relation(parentColumn = "id", entityColumn = "workoutId", entity = PlannedExercisePojo::class)
-    var registrationsAndSets: MutableList<RegistrationAndSets> = mutableListOf(),
+    var workoutAndRegistrations: WorkoutAndRegistrations,
 
-    @Relation(parentColumn = "id", entityColumn = "workoutId", entity = PlannedExercisePojo::class)
-    var loggedSets: MutableList<RegistrationAndLoggedSets> = mutableListOf(),
-
-    @Relation(parentColumn = "id", entityColumn = "workout_id", entity = LoggedWorkoutPojo::class)
-    val workoutHistory: List<LoggedWorkoutAndRegistrations>
+    @Relation(parentColumn = "id", entityColumn = "plannedExercise_workoutId", entity = LoggedExercisePojo::class)
+    var loggedSets: MutableList<LoggedExerciseAndLoggedSets> = mutableListOf()
 )

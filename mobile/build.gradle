@@ -58,6 +58,9 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.4'
 
+    implementation project(':data')
+    implementation project(':domain')
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.0.0'
     testImplementation 'org.json:json:20180813'

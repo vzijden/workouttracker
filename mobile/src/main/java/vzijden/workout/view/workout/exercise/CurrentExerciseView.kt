@@ -6,21 +6,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_current_exercise.view.*
 import vzijden.workout.BR
 import vzijden.workout.R
 import vzijden.workout.data.model.LoggedSet
-import vzijden.workout.data.model.RegistrationAndLoggedSets
 import vzijden.workout.data.model.RegistrationAndSets
 import vzijden.workout.data.model.Set
 import vzijden.workout.databinding.CurrentExerciseSetItemLoggedBinding
 import vzijden.workout.databinding.CurrentExerciseSetItemPlannedBinding
 import vzijden.workout.databinding.ViewCurrentExerciseBinding
-import java.util.*
 
 
 class CurrentExerciseView(context: Context) : LinearLayout(context) {

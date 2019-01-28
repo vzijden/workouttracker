@@ -13,9 +13,8 @@ data class PlannedSetPojo(
 ) {
   @PrimaryKey(autoGenerate = true)
   var id: Int = 0
-  private set
 
-  constructor(reps: Int, registrationId: Int, int: Int) : this(reps, registrationId) {
+  constructor(reps: Int, registrationId: Int, id: Int) : this(reps, registrationId) {
     this.id = id
   }
 }

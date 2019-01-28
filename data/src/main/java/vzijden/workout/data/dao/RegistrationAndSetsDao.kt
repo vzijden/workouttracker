@@ -3,7 +3,7 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Query
 import io.reactivex.Flowable
-import vzijden.workout.data.model.RegistrationAndLoggedSets
+import vzijden.workout.data.views.LoggedExerciseAndLoggedSets
 import vzijden.workout.data.views.RegistrationAndSets
 
 @Dao
@@ -13,7 +13,4 @@ interface RegistrationAndSetsDao {
 
   @Query("SELECT * FROM PlannedExercisePojo where PlannedExercisePojo.id = :registrationId")
   fun get(registrationId: Int): RegistrationAndSets
-
-  @Query("SELECT * from PlannedExercisePojo where PlannedExercisePojo.workoutId = :workoutId")
-  fun getAllForLoggedWorkout(workoutId: Int): MutableList<RegistrationAndLoggedSets>
 }

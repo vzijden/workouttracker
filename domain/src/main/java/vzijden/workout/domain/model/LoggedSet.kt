@@ -2,10 +2,11 @@ package vzijden.workout.domain.model
 
 data class LoggedSet(
     val plannedSet: PlannedSet,
+    val loggedExerciseId: Int,
     var weight: Int,
     var loggedWorkoutId: Int
 ) {
-  constructor(plannedSet: PlannedSet, weight: Int, loggedWorkoutId: Int, unit: Int, id: Int) : this(plannedSet, weight, loggedWorkoutId) {
+  constructor(plannedSet: PlannedSet, loggedExerciseId: Int, weight: Int, loggedWorkoutId: Int, unit: Int, id: Int) : this(plannedSet, loggedExerciseId, weight, loggedWorkoutId) {
     this.unit = unit
     this.id = id
   }
