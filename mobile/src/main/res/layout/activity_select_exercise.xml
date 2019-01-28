@@ -5,7 +5,7 @@
 
         <variable
                 name="presenter"
-                type="vzijden.workout.view.exercises.SelectExercisePresenter"/>
+                type="vzijden.PlannedWorkout.view.exercises.SelectExercisePresenter"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

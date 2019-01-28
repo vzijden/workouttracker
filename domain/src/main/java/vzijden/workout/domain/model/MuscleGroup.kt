@@ -1,4 +1,4 @@
-package vzijden.workout.data.model
+package vzijden.workout.domain.model
 
 enum class MuscleGroup(val normalName: String) {
   LEGS("Legs"),

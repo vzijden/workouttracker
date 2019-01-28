@@ -6,11 +6,11 @@
 
     <data>
         <variable
-                name="set"
-                type="vzijden.workout.data.model.Set"/>
+                name="plannedSet"
+                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
     </data>
 
-    <vzijden.workout.view.exercise.SetView
+    <vzijden.PlannedWorkout.view.exercisePojo.SetView
             android:layout_gravity="center"
             android:id="@+id/schedule_item_view"
             android:layout_width="match_parent"
@@ -37,13 +37,13 @@
                 app:layout_constraintStart_toEndOf="@id/set_item_view_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="8"
-                android:text="@{String.valueOf(set.reps)}"
+                android:text="@{String.valueOf(plannedSet.reps)}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <SeekBar
                 android:max="@integer/max_set_reps"
-                android:progress="@{set.reps}"
+                android:progress="@{plannedSet.reps}"
                 android:layout_height="wrap_content"
                 android:id="@+id/set_item_view_seek_bar"
                 android:layout_width="0dp"
@@ -54,5 +54,5 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"/>
-    </vzijden.workout.view.exercise.SetView>
+    </vzijden.PlannedWorkout.view.exercisePojo.SetView>
 </layout>

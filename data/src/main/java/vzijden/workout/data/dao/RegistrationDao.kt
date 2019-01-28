@@ -3,13 +3,13 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import vzijden.workout.data.model.Registration
+import vzijden.workout.data.model.PlannedExercisePojo
 
 @Dao
 interface RegistrationDao {
     @Insert
-    fun insert(registration: Registration): Long
+    fun insert(plannedExercisePojo: PlannedExercisePojo): Long
 
     @Delete
-    fun delete(registration: Registration)
+    fun delete(plannedExercisePojo: PlannedExercisePojo)
 }

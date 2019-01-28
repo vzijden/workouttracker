@@ -2,10 +2,10 @@ package vzijden.workout.data.views
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import vzijden.workout.data.model.Registration
-import vzijden.workout.data.model.Set
+import vzijden.workout.data.model.PlannedExercisePojo
+import vzijden.workout.data.model.PlannedSetPojo
 
-class RegistrationAndSets(@Embedded var registration: Registration) {
-  @Relation(parentColumn = "id", entityColumn = "registrationId", entity = Set::class)
-  var sets: MutableList<Set> = mutableListOf()
+class RegistrationAndSets(@Embedded var plannedExercisePojo: PlannedExercisePojo) {
+  @Relation(parentColumn = "id", entityColumn = "registrationId", entity = PlannedSetPojo::class)
+  var plannedSetPojos: MutableList<PlannedSetPojo> = mutableListOf()
 }

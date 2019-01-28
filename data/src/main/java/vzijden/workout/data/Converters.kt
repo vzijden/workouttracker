@@ -2,7 +2,7 @@ package vzijden.workout.data
 
 import android.util.Log
 import androidx.room.TypeConverter
-import vzijden.workout.data.model.MuscleGroup
+import vzijden.workout.data.model.MuscleGroupPojo
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -18,10 +18,10 @@ class Converters {
   }
 
   @TypeConverter
-  fun toMuscleGroup(value: String): List<MuscleGroup>? {
+  fun toMuscleGroup(value: String): List<MuscleGroupPojo>? {
     return value.split(",").map {
       try {
-        MuscleGroup.valueOf(it)
+        MuscleGroupPojo.valueOf(it)
       } catch (e: IllegalArgumentException) {
         Log.e(Converters::class.simpleName, "Uknown musclegroup $it")
         return null
@@ -30,7 +30,7 @@ class Converters {
   }
 
   @TypeConverter
-  fun fromMuscleGroup(value: List<MuscleGroup>): String? {
+  fun fromMuscleGroup(value: List<MuscleGroupPojo>): String? {
     return value.joinToString(separator = ",") { it.name }
   }
 }

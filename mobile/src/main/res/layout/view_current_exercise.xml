@@ -7,7 +7,7 @@
 
         <variable
                 name="currentExerciseViewModel"
-                type="vzijden.workout.view.workout.exercise.CurrentExerciseViewModel"/>
+                type="vzijden.PlannedWorkout.view.PlannedWorkout.exercisePojo.CurrentExerciseViewModel"/>
     </data>
 
 
@@ -34,7 +34,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="24sp"
                             android:textColor="#000"
-                            android:text="@{currentExerciseViewModel.registration.exercise.name}"
+                            android:text="@{currentExerciseViewModel.plannedExercisePojo.exercisePojo.name}"
                             tools:text="Barbell bench-press"/>
 
                     <com.google.android.material.chip.Chip
@@ -45,7 +45,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
-                            app:muscleGroups="@{currentExerciseViewModel.registration.exercise.muscleGroups}"
+                            app:muscleGroups="@{currentExerciseViewModel.plannedExercisePojo.exercisePojo.muscleGroups}"
                             tools:text="Biceps"/>
 
                     <View

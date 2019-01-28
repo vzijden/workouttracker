@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ScheduleDay(
+data class ScheduleDayPojo(
         @PrimaryKey var id: Int
 
 )

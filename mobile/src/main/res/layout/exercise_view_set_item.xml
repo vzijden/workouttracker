@@ -6,8 +6,8 @@
 
     <data>
         <variable
-                name="set"
-                type="vzijden.workout.data.model.Set"/>
+                name="plannedSet"
+                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
                 app:layout_constraintStart_toEndOf="@+id/set_item_view_text_View"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="8"
-                android:text="@{String.valueOf(set.reps)}"
+                android:text="@{String.valueOf(plannedSet.reps)}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" android:fontFamily="@font/work_sans_bold"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

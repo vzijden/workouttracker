@@ -4,8 +4,8 @@
 
     <data>
         <variable
-                name="exercise"
-                type="vzijden.workout.data.model.Exercise"/>
+                name="exercisePojo"
+                type="vzijden.PlannedWorkout.domain.model.Exercise"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,12 +17,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Bench press"
-                android:text="@{exercise.name}"/>
+                android:text="@{exercisePojo.name}"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Biceps"
                 android:textStyle="bold"
-                app:muscleGroups="@{exercise.muscleGroups}"/>
+                app:muscleGroups="@{exercisePojo.muscleGroups}"/>
     </LinearLayout>
 </layout>

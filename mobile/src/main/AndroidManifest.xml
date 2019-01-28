@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="vzijden.workout">
+          package="vzijden.PlannedWorkout">
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
@@ -22,16 +22,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="vzijden.workout.view.schedule.workout.EditWorkoutActivity">
+        <activity android:name="vzijden.PlannedWorkout.view.schedulePojo.PlannedWorkout.EditWorkoutActivity">
             <intent-filter>
-                <action android:name="workout.intent.action.editschedule"/>
+                <action android:name="PlannedWorkout.intent.action.editschedule"/>
             </intent-filter>
 
         </activity>
 
         <activity android:name=".view.exercises.SelectExerciseActivity"/>
 
-        <activity android:name=".view.workout.CurrentWorkoutActivity"/>
+        <activity android:name=".view.PlannedWorkout.CurrentWorkoutActivity"/>
 
 
         <meta-data

@@ -4,7 +4,7 @@
     <item
             android:id="@+id/navigation_schedule"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/schedule"/>
+            android:title="@string/schedulePojo"/>
 
     <item
             android:id="@+id/navigation_workouts"

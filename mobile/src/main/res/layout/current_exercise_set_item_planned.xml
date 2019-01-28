@@ -6,8 +6,8 @@
     <data>
 
         <variable
-                name="set"
-                type="vzijden.workout.data.model.Set"/>
+                name="plannedSet"
+                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
         <variable
                 name="index"
                 type="Integer"/>
@@ -40,6 +40,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/set_item_view_amount"
                     tools:text="8"
-                    android:text="@{String.valueOf(set.reps)}"/>
+                    android:text="@{String.valueOf(plannedSet.reps)}"/>
         </LinearLayout>
 </layout>

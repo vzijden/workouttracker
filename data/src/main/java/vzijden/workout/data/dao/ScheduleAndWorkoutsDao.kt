@@ -6,6 +6,6 @@ import vzijden.workout.data.views.ScheduleAndWorkouts
 
 @Dao
 interface ScheduleAndWorkoutsDao {
-  @Query("SELECT * from Schedule")
+  @Query("SELECT * from SchedulePojo")
   fun allSchedulesAndWorkouts(): List<ScheduleAndWorkouts>
 }

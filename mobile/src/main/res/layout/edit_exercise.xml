@@ -8,7 +8,7 @@
 
         <variable
                 name="editExercisePresenter"
-                type="vzijden.workout.view.exercise.EditExercisePresenter"/>
+                type="vzijden.PlannedWorkout.view.exercisePojo.EditExercisePresenter"/>
     </data>
 
     <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:transitionName="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name + `cardview`}">
+                android:transitionName="@{editExercisePresenter.RegistrationAndSets.plannedExercisePojo.exercisePojo.name + `cardview`}">
 
                 <LinearLayout
                         android:padding="16dp"
@@ -41,8 +41,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
-                            android:transitionName="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name + `textview`}"
-                            android:text="@{editExercisePresenter.RegistrationAndSets.registration.exercise.name}"
+                            android:transitionName="@{editExercisePresenter.RegistrationAndSets.plannedExercisePojo.exercisePojo.name + `textview`}"
+                            android:text="@{editExercisePresenter.RegistrationAndSets.plannedExercisePojo.exercisePojo.name}"
                             android:textColor="@color/text_dark"
                             android:id="@+id/edit_exercise_exercise_spinner"
                             tools:text="Bench press"/>
@@ -52,12 +52,12 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             tools:text="Biceps"
-                            app:muscleGroups="@{editExercisePresenter.RegistrationAndSets.registration.exercise.muscleGroups}"
+                            app:muscleGroups="@{editExercisePresenter.RegistrationAndSets.plannedExercisePojo.exercisePojo.muscleGroups}"
                     />
 
                     <TextView
                             android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            app:fromHtml="@{editExercisePresenter.RegistrationAndSets.registration.exercise.description}"
+                            app:fromHtml="@{editExercisePresenter.RegistrationAndSets.plannedExercisePojo.exercisePojo.description}"
                     />
 
 

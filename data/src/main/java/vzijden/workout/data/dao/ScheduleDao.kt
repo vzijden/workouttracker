@@ -3,13 +3,13 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import vzijden.workout.data.model.Schedule
+import vzijden.workout.data.model.SchedulePojo
 
 @Dao
 interface ScheduleDao {
     @Insert
-    fun insert(schedule: Schedule): Long
+    fun insert(schedulePojo: SchedulePojo): Long
 
-    @Query("SELECT * from Schedule")
-    fun getAll(): List<Schedule>
+    @Query("SELECT * from SchedulePojo")
+    fun getAll(): List<SchedulePojo>
 }

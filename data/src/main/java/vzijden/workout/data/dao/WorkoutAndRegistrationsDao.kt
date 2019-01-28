@@ -6,9 +6,9 @@ import vzijden.workout.data.model.WorkoutAndRegistrations
 
 @Dao
 interface WorkoutAndRegistrationsDao {
-//  @Query("SELECT * from Workout")
+//  @Query("SELECT * from PlannedWorkoutPojo")
 //  fun allWorkoutsAndExercises(): List<WorkoutAndRegistrations>
 
-  @Query("SELECT * from Workout where Workout.id = :workoutId")
+  @Query("SELECT * from PlannedWorkoutPojo where PlannedWorkoutPojo.id = :workoutId")
   fun byWorkoutId(workoutId: Int) : WorkoutAndRegistrations?
 }

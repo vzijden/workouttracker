@@ -2,12 +2,12 @@ package vzijden.workout.data.views
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import vzijden.workout.data.model.Schedule
-import vzijden.workout.data.model.Workout
+import vzijden.workout.data.model.SchedulePojo
+import vzijden.workout.data.model.PlannedWorkoutPojo
 
 class ScheduleAndWorkouts {
   @Embedded
-  lateinit var schedule: Schedule
-  @Relation(parentColumn = "id", entityColumn = "scheduleId", entity = Workout::class)
-  lateinit var workouts: List<Workout>
+  lateinit var schedulePojo: SchedulePojo
+  @Relation(parentColumn = "id", entityColumn = "scheduleId", entity = PlannedWorkoutPojo::class)
+  lateinit var plannedWorkoutPojos: List<PlannedWorkoutPojo>
 }

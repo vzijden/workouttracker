@@ -5,7 +5,7 @@ import androidx.room.Relation
 
 class WorkoutAndRegistrations {
   @Embedded
-  lateinit var workout: Workout
-  @Relation(parentColumn = "id", entityColumn = "workoutId", entity = Registration::class)
-  var registrations: MutableList<Registration> = mutableListOf()
+  lateinit var plannedWorkoutPojo: PlannedWorkoutPojo
+  @Relation(parentColumn = "id", entityColumn = "workoutId", entity = PlannedExercisePojo::class)
+  var plannedExercisePojos: MutableList<PlannedExercisePojo> = mutableListOf()
 }

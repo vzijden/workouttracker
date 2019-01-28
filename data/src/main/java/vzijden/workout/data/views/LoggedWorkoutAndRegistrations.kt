@@ -5,8 +5,8 @@ import androidx.room.Relation
 
 data class LoggedWorkoutAndRegistrations(
     @Embedded
-    val workout: LoggedWorkout
+    val workoutPojo: LoggedWorkoutPojo
 ){
-    @Relation(parentColumn = "id", entityColumn = "workoutId", entity = Registration::class)
+    @Relation(parentColumn = "id", entityColumn = "workoutId", entity = PlannedExercisePojo::class)
     var registrations: List<RegistrationAndLoggedSets> = listOf()
 }

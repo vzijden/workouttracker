@@ -2,10 +2,10 @@ package vzijden.workout.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import vzijden.workout.data.model.Equipment
+import vzijden.workout.data.model.EquipmentPojo
 
 @Dao
 interface EquipmentDao {
     @Insert
-    fun insert(equipment: Equipment): Long
+    fun insert(equipmentPojo: EquipmentPojo): Long
 }
