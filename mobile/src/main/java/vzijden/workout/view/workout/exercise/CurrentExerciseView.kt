@@ -9,14 +9,13 @@ import androidx.databinding.Observable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_current_exercise.view.*
-import vzijden.workout.BR
 import vzijden.workout.R
-import vzijden.workout.data.model.LoggedSet
-import vzijden.workout.data.model.RegistrationAndSets
-import vzijden.workout.data.model.Set
+import vzijden.workout.data.views.RegistrationAndSets
 import vzijden.workout.databinding.CurrentExerciseSetItemLoggedBinding
 import vzijden.workout.databinding.CurrentExerciseSetItemPlannedBinding
 import vzijden.workout.databinding.ViewCurrentExerciseBinding
+import vzijden.workout.domain.model.LoggedSet
+import vzijden.workout.domain.model.PlannedExercise
 
 
 class CurrentExerciseView(context: Context) : LinearLayout(context) {
@@ -36,8 +35,8 @@ class CurrentExerciseView(context: Context) : LinearLayout(context) {
     binding = DataBindingUtil.inflate(inflater, R.layout.view_current_exercise, this, true)
   }
 
-  fun setRegistrationAndSets(registrationAndSets: RegistrationAndSets, loggedSets: MutableList<LoggedSet>) {
-    currentExerciseViewModel.setRegistration(registrationAndSets, loggedSets)
+  fun setRegistrationAndSets(plannedExercise: PlannedExercise, loggedSets: MutableList<LoggedSet>) {
+    currentExerciseViewModel.setRegistration(plannedExercise, loggedSets)
     binding.currentExerciseViewModel = currentExerciseViewModel
 
     fragment_current_exercise_recycler_view.apply {
@@ -75,11 +74,11 @@ class CurrentExerciseView(context: Context) : LinearLayout(context) {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       if (getItemViewType(position) == LOGGED_TYPE) {
         (holder as LoggedSetViewHolder).let {
-          it.binding.loggedSet = currentExerciseViewModel.loggedSets[position]
+          it.binding.loggedSetPojo = currentExerciseViewModel.loggedSets[position]
         }
       } else {
         val set = currentExerciseViewModel.plannedSets[position]
-        (holder as PlannedSetViewHolder).binding.set = set
+        (holder as PlannedSetViewHolder).binding.plannedSet = set
       }
     }
 

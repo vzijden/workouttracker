@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_current_workout.*
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
+import vzijden.workout.data.WorkoutDatabase
 import vzijden.workout.data.views.LoggedExerciseAndLoggedSets
 import vzijden.workout.databinding.ActivityCurrentWorkoutBinding
 import vzijden.workout.view.AbstractAdapter
@@ -62,8 +62,8 @@ class CurrentWorkoutActivity : AppCompatActivity(), CurrentWorkoutPresenter.View
   }
 
 
-  override fun getDatabase(): ScheduleDatabase {
-    return ScheduleDatabase.getInstance(this)
+  override fun getDatabase(): WorkoutDatabase {
+    TODO()
   }
 
   inner class CurrentWorkoutAdapter : AbstractAdapter<LoggedExerciseAndLoggedSets>() {

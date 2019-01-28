@@ -4,12 +4,13 @@ import android.app.Application
 
 
 class App : Application() {
-    companion object {
-      public const val TAG = "Workout"
-    }
+  companion object {
+    const val TAG = "Workout"
+  }
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-    }
+
+  }
 }

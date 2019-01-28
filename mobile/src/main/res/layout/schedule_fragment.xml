@@ -5,7 +5,7 @@
 
         <variable
                 name="schedulePresenter"
-                type="vzijden.PlannedWorkout.view.home.SchedulePresenter"/>
+                type="vzijden.workout.view.home.SchedulePresenter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

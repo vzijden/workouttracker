@@ -7,7 +7,7 @@
 
         <variable
                 name="loggedSetPojo"
-                type="vzijden.PlannedWorkout.domain.model.LoggedSet"/>
+                type="vzijden.workout.domain.model.LoggedSet"/>
         <variable
                 name="index"
                 type="Integer"/>

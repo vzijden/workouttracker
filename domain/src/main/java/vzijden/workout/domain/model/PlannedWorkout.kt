@@ -5,7 +5,7 @@ data class PlannedWorkout(
   var name: String,
   var day: Int
 ) {
-  var plannedExercises: List<PlannedExercise>? = null
+  var plannedExercises: List<PlannedExercise> = listOf()
   private set
 
   var id: Int = 0

@@ -7,7 +7,7 @@
     <data>
         <variable
                 name="plannedSet"
-                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
+                type="vzijden.workout.domain.model.PlannedSet"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

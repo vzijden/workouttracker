@@ -6,12 +6,12 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.home.MainActivity"
+        tools:context="vzijden.workout.view.home.MainActivity"
         android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
                                        android:layout_height="wrap_content"
-                                       app:title="@string/schedulePojo"
+                                       app:title="@string/schedule"
                                        style="@style/actionbar"/>
 
     <androidx.viewpager.widget.ViewPager

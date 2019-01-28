@@ -15,7 +15,7 @@ import vzijden.workout.data.model.Registration
 import vzijden.workout.data.model.Schedule
 import vzijden.workout.data.model.Set
 import vzijden.workout.data.model.Workout
-import vzijden.workout.util.initialize
+import vzijden.workout.data.util.initialize
 
 
 class MainActivity : AppCompatActivity() {

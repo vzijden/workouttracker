@@ -3,19 +3,19 @@ package vzijden.workout.view.workout.exercise
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableArrayList
-import vzijden.workout.BR
-import vzijden.workout.data.model.*
-import vzijden.workout.data.model.Set
+import vzijden.workout.domain.model.LoggedSet
+import vzijden.workout.domain.model.PlannedExercise
+import vzijden.workout.domain.model.PlannedSet
 
 class CurrentExerciseViewModel : BaseObservable() {
-  var registration: Registration? = null
+  var registration: PlannedExercise? = null
   val loggedSets = ObservableArrayList<LoggedSet>()
-  val plannedSets = ObservableArrayList<Set>()
+  val plannedSets = ObservableArrayList<PlannedSet>()
   @get:Bindable
   var changedSets: MutableSet<Int> = mutableSetOf()
 
-  fun setRegistration(registrationAndSets: RegistrationAndSets, loggedSets: MutableList<LoggedSet>) {
-    this.registration = registrationAndSets.registration
+  fun setRegistration(plannedExercise: PlannedExercise, loggedSets: MutableList<LoggedSet>) {
+    this.registration = plannedExercise
 
     loggedSets.clear()
     plannedSets.clear()
@@ -24,7 +24,7 @@ class CurrentExerciseViewModel : BaseObservable() {
       loggedSets.add(loggedSet)
       changedSets.add(index)
     }
-    registrationAndSets.sets.forEachIndexed { index, set ->
+    plannedExercise.plannedSets?.forEachIndexed { index, set ->
       plannedSets.add(set)
       changedSets.add(index)
     }

@@ -7,7 +7,7 @@
 
         <variable
                 name="plannedSet"
-                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
+                type="vzijden.workout.domain.model.PlannedSet"/>
         <variable
                 name="index"
                 type="Integer"/>

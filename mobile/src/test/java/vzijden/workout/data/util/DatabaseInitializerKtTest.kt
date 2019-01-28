@@ -1,4 +1,4 @@
-package vzijden.workout.util
+package vzijden.workout.data.util
 
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.assertEquals

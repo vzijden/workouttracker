@@ -7,13 +7,13 @@
 
         <variable
                 name="exerciseItemPresenter"
-                type="vzijden.PlannedWorkout.view.schedulePojo.PlannedWorkout.EditWorkoutPresenter.ExerciseItemPresenter"/>
+                type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter.ExerciseItemPresenter"/>
         <variable
                 name="index"
                 type="Integer"/>
     </data>
 
-    <vzijden.PlannedWorkout.view.schedulePojo.PlannedWorkout.exercisePojo.ExerciseItemView
+    <vzijden.workout.view.schedule.workout.exercise.ExerciseItemView
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                         android:id="@+id/workout_item_view_sets_list"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </vzijden.PlannedWorkout.view.schedulePojo.PlannedWorkout.exercisePojo.ExerciseItemView>
+    </vzijden.workout.view.schedule.workout.exercise.ExerciseItemView>
 
 
 </layout>

@@ -7,10 +7,10 @@
     <data>
         <variable
                 name="plannedSet"
-                type="vzijden.PlannedWorkout.domain.model.PlannedSet"/>
+                type="vzijden.workout.domain.model.PlannedSet"/>
     </data>
 
-    <vzijden.PlannedWorkout.view.exercisePojo.SetView
+    <vzijden.workout.view.exercise.SetView
             android:layout_gravity="center"
             android:id="@+id/schedule_item_view"
             android:layout_width="match_parent"
@@ -54,5 +54,5 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"/>
-    </vzijden.PlannedWorkout.view.exercisePojo.SetView>
+    </vzijden.workout.view.exercise.SetView>
 </layout>

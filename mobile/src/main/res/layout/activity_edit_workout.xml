@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="vzijden.PlannedWorkout.view.schedulePojo.PlannedWorkout.EditWorkoutPresenter"/>
+                type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter"/>
     </data>
 
     <androidx.core.widget.NestedScrollView
