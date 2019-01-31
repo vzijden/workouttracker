@@ -1,10 +1,10 @@
-package vzijden.workout.view.schedule.workout.exercise
+package vzijden.workout.view.edit.workout.exercise
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import vzijden.workout.BR
-import vzijden.workout.data.model.Set
+import vzijden.workout.domain.model.PlannedSet
 
 class ExerciseItemViewModel: BaseObservable() {
   var exerciseName = ObservableField<String>()
@@ -12,7 +12,7 @@ class ExerciseItemViewModel: BaseObservable() {
   var index = ObservableField<String>()
 
   @get:Bindable
-  var sets = mutableListOf<Set>()
+  var sets = mutableListOf<PlannedSet>()
   set(value) {
     field = value
     notifyPropertyChanged(BR.sets)

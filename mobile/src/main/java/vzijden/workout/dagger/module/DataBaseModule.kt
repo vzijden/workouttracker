@@ -5,6 +5,8 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import vzijden.workout.data.WorkoutDatabase
+import vzijden.workout.data.repository.WorkoutRepositoryImpl
+import vzijden.workout.domain.repository.WorkoutRepository
 import javax.inject.Singleton
 
 @Module
@@ -18,4 +20,8 @@ class DataBaseModule {
         "roomdb")
         .build()
   }
+
+  @Provides
+  @Singleton
+  internal fun providesWorkoutRepository(workoutDatabase: WorkoutDatabase): WorkoutRepository = WorkoutRepositoryImpl(workoutDatabase)
 }

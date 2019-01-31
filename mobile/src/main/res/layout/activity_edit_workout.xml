@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter"/>
+                type="vzijden.workout.view.edit.workout.EditWorkoutViewModel"/>
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -53,7 +53,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:text="Chest and Biceps"
-                            android:text="@={viewModel.workoutName}"
+                            android:text="@={viewModel.workout.name}"
                             android:id="@+id/editText"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,9 +67,8 @@
                     android:layout_marginEnd="14dp"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    app:data="@{viewModel.exerciseItemPresenters}"
+                    app:data="@{viewModel.exercises}"
                     app:onItemDeleted="@{viewModel.onItemDeletedListener}"
-                    app:changedPositions="@{viewModel.changedPositions}"
                     app:onItemAdded="@{() -> viewModel.onAddExerciseClick()}"
                     android:layout_height="0dp"
                     android:id="@+id/edit_schedule_recyclerView"/>

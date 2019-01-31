@@ -51,6 +51,8 @@ dependencies {
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
     androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
     androidTestImplementation 'junit:junit:4.12'
+
+    testImplementation 'junit:junit:4.12'
 }
 
 android {

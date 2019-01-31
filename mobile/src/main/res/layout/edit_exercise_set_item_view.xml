@@ -10,7 +10,7 @@
                 type="vzijden.workout.domain.model.PlannedSet"/>
     </data>
 
-    <vzijden.workout.view.exercise.SetView
+    <vzijden.workout.view.edit.exercise.SetView
             android:layout_gravity="center"
             android:id="@+id/schedule_item_view"
             android:layout_width="match_parent"
@@ -54,5 +54,5 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"/>
-    </vzijden.workout.view.exercise.SetView>
+    </vzijden.workout.view.edit.exercise.SetView>
 </layout>

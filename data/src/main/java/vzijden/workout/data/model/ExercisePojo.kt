@@ -9,7 +9,7 @@ data class ExercisePojo(
         @ColumnInfo(name = "name")
         var name: String,
         var description: String,
-        var muscleGroupPojos: List<MuscleGroupPojo>
+        var muscleGroupPojos: List<MuscleGroupPojo>? = listOf()
 ) {
         constructor(name: String, description: String, id:Int, muscleGroups: List<MuscleGroupPojo>): this(name, description, muscleGroups) {
                 this.id = id

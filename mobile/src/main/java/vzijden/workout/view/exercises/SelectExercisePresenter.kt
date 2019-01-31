@@ -3,11 +3,8 @@ package vzijden.workout.view.exercises
 import android.widget.SearchView
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Exercise
 import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.domain.model.Exercise
 
 class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
   val exercises = ObservableArrayList<Exercise>()
@@ -33,14 +30,14 @@ class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
         if (newText != null && newText.isNotEmpty()) {
           if (newText.length < query.length) {
             allExercises.forEach { exercise ->
-              if (exercise.name?.contains(newText) == true && filteredExercises.remove(exercise)) {
+              if (exercise.name.contains(newText) && filteredExercises.remove(exercise)) {
                 exercises.add(exercise)
               }
               exercises.sortBy { it.name }
             }
           } else {
             allExercises.forEach { exercise ->
-              if (exercise.name?.contains(newText) == false && exercises.remove(exercise)) {
+              if (!exercise.name.contains(newText) && exercises.remove(exercise)) {
                 filteredExercises.add(exercise)
               }
             }
@@ -57,17 +54,10 @@ class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
   }
 
   init {
-    doAsync {
-      val all = view.getDatabase().exerciseDao().getAll()
-      uiThread {
-        exercises.addAll(all)
-        allExercises.addAll(all)
-      }
-    }
+
   }
 
   interface SelectExerciseView {
-    fun getDatabase(): ScheduleDatabase
     fun selectExercise(exercise: Exercise)
     fun noneSelected()
   }

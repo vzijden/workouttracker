@@ -9,5 +9,5 @@ fun mapExerciseToPojo(entity: Exercise): ExercisePojo {
 }
 
 fun mapExerciseToEntity(pojo: ExercisePojo): Exercise {
-  return Exercise(pojo.name, pojo.description, pojo.id, pojo.muscleGroupPojos.map(::mapMuscleGroupToEntity))
+  return Exercise(pojo.name, pojo.description, pojo.id, pojo.muscleGroupPojos.orEmpty().map(::mapMuscleGroupToEntity))
 }

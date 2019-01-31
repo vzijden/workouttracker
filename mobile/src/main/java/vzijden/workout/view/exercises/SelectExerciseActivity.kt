@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_exercise.*
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Exercise
 import vzijden.workout.databinding.ActivitySelectExerciseBinding
 import vzijden.workout.databinding.ItemSelectExercisesActivityBinding
+import vzijden.workout.domain.model.Exercise
 import vzijden.workout.view.AbstractAdapter
 
 class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.SelectExerciseView {
@@ -31,10 +30,6 @@ class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.Sele
     presenter = SelectExercisePresenter(this)
     binding.presenter = presenter
     setupExercisesRecycler()
-  }
-
-  override fun getDatabase(): ScheduleDatabase {
-    return ScheduleDatabase.getInstance(this)
   }
 
   override fun selectExercise(exercise: Exercise) {

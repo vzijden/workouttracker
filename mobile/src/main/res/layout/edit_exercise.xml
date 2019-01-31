@@ -7,8 +7,8 @@
     <data>
 
         <variable
-                name="editExercisePresenter"
-                type="vzijden.workout.view.exercise.EditExercisePresenter"/>
+                name="editExerciseViewModel"
+                type="vzijden.workout.view.edit.exercise.EditExerciseViewModel"/>
     </data>
 
     <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:transitionName="@{editExercisePresenter.RegistrationAndSets.plannedexercise.exercise.name + `cardview`}">
+                android:transitionName="">
 
                 <LinearLayout
                         android:padding="16dp"
@@ -41,8 +41,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
-                            android:transitionName="@{editExercisePresenter.RegistrationAndSets.plannedexercise.exercise.name + `textview`}"
-                            android:text="@{editExercisePresenter.RegistrationAndSets.plannedexercise.exercise.name}"
+                            android:transitionName=""
+                            android:text="@{editExerciseViewModel.exercise.name}"
                             android:textColor="@color/text_dark"
                             android:id="@+id/edit_exercise_exercise_spinner"
                             tools:text="Bench press"/>
@@ -52,12 +52,12 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             tools:text="Biceps"
-                            app:muscleGroups="@{editExercisePresenter.RegistrationAndSets.plannedexercise.exercise.muscleGroups}"
+                            app:muscleGroups="@{editExerciseViewModel.exercise.muscleGroups}"
                     />
 
                     <TextView
                             android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            app:fromHtml="@{editExercisePresenter.RegistrationAndSets.plannedexercise.exercise.description}"
+                            app:fromHtml="@{editExerciseViewModel.exercise.description}"
                     />
 
 
@@ -74,9 +74,9 @@
                     android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        app:data="@{editExercisePresenter.sets}"
-                        app:changedPositions="@{editExercisePresenter.changedPositions}"
-                        app:onItemAdded="@{() -> editExercisePresenter.addSet()}"
+                        app:data="@{editExerciseViewModel.sets}"
+                        app:changedPositions="@{editExerciseViewModel.changedPositions}"
+                        app:onItemAdded="@{() -> editExerciseViewModel.addSet()}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/edit_exercise_sets_recycler_view"/>

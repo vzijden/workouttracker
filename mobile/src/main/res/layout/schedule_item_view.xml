@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="scheduleItemView"
-                type="vzijden.workout.view.home.SchedulePresenter.ScheduleItemView"/>
+                type="vzijden.workout.view.home.schedule.SchedulePresenter.ScheduleItemView"/>
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

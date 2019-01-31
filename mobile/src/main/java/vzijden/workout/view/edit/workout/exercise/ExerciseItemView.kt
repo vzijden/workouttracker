@@ -1,4 +1,4 @@
-package vzijden.workout.view.schedule.workout.exercise
+package vzijden.workout.view.edit.workout.exercise
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_edit_workout_workout_item.view.*
 import vzijden.workout.R
-import vzijden.workout.data.model.Set
 import vzijden.workout.databinding.ExerciseViewSetItemBinding
+import vzijden.workout.domain.model.PlannedSet
 import vzijden.workout.view.AbstractAdapter
 
 class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
@@ -25,7 +25,7 @@ class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLay
       }
   }
 
-  inner class SetsAdapter : AbstractAdapter<Set>() {
+  inner class SetsAdapter : AbstractAdapter<PlannedSet>() {
     override fun getHolderViewType(pos: Int): Int = 1
 
     override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
@@ -35,7 +35,7 @@ class ExerciseItemView(context: Context, attributeSet: AttributeSet) : LinearLay
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       observableList[position]?.let { exerciseItemPresenter ->
-        (holder as SetViewHolder).exerciseViewSetItemBinding.set = exerciseItemPresenter
+        (holder as SetViewHolder).exerciseViewSetItemBinding.plannedSet = exerciseItemPresenter
       }
     }
 

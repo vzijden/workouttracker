@@ -37,4 +37,14 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase): Worko
   override fun logSet(loggedSet: LoggedSet): Single<Long> {
     TODO()
   }
+
+  override fun getPlannedWorkouts(scheduleId: Long): Observable<List<PlannedWorkout>> {
+    return workoutDatabase.workoutDao().getAllForSchedule(scheduleId.toInt()).map {
+      it.map { mapPlannedWorkoutToEntity(it) }
+    }
+  }
+
+  override fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Long> {
+    return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
+  }
 }

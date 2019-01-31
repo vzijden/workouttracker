@@ -6,14 +6,14 @@
     <data>
 
         <variable
-                name="exerciseItemPresenter"
-                type="vzijden.workout.view.schedule.workout.EditWorkoutPresenter.ExerciseItemPresenter"/>
+                name="viewModel"
+                type="vzijden.workout.view.edit.workout.EditWorkoutViewModel.ExerciseItemViewHolder"/>
         <variable
                 name="index"
                 type="Integer"/>
     </data>
 
-    <vzijden.workout.view.schedule.workout.exercise.ExerciseItemView
+    <vzijden.workout.view.edit.workout.exercise.ExerciseItemView
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:focusable="true"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> exerciseItemPresenter.onClick(exerciseItemPresenter.index)}">
+            android:onClick="@{() -> viewModel.onClick()}">
 
         <TextView
                 android:layout_width="20sp"
@@ -43,7 +43,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 style="@style/Widget.MaterialComponents.CardView"
-                android:transitionName="@{exerciseItemPresenter.exerciseName + `cardview`}"
+                android:transitionName="@{viewModel.exerciseName + `cardview`}"
                 app:cardCornerRadius="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +60,7 @@
                         android:textSize="15sp"
                         android:textColor="#232F34"
                         android:id="@+id/workout_item_view_muscle_group"
-                        android:text="@{exerciseItemPresenter.muscleGroup}"
+                        android:text="@{viewModel.muscleGroup}"
                         tools:text="Chest" android:fontFamily="@font/work_sans"/>
 
                 <TextView
@@ -70,10 +70,10 @@
                         android:textStyle="bold"
                         tools:text="Bench Press"
                         android:textColor="@color/text_dark"
-                        android:text="@{exerciseItemPresenter.exerciseName}"
+                        android:text="@{viewModel.exerciseName}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:transitionName="@{exerciseItemPresenter.exerciseName + `textview`}"
+                        android:transitionName="@{viewModel.exerciseName + `textview`}"
                         android:id="@+id/workout_item_view_name" android:fontFamily="@font/work_sans_bold"/>
 
                 <View
@@ -90,13 +90,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxHeight="100dp"
-                        app:data="@{exerciseItemPresenter.sets}"
-                        app:onItemAdded="@{() -> exerciseItemPresenter.onAddItemClick()}"
+                        app:data="@{viewModel.sets}"
+                        app:onItemAdded="@{() -> viewModel.onAddItemClick()}"
                         app:layout_constraintTop_toBottomOf="@id/tile_divider"
                         android:id="@+id/workout_item_view_sets_list"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </vzijden.workout.view.schedule.workout.exercise.ExerciseItemView>
+    </vzijden.workout.view.edit.workout.exercise.ExerciseItemView>
 
 
 </layout>

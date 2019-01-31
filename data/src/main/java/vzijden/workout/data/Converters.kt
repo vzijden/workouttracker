@@ -24,7 +24,7 @@ class Converters {
         MuscleGroupPojo.valueOf(it)
       } catch (e: IllegalArgumentException) {
         Log.e(Converters::class.simpleName, "Uknown musclegroup $it")
-        return null
+        return listOf()
       }
     }
   }

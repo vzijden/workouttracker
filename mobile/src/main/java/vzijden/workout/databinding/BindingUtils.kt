@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
-import vzijden.workout.data.model.MuscleGroup
+import vzijden.workout.domain.model.MuscleGroup
 
 @BindingAdapter("data")
 fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: ObservableArrayList<T>?) {

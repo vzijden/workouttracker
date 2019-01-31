@@ -2,41 +2,44 @@ package vzijden.workout.view.home
 
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Registration
-import vzijden.workout.data.model.Schedule
-import vzijden.workout.data.model.Set
-import vzijden.workout.data.model.Workout
+import vzijden.workout.data.WorkoutDatabase
+import vzijden.workout.data.model.PlannedExercisePojo
+import vzijden.workout.data.model.PlannedSetPojo
+import vzijden.workout.data.model.PlannedWorkoutPojo
+import vzijden.workout.data.model.SchedulePojo
 import vzijden.workout.data.util.initialize
+import vzijden.workout.view.home.schedule.ScheduleFragment
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
+  @Inject
+  lateinit var workoutDatabase: WorkoutDatabase
 
   override fun onCreate(savedInstanceState: Bundle?) {
-
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.activity_main)
 
-    val schedule = Schedule("firstSchedule")
+    val schedule = SchedulePojo("firstSchedule")
     doAsync {
 
-      val scheduleDatabase = ScheduleDatabase.getInstance(applicationContext)
-      if (scheduleDatabase.exerciseDao().getAll().isEmpty()) {
-        initialize(this@MainActivity)
-        val scheduleId = scheduleDatabase.scheduleDao().insert(schedule)
-        val workoutId = scheduleDatabase.workoutDao().insert(Workout(scheduleId.toInt(), "Chest", 1))
-        val exercises = scheduleDatabase.exerciseDao().getAll()
-        val registrationId = scheduleDatabase.registrationDao().insert(Registration(workoutId.toInt(),exercises[0]))
-        scheduleDatabase.setsDao().insert(Set(8, registrationId.toInt()))
+      if (workoutDatabase.exerciseDao().getAll().isEmpty()) {
+        initialize(workoutDatabase,this@MainActivity.resources.openRawResource(R.raw.exercises))
+        val scheduleId = workoutDatabase.scheduleDao().insert(schedule)
+        val workoutId = workoutDatabase.workoutDao().insert(PlannedWorkoutPojo(scheduleId.toInt(), "Chest", 1)).blockingGet()
+        val exercises = workoutDatabase.exerciseDao().getAll()
+        val registrationId = workoutDatabase.registrationDao().insert(PlannedExercisePojo(workoutId.toInt(),exercises[0])).blockingGet()
+        workoutDatabase.setsDao().insert(PlannedSetPojo(8, registrationId.toInt()))
       }
 
       uiThread {

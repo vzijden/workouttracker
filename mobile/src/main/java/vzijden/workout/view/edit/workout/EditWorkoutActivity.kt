@@ -1,4 +1,4 @@
-package vzijden.workout.view.schedule.workout
+package vzijden.workout.view.edit.workout
 
 
 import android.annotation.SuppressLint
@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import dagger.android.support.DaggerAppCompatActivity
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Exercise
 
-class EditWorkoutActivity : AppCompatActivity() {
+class EditWorkoutActivity : DaggerAppCompatActivity() {
   companion object {
     private const val FRAGMENT_CONTAINER_ID = 1
     private const val WORKOUT_ID = "WORKOUT_ID"
@@ -20,9 +19,6 @@ class EditWorkoutActivity : AppCompatActivity() {
       return bundle
     }
   }
-
-  private lateinit var presenter: EditWorkoutPresenter
-
 
   @SuppressLint("ResourceType")
   override fun onCreate(savedInstanceState: Bundle?) {

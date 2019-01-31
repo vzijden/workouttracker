@@ -1,4 +1,4 @@
-package vzijden.workout.view.schedule.workout
+package vzijden.workout.view.edit.workout
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,12 +10,12 @@ import vzijden.workout.databinding.ItemDeleteAdapter
 import vzijden.workout.databinding.OnItemClickedListener
 import vzijden.workout.view.AbstractAdapter
 
-class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPresenter>(), ItemDeleteAdapter<EditWorkoutPresenter.ExerciseItemPresenter> {
+class EditWorkoutAdapter : AbstractAdapter<EditWorkoutViewModel.ExerciseItemViewHolder>(), ItemDeleteAdapter<EditWorkoutViewModel.ExerciseItemViewHolder> {
   companion object {
     const val VIEW_HOLDER_TYPE = 1
   }
 
-  private var onItemDeletedListener: OnItemClickedListener<EditWorkoutPresenter.ExerciseItemPresenter>? = null
+  private var onItemDeletedListener: OnItemClickedListener<EditWorkoutViewModel.ExerciseItemViewHolder>? = null
 
   override fun getHolderViewType(pos: Int): Int = VIEW_HOLDER_TYPE
 
@@ -29,7 +29,7 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
     (holder as ExerciseViewHolder).let { workoutItemViewBinding ->
       observableList.getOrNull(position)?.let { exerciseItemView ->
         workoutItemViewBinding.workoutItemViewBinding.apply {
-          exerciseItemPresenter = exerciseItemView
+          viewModel = exerciseItemView
           index = position + 1
         }
       }
@@ -37,7 +37,7 @@ class EditWorkoutAdapter : AbstractAdapter<EditWorkoutPresenter.ExerciseItemPres
     }
   }
 
-  override fun addOnItemDeletedListener(onItemDeletedListener: OnItemClickedListener<EditWorkoutPresenter.ExerciseItemPresenter>) {
+  override fun addOnItemDeletedListener(onItemDeletedListener: OnItemClickedListener<EditWorkoutViewModel.ExerciseItemViewHolder>) {
     this.onItemDeletedListener = onItemDeletedListener
   }
 

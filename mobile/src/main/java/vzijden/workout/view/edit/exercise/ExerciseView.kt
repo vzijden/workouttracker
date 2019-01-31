@@ -1,4 +1,4 @@
-package vzijden.workout.view.exercise
+package vzijden.workout.view.edit.exercise
 
 import android.content.Context
 import android.util.AttributeSet

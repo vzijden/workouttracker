@@ -1,4 +1,4 @@
-package vzijden.workout.view.schedule.workout
+package vzijden.workout.view.edit.workout
 
 import android.app.Activity
 import android.content.Intent
@@ -8,25 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeTransform
 import androidx.transition.TransitionSet
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.activity_edit_workout.*
 import kotlinx.android.synthetic.main.activity_edit_workout_workout_item.*
 import org.jetbrains.anko.support.v4.ctx
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.RegistrationAndSets
 import vzijden.workout.databinding.ActivityEditWorkoutBinding
-import vzijden.workout.view.exercise.EditExerciseFragment
+import vzijden.workout.domain.model.PlannedExercise
+import vzijden.workout.domain.usecase.GetWorkout
+import vzijden.workout.domain.usecase.UpdateWorkout
+import vzijden.workout.view.edit.exercise.EditExerciseFragment
 import vzijden.workout.view.exercises.SelectExerciseActivity
+import javax.inject.Inject
 
 
-class ExercisesFragment : Fragment(), EditWorkoutPresenter.ExercisesFragmentView {
+class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragmentView {
   companion object {
     private const val SELECT_EXERCISE_INTENT = 1
     private const val WORKOUT_ID_ARGUMENT = "workout"
@@ -40,8 +42,12 @@ class ExercisesFragment : Fragment(), EditWorkoutPresenter.ExercisesFragmentView
     }
   }
 
-  private lateinit var presenter: EditWorkoutPresenter
+  private lateinit var viewModel: EditWorkoutViewModel
   private lateinit var adapter: EditWorkoutAdapter
+  @Inject
+  lateinit var getWorkout: GetWorkout
+  @Inject
+  lateinit var updateWorkout: UpdateWorkout
 
   private var binding: ActivityEditWorkoutBinding? = null
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,19 +57,19 @@ class ExercisesFragment : Fragment(), EditWorkoutPresenter.ExercisesFragmentView
       addTransition(ChangeTransform())
     }
 
-    presenter = EditWorkoutPresenter(ScheduleDatabase.getInstance(ctx))
-    presenter.exercisesFragmentView = this
+    viewModel = EditWorkoutViewModel(getWorkout, updateWorkout)
+    viewModel.exercisesFragmentView = this
     if (arguments?.containsKey(WORKOUT_ID_ARGUMENT) == true) {
-      presenter.loadWorkout(arguments!!.getInt(WORKOUT_ID_ARGUMENT, 0))
+      viewModel.loadWorkout(arguments!!.getInt(WORKOUT_ID_ARGUMENT, 0))
     } else {
-      presenter.newWorkout()
+      viewModel.newWorkout()
     }
 
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     binding = DataBindingUtil.inflate(inflater, R.layout.activity_edit_workout, container, false)
-    binding!!.viewModel = presenter
+    binding!!.viewModel = viewModel
     return binding!!.root
   }
 
@@ -86,7 +92,7 @@ class ExercisesFragment : Fragment(), EditWorkoutPresenter.ExercisesFragmentView
         data?.let {
           val exerciseId = it.getIntExtra(SelectExerciseActivity.RESULT_ID, -1)
           if (exerciseId != -1) {
-            presenter.onExerciseSelected(exerciseId)
+            viewModel.selectExercise(exerciseId)
           }
         }
       } else fragmentManager?.popBackStack()
@@ -94,13 +100,13 @@ class ExercisesFragment : Fragment(), EditWorkoutPresenter.ExercisesFragmentView
   }
 
 
-  override fun openRegistration(registrationAndSets: RegistrationAndSets, workoutId: Int) {
-    val editExerciseFragment = EditExerciseFragment.createInstance(registrationAndSets.registration.id, workoutId)
+  override fun openRegistration(plannedExercise: PlannedExercise, workoutId: Int) {
+    val editExerciseFragment = EditExerciseFragment.createInstance(plannedExercise.id, workoutId)
     fragmentManager?.let {
       it.beginTransaction()
           .addToBackStack("")
-          .addSharedElement(cardview, (registrationAndSets.registration.exercise?.name ?: "") + "cardview")
-          .addSharedElement(workout_item_view_name, (registrationAndSets.registration.exercise?.name
+          .addSharedElement(cardview, (plannedExercise.exercise.name ?: "") + "cardview")
+          .addSharedElement(workout_item_view_name, (plannedExercise.exercise.name
               ?: "") + "textview")
           .replace(1, editExerciseFragment).commit()
     }

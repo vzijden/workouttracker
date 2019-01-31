@@ -1,4 +1,4 @@
-package vzijden.workout.view.home
+package vzijden.workout.view.home.schedule
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,23 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Workout
+import vzijden.workout.databinding.OnItemClickedListener
 import vzijden.workout.databinding.ScheduleFragmentBinding
 import vzijden.workout.databinding.ScheduleItemViewBinding
-import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.domain.model.PlannedWorkout
+import vzijden.workout.domain.usecase.GetPlannedWorkouts
 import vzijden.workout.view.AbstractAdapter
-import vzijden.workout.view.schedule.workout.EditWorkoutActivity
-import vzijden.workout.view.workout.CurrentWorkoutActivity
+import vzijden.workout.view.edit.workout.EditWorkoutActivity
+import javax.inject.Inject
 
 
-class ScheduleFragment : Fragment(), SchedulePresenter.View {
+class ScheduleFragment : DaggerFragment(), SchedulePresenter.View {
+  @Inject
+  lateinit var getPlannedWorkout: GetPlannedWorkouts
+
   companion object {
     private const val EDIT_WORKOUT_REQUEST = 1
     fun createInstance(): ScheduleFragment {
@@ -51,7 +54,7 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    schedulePresenter = SchedulePresenter(this, ScheduleDatabase.getInstance(requireContext()))
+    schedulePresenter = SchedulePresenter(this, getPlannedWorkout)
     binding.schedulePresenter = schedulePresenter
 
     scheduleAdapter = ScheduleAdapter()
@@ -63,18 +66,18 @@ class ScheduleFragment : Fragment(), SchedulePresenter.View {
     }
   }
 
-  override fun editWorkout(workout: Workout) {
+  override fun editWorkout(workout: PlannedWorkout) {
     val intent = Intent(context, EditWorkoutActivity::class.java)
     val bundle = EditWorkoutActivity.createIntent(workout.id)
     intent.putExtras(bundle)
     startActivityForResult(intent, EDIT_WORKOUT_REQUEST)
   }
 
-  override fun startWorkout(workout: Workout) {
-    val intent = Intent(context, CurrentWorkoutActivity::class.java)
-    val bundle = CurrentWorkoutActivity.createBundle(workout.id)
-    intent.putExtras(bundle)
-    startActivity(intent)
+  override fun startWorkout(workout: PlannedWorkout) {
+//    val intent = Intent(context, CurrentWorkoutActivity::class.java)
+//    val bundle = CurrentWorkoutActivity.createBundle(workout.id)
+//    intent.putExtras(bundle)
+//    startActivity(intent)
   }
 
   inner class ScheduleAdapter : AbstractAdapter<SchedulePresenter.ScheduleItemView>() {

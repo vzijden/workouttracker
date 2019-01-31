@@ -1,4 +1,4 @@
-package vzijden.workout.view.exercise
+package vzijden.workout.view.edit.exercise
 
 import android.app.Activity
 import android.content.Intent
@@ -16,14 +16,13 @@ import androidx.transition.TransitionSet
 import kotlinx.android.synthetic.main.edit_exercise.*
 import org.jetbrains.anko.support.v4.ctx
 import vzijden.workout.R
-import vzijden.workout.data.ScheduleDatabase
-import vzijden.workout.data.model.Set
 import vzijden.workout.databinding.EditExerciseBinding
 import vzijden.workout.databinding.EditExerciseSetItemViewBinding
+import vzijden.workout.domain.model.PlannedSet
 import vzijden.workout.view.AbstractAdapter
 import vzijden.workout.view.exercises.SelectExerciseActivity
 
-class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFragmentView {
+class EditExerciseFragment : Fragment(), EditExerciseViewModel.EditExercisesFragmentView {
   companion object {
     private const val REGISTRATION_ID = "RegistrationID"
     private const val WORKOUT_ID = "workoutID"
@@ -49,7 +48,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
 
   lateinit var setsRecyclerView: RecyclerView
   lateinit var binding: EditExerciseBinding
-  lateinit var presenter: EditExercisePresenter
+  lateinit var viewModel: EditExerciseViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -58,14 +57,14 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
       addTransition(ChangeTransform())
     }
     arguments!!.apply {
-      presenter = EditExercisePresenter(getInt(WORKOUT_ID)).apply {
+      viewModel = EditExerciseViewModel(getInt(WORKOUT_ID)).apply {
         subscribe(this@EditExerciseFragment)
       }
 
       if (containsKey(REGISTRATION_ID)) {
-        presenter.loadRegistration(getInt(REGISTRATION_ID))
+        viewModel.loadRegistration(getInt(REGISTRATION_ID))
       } else {
-        presenter.newRegistration()
+        viewModel.newRegistration()
       }
     }
   }
@@ -78,7 +77,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
   override fun onPause() {
     super.onPause()
     arguments?.apply {
-      presenter.registrationAndSets.get()?.registration?.id?.let {
+      viewModel.exercise.get()?.id?.let {
         putInt(REGISTRATION_ID, it)
       }
     }
@@ -90,7 +89,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
       savedInstanceState: Bundle?
   ): View {
     binding = DataBindingUtil.inflate(inflater, R.layout.edit_exercise, container, false)
-    binding.editExercisePresenter = presenter
+    binding.editExerciseViewModel = viewModel
     return binding.root
   }
 
@@ -105,15 +104,11 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
         data?.let {
           val exerciseId = it.getIntExtra(SelectExerciseActivity.RESULT_ID, -1)
           if (exerciseId != -1) {
-            presenter.selectExercise(exerciseId)
+            viewModel.selectExercise(exerciseId)
           }
         }
       } else fragmentManager?.popBackStack()
     }
-  }
-
-  override fun getDatabase(): ScheduleDatabase {
-    return ScheduleDatabase.getInstance(context!!)
   }
 
   private fun setupSetsRecyclerView() {
@@ -127,7 +122,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
   }
 
 
-  class SetsAdapter : AbstractAdapter<Set>() {
+  class SetsAdapter : AbstractAdapter<PlannedSet>() {
     override fun getHolderViewType(pos: Int): Int = 1
 
 
@@ -140,7 +135,7 @@ class EditExerciseFragment : Fragment(), EditExercisePresenter.EditExercisesFrag
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       (holder as SetViewHolder).let {
-        it.binding.set = observableList[position]
+        it.binding.plannedSet = observableList[position]
       }
     }
 

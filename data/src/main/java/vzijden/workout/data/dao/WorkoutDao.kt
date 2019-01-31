@@ -29,4 +29,7 @@ interface WorkoutDao {
 
   @Query("SELECT * FROM LoggedWorkoutPojo where id = :loggedWorkoutId")
   fun getLoggedWorkout(loggedWorkoutId: Int): Observable<LoggedWorkoutAndRegistrations>
+
+  @Query("SELECT * FROM PlannedWorkoutPojo where scheduleId = :scheduleId")
+  fun getAllForSchedule(scheduleId: Int): Observable<List<WorkoutAndRegistrations>>
 }

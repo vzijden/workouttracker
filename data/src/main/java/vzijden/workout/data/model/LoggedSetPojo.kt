@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey
 @Entity
 data class LoggedSetPojo(
     @Embedded(prefix = "exercise_")
-    val plannedExercisePojo: PlannedExercisePojo,
+    val exercisePojo: ExercisePojo,
     var weight: Int,
     var loggedWorkoutId: Int,
     var loggedExerciseId: Int,
     var unit: Int
 ) {
-  constructor(plannedExercisePojo: PlannedExercisePojo, weight: Int, loggedWorkoutId: Int, loggedExerciseId: Int, unit: Int, id: Int) :
-      this(plannedExercisePojo, weight, loggedWorkoutId, loggedExerciseId, unit) {
+  constructor(exercisePojo: ExercisePojo, weight: Int, loggedWorkoutId: Int, loggedExerciseId: Int, unit: Int, id: Int) :
+      this(exercisePojo, weight, loggedWorkoutId, loggedExerciseId, unit) {
     this.id = id
   }
 

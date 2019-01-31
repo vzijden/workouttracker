@@ -16,4 +16,6 @@ interface WorkoutRepository {
   fun saveLoggedWorkout(loggedWorkout: LoggedWorkout): Single<Long>
   fun getLoggedWorkout(loggedWorkoutId: Int): Observable<LoggedWorkout>
   fun logSet(loggedSet: LoggedSet): Single<Long>
+  fun getPlannedWorkouts(scheduleId: Long): Observable<List<PlannedWorkout>>
+  fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Long>
 }
