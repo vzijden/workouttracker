@@ -16,38 +16,42 @@ import androidx.transition.ChangeTransform
 import androidx.transition.TransitionSet
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.activity_edit_workout.*
-import kotlinx.android.synthetic.main.activity_edit_workout_workout_item.*
+import kotlinx.android.synthetic.main.item_edit_exercise.*
 import org.jetbrains.anko.support.v4.ctx
 import vzijden.workout.R
 import vzijden.workout.databinding.ActivityEditWorkoutBinding
 import vzijden.workout.domain.model.PlannedExercise
+import vzijden.workout.domain.usecase.CreatePlannedExercise
+import vzijden.workout.domain.usecase.DeletePlannedExercise
 import vzijden.workout.domain.usecase.GetWorkout
-import vzijden.workout.domain.usecase.UpdateWorkout
 import vzijden.workout.view.edit.exercise.EditExerciseFragment
+import vzijden.workout.view.edit.workout.exercise.ExercisesAdapter
 import vzijden.workout.view.exercises.SelectExerciseActivity
 import javax.inject.Inject
 
 
-class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragmentView {
+class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.ExercisesFragmentView {
   companion object {
     private const val SELECT_EXERCISE_INTENT = 1
     private const val WORKOUT_ID_ARGUMENT = "workout"
 
-    fun createInstance(workoutId: Int): ExercisesFragment {
+    fun createInstance(workoutId: Int): EditExercisesFragment {
       val bundle = Bundle()
       bundle.putInt(WORKOUT_ID_ARGUMENT, workoutId)
-      val exercisesFragment = ExercisesFragment()
+      val exercisesFragment = EditExercisesFragment()
       exercisesFragment.arguments = bundle
       return exercisesFragment
     }
   }
 
-  private lateinit var viewModel: EditWorkoutViewModel
-  private lateinit var adapter: EditWorkoutAdapter
+  private lateinit var viewModel: EditExercisesViewModel
+  private lateinit var adapter: ExercisesAdapter
   @Inject
   lateinit var getWorkout: GetWorkout
   @Inject
-  lateinit var updateWorkout: UpdateWorkout
+  lateinit var deletePlannedExercise: DeletePlannedExercise
+  @Inject
+  lateinit var createPlannedExercise: CreatePlannedExercise
 
   private var binding: ActivityEditWorkoutBinding? = null
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,12 +61,12 @@ class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragme
       addTransition(ChangeTransform())
     }
 
-    viewModel = EditWorkoutViewModel(getWorkout, updateWorkout)
+    viewModel = EditExercisesViewModel(getWorkout, deletePlannedExercise, createPlannedExercise)
     viewModel.exercisesFragmentView = this
     if (arguments?.containsKey(WORKOUT_ID_ARGUMENT) == true) {
-      viewModel.loadWorkout(arguments!!.getInt(WORKOUT_ID_ARGUMENT, 0))
+      viewModel.loadWorkout(arguments!!.getInt(WORKOUT_ID_ARGUMENT, 0).toLong())
     } else {
-      viewModel.newWorkout()
+      viewModel.onNewWorkout()
     }
 
   }
@@ -81,7 +85,7 @@ class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragme
   }
 
 
-  override fun newRegistration(workoutId: Int) {
+  override fun newRegistration(workoutId: Long) {
     val intent = Intent(ctx, SelectExerciseActivity::class.java)
     startActivityForResult(intent, SELECT_EXERCISE_INTENT)
   }
@@ -90,9 +94,9 @@ class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragme
     if (requestCode == SELECT_EXERCISE_INTENT) {
       if (resultCode == Activity.RESULT_OK) {
         data?.let {
-          val exerciseId = it.getIntExtra(SelectExerciseActivity.RESULT_ID, -1)
-          if (exerciseId != -1) {
-            viewModel.selectExercise(exerciseId)
+          val exerciseId = it.getLongExtra(SelectExerciseActivity.RESULT_ID, -1)
+          if (exerciseId != -1L) {
+            viewModel.onNewExerciseSelected(exerciseId)
           }
         }
       } else fragmentManager?.popBackStack()
@@ -100,7 +104,7 @@ class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragme
   }
 
 
-  override fun openRegistration(plannedExercise: PlannedExercise, workoutId: Int) {
+  override fun openRegistration(plannedExercise: PlannedExercise, workoutId: Long) {
     val editExerciseFragment = EditExerciseFragment.createInstance(plannedExercise.id, workoutId)
     fragmentManager?.let {
       it.beginTransaction()
@@ -114,9 +118,9 @@ class ExercisesFragment : DaggerFragment(), EditWorkoutViewModel.ExercisesFragme
 
 
   private fun setupRecyclerView() {
-    adapter = EditWorkoutAdapter()
+    adapter = ExercisesAdapter()
 
-    val editWorkoutAdapter = this@ExercisesFragment.adapter
+    val editWorkoutAdapter = this@EditExercisesFragment.adapter
     edit_schedule_recyclerView.apply {
       layoutManager = LinearLayoutManager(context)
       adapter = editWorkoutAdapter

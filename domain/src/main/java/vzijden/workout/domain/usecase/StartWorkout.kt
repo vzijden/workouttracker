@@ -10,8 +10,8 @@ import java.util.*
 class StartWorkout(private val workoutRepository: WorkoutRepository, subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
     SingleUseCase<Long, Int>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun build(workoutId: Int?): Single<Long> {
-    val loggedWorkout = LoggedWorkout(Date(), workoutId!!)
+  override fun build(workoutId: Int): Single<Long> {
+    val loggedWorkout = LoggedWorkout(Date(), workoutId)
     return workoutRepository.saveLoggedWorkout(loggedWorkout)
   }
 }

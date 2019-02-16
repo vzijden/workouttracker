@@ -6,14 +6,14 @@ import androidx.room.PrimaryKey
 
 @Entity
 class PlannedExercisePojo(
-    var workoutId: Int,
+    var workoutId: Long,
     @Embedded(prefix = "exercise_")
     var exercisePojo: ExercisePojo
 ) {
-  constructor(workoutId: Int, exercisePojo: ExercisePojo, id: Int) : this(workoutId, exercisePojo) {
+  constructor(workoutId: Long, exercisePojo: ExercisePojo, id: Long) : this(workoutId, exercisePojo) {
     this.id = id
   }
 
   @PrimaryKey(autoGenerate = true)
-  var id: Int = 0
+  var id: Long = 0
 }

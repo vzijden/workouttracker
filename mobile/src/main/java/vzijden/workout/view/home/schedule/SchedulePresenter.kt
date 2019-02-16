@@ -12,7 +12,7 @@ import vzijden.workout.domain.usecase.GetPlannedWorkouts
 class SchedulePresenter(val view: View, getPlannedWorkouts: GetPlannedWorkouts) : BaseObservable() {
   init {
     doAsync {
-      getPlannedWorkouts.build(1).blockingFirst().forEachIndexed { index, workout ->
+      getPlannedWorkouts.execute(1).blockingFirst().forEachIndexed { index, workout ->
         scheduleItemViews.add(object : ScheduleItemView() {
           override fun onClick() {
             view.editWorkout(workout)

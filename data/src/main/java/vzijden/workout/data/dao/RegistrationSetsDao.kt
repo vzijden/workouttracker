@@ -1,15 +1,12 @@
 package vzijden.workout.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import vzijden.workout.data.model.LoggedSetPojo
 import vzijden.workout.data.model.PlannedSetPojo
+import vzijden.workout.domain.model.PlannedSet
 
 @Dao
 interface RegistrationSetsDao {
@@ -24,4 +21,7 @@ interface RegistrationSetsDao {
 
   @Update()
   fun update(setPojo: PlannedSetPojo): Completable
+
+  @Delete
+  fun delete(plannedSet: PlannedSetPojo): Completable
 }

@@ -3,6 +3,7 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Observable
 import vzijden.workout.data.model.ExercisePojo
 
 @Dao
@@ -11,8 +12,8 @@ interface ExerciseDao {
   fun insert(exercisePojo: ExercisePojo): Long
 
   @Query("SELECT * FROM ExercisePojo ORDER BY ExercisePojo.name")
-  fun getAll(): List<ExercisePojo>
+  fun getAll(): Observable<List<ExercisePojo>>
 
   @Query("SELECT * from ExercisePojo WHERE ExercisePojo.id = :id")
-  fun get(id: Int): ExercisePojo
+  fun get(id: Long): Observable<ExercisePojo>
 }

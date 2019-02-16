@@ -19,7 +19,7 @@ interface WorkoutDao {
   fun insert(plannedWorkoutPojo: PlannedWorkoutPojo): Single<Long>
 
   @Query("SELECT * from PlannedWorkoutPojo where PlannedWorkoutPojo.id = :workoutId")
-  fun getById(workoutId: Int): Observable<WorkoutAndRegistrations>
+  fun getById(workoutId: Long): Observable<WorkoutAndRegistrations>
 
   @Query("SELECT * FROM PlannedWorkoutPojo where PlannedWorkoutPojo.id = :workoutId")
   fun getWorkoutAndHistory(workoutId: Int): Observable<WorkoutAndHistory>

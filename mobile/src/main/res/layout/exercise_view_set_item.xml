@@ -6,8 +6,8 @@
 
     <data>
         <variable
-                name="plannedSet"
-                type="vzijden.workout.domain.model.PlannedSet"/>
+                name="viewModel"
+                type="vzijden.workout.view.edit.workout.exercise.set.SetItemViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,8 +36,16 @@
                 app:layout_constraintStart_toEndOf="@+id/set_item_view_text_View"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="8"
-                android:text="@{String.valueOf(plannedSet.reps)}"
+                android:text="@{String.valueOf(viewModel.reps)}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" android:fontFamily="@font/work_sans_bold"/>
+
+        <ImageButton
+                app:layout_constraintLeft_toRightOf="@id/set_item_view_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clear"
+                android:onClick="@{() -> viewModel.onDeleteClick(viewModel.index)}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

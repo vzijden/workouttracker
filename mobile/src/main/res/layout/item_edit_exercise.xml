@@ -7,13 +7,13 @@
 
         <variable
                 name="viewModel"
-                type="vzijden.workout.view.edit.workout.EditWorkoutViewModel.ExerciseItemViewHolder"/>
+                type="vzijden.workout.view.edit.workout.exercise.ExerciseItemViewModel"/>
         <variable
                 name="index"
                 type="Integer"/>
     </data>
 
-    <vzijden.workout.view.edit.workout.exercise.ExerciseItemView
+    <LinearLayout
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 style="@style/Widget.MaterialComponents.CardView"
-                android:transitionName="@{viewModel.exerciseName + `cardview`}"
+                android:transitionName="@{viewModel.name + `cardview`}"
                 app:cardCornerRadius="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,9 +52,11 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                 <TextView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
@@ -64,16 +66,17 @@
                         tools:text="Chest" android:fontFamily="@font/work_sans"/>
 
                 <TextView
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/workout_item_view_muscle_group"
                         android:layout_marginTop="16dp"
                         android:textSize="21sp"
                         android:textStyle="bold"
                         tools:text="Bench Press"
                         android:textColor="@color/text_dark"
-                        android:text="@{viewModel.exerciseName}"
+                        android:text="@{viewModel.name}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:transitionName="@{viewModel.exerciseName + `textview`}"
+                        android:transitionName="@{viewModel.name + `textview`}"
                         android:id="@+id/workout_item_view_name" android:fontFamily="@font/work_sans_bold"/>
 
                 <View
@@ -90,13 +93,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxHeight="100dp"
-                        app:data="@{viewModel.sets}"
+                        app:data="@{viewModel.plannedSets}"
                         app:onItemAdded="@{() -> viewModel.onAddItemClick()}"
                         app:layout_constraintTop_toBottomOf="@id/tile_divider"
                         android:id="@+id/workout_item_view_sets_list"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </vzijden.workout.view.edit.workout.exercise.ExerciseItemView>
+    </LinearLayout>
 
 
 </layout>

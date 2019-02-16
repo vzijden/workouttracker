@@ -5,6 +5,11 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
+import vzijden.workout.adapter.*
+import vzijden.workout.adapter.AddItemAdapter
+import vzijden.workout.adapter.BindableAdapter
+import vzijden.workout.adapter.ItemDeleteAdapter
+import vzijden.workout.adapter.OnItemClickedListener
 import vzijden.workout.domain.model.MuscleGroup
 
 @BindingAdapter("data")
@@ -24,9 +29,9 @@ fun <T> setDataChanged(recyclerView: RecyclerView, positions: Set<Int>?) {
 }
 
 @BindingAdapter("onItemAdded")
-fun setItemAddedListener(recyclerView: RecyclerView, listener: (() -> Unit)?) {
+fun setItemAddedListener(recyclerView: RecyclerView, listener: OnAddItemListener?) {
   if (recyclerView.adapter is AddItemAdapter && listener != null) {
-    (recyclerView.adapter as AddItemAdapter).onAddItemClickedListener(listener)
+    (recyclerView.adapter as AddItemAdapter).addOnAddItemListener(listener)
   }
 }
 
@@ -38,7 +43,7 @@ fun <T> setOnItemClickedListener(recyclerView: RecyclerView, listener: OnItemCli
 }
 
 @BindingAdapter("onItemDeleted")
-fun <T> setOnItemDeletedAdapter(recyclerView: RecyclerView, listener: OnItemClickedListener<T>) {
+fun <T> setOnItemDeletedAdapter(recyclerView: RecyclerView, listener: OnItemDeletedListener<T>) {
   if (recyclerView.adapter is ItemDeleteAdapter<*> && listener != null) {
     (recyclerView.adapter as ItemDeleteAdapter<T>).addOnItemDeletedListener(listener)
   }

@@ -2,13 +2,14 @@ package vzijden.workout.view.home
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import vzijden.workout.App
 import vzijden.workout.R
 import vzijden.workout.data.WorkoutDatabase
 import vzijden.workout.data.model.PlannedExercisePojo
@@ -33,13 +34,14 @@ class MainActivity : DaggerAppCompatActivity() {
     val schedule = SchedulePojo("firstSchedule")
     doAsync {
 
-      if (workoutDatabase.exerciseDao().getAll().isEmpty()) {
-        initialize(workoutDatabase,this@MainActivity.resources.openRawResource(R.raw.exercises))
+      if (workoutDatabase.exerciseDao().getAll().blockingFirst().isEmpty()) {
+        Log.d(App.TAG, "initializing database")
+        initialize(workoutDatabase, this@MainActivity.resources.openRawResource(R.raw.exercises))
         val scheduleId = workoutDatabase.scheduleDao().insert(schedule)
         val workoutId = workoutDatabase.workoutDao().insert(PlannedWorkoutPojo(scheduleId.toInt(), "Chest", 1)).blockingGet()
-        val exercises = workoutDatabase.exerciseDao().getAll()
-        val registrationId = workoutDatabase.registrationDao().insert(PlannedExercisePojo(workoutId.toInt(),exercises[0])).blockingGet()
-        workoutDatabase.setsDao().insert(PlannedSetPojo(8, registrationId.toInt()))
+        val exercises = workoutDatabase.exerciseDao().getAll().blockingFirst()
+        val registrationId = workoutDatabase.registrationDao().insert(PlannedExercisePojo(workoutId, exercises[0])).blockingGet()
+        workoutDatabase.setsDao().insert(PlannedSetPojo(8, registrationId)).blockingGet()
       }
 
       uiThread {
@@ -58,7 +60,7 @@ class MainActivity : DaggerAppCompatActivity() {
         return 2
       }
 
-      override fun getItem(p0: Int): Fragment {
+      override fun getItem(p0: Int): androidx.fragment.app.Fragment {
         when (p0) {
           0 -> return ScheduleFragment.createInstance()
           1 -> return WorkoutsFragment()

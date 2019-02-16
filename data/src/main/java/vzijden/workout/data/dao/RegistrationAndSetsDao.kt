@@ -3,7 +3,7 @@ package vzijden.workout.data.dao
 import androidx.room.Dao
 import androidx.room.Query
 import io.reactivex.Flowable
-import vzijden.workout.data.views.LoggedExerciseAndLoggedSets
+import io.reactivex.Observable
 import vzijden.workout.data.views.RegistrationAndSets
 
 @Dao
@@ -12,5 +12,5 @@ interface RegistrationAndSetsDao {
   fun getAllForWorkout(workoutId: Int): Flowable<RegistrationAndSets>
 
   @Query("SELECT * FROM PlannedExercisePojo where PlannedExercisePojo.id = :registrationId")
-  fun get(registrationId: Int): RegistrationAndSets
+  fun get(registrationId: Int): Observable<RegistrationAndSets>
 }

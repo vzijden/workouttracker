@@ -9,10 +9,10 @@ import vzijden.workout.domain.repository.WorkoutRepository
 
 class GetWorkout(private val workoutRepository: WorkoutRepository, subscribeScheduler: Scheduler,
                  postExecutionScheduler: Scheduler) :
-    ObservableUseCase<PlannedWorkout, Int>(subscribeScheduler, postExecutionScheduler) {
+    ObservableUseCase<PlannedWorkout, Long>(subscribeScheduler, postExecutionScheduler) {
 
 
-  override fun build(workoutId: Int?): Observable<PlannedWorkout> {
+  override fun build(workoutId: Long?): Observable<PlannedWorkout> {
     return workoutRepository.getPlannedWorkout(workoutId!!)
   }
 }

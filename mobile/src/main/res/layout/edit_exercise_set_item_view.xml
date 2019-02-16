@@ -6,8 +6,8 @@
 
     <data>
         <variable
-                name="plannedSet"
-                type="vzijden.workout.domain.model.PlannedSet"/>
+                name="viewModel"
+                type="vzijden.workout.view.edit.workout.exercise.set.SetItemViewModel"/>
     </data>
 
     <vzijden.workout.view.edit.exercise.SetView
@@ -37,13 +37,13 @@
                 app:layout_constraintStart_toEndOf="@id/set_item_view_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="8"
-                android:text="@{String.valueOf(plannedSet.reps)}"
+                android:text="@{String.valueOf(viewModel.reps)}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <SeekBar
                 android:max="@integer/max_set_reps"
-                android:progress="@{plannedSet.reps}"
+                android:progress="@{viewModel.reps}"
                 android:layout_height="wrap_content"
                 android:id="@+id/set_item_view_seek_bar"
                 android:layout_width="0dp"
@@ -54,5 +54,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.onDeleteClick(viewModel.id)}"/>
     </vzijden.workout.view.edit.exercise.SetView>
 </layout>

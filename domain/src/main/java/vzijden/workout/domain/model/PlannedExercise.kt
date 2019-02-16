@@ -2,16 +2,16 @@ package vzijden.workout.domain.model
 
 
 class PlannedExercise(
-    val workoutId: Int,
+    val workoutId: Long,
     val exercise: Exercise
 ) {
-  constructor(workoutId: Int, exercise: Exercise, id: Int, plannedSets: List<PlannedSet>) : this(workoutId, exercise) {
+  constructor(workoutId: Long, exercise: Exercise, id: Long, plannedSets: List<PlannedSet>?) : this(workoutId, exercise) {
     this.id = id
-    this.plannedSets = plannedSets
+    this.plannedSets = plannedSets ?: emptyList()
   }
 
-  var plannedSets: List<PlannedSet>? = null
+  var plannedSets: List<PlannedSet> = emptyList()
   private set
-  var id: Int = 0
+  var id: Long = 0
   private set
 }

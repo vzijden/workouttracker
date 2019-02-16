@@ -9,7 +9,7 @@ import vzijden.workout.domain.repository.WorkoutRepository
 class UpdateWorkout(private var workoutRepository: WorkoutRepository, subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
     SingleUseCase<Long, PlannedWorkout>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun build(plannedWorkout: PlannedWorkout?): Single<Long> {
-    return workoutRepository.savePlannedWorkout(plannedWorkout!!)
+  override fun build(plannedWorkout: PlannedWorkout): Single<Long> {
+    return workoutRepository.savePlannedWorkout(plannedWorkout)
   }
 }

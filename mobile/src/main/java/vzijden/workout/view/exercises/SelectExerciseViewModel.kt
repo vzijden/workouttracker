@@ -3,10 +3,11 @@ package vzijden.workout.view.exercises
 import android.widget.SearchView
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
-import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.adapter.OnItemClickedListener
 import vzijden.workout.domain.model.Exercise
+import vzijden.workout.domain.usecase.GetAllExercises
 
-class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
+class SelectExerciseViewModel(val view: SelectExerciseView, val getAllExercises: GetAllExercises) : BaseObservable() {
   val exercises = ObservableArrayList<Exercise>()
   val filteredExercises: MutableList<Exercise> = mutableListOf()
   val allExercises: MutableList<Exercise> = mutableListOf()
@@ -15,6 +16,7 @@ class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
       view.selectExercise(item)
     }
   }
+
 
   //  @get:Bindable
   val onQueryTextListener = object : SearchView.OnQueryTextListener {
@@ -54,7 +56,9 @@ class SelectExercisePresenter(val view: SelectExerciseView) : BaseObservable() {
   }
 
   init {
-
+    getAllExercises.execute().subscribe { exercises ->
+      this.exercises.addAll(exercises)
+    }
   }
 
   interface SelectExerciseView {

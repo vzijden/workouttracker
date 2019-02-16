@@ -5,9 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import dagger.android.support.DaggerAppCompatActivity
-import vzijden.workout.R
 
 class EditWorkoutActivity : DaggerAppCompatActivity() {
   companion object {
@@ -32,9 +30,9 @@ class EditWorkoutActivity : DaggerAppCompatActivity() {
 
     val workoutId = intent.getIntExtra(WORKOUT_ID, -1)
     val exercisesFragment = if (workoutId != -1) {
-      ExercisesFragment.createInstance(workoutId)
+      EditExercisesFragment.createInstance(workoutId)
     } else {
-      ExercisesFragment()
+      EditExercisesFragment()
     }
 
     if (savedInstanceState == null) {

@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey
 data class PlannedSetPojo(
     @ColumnInfo(name = "reps")
     var reps: Int,
-    var registrationId: Int
+    var registrationId: Long
 ) {
   @PrimaryKey(autoGenerate = true)
-  var id: Int = 0
+  var id: Long = 0
 
-  constructor(reps: Int, registrationId: Int, id: Int) : this(reps, registrationId) {
+  constructor(reps: Int, registrationId: Long, id: Long) : this(reps, registrationId) {
     this.id = id
   }
 }

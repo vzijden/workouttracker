@@ -10,25 +10,30 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_select_exercise.*
 import vzijden.workout.R
 import vzijden.workout.databinding.ActivitySelectExerciseBinding
 import vzijden.workout.databinding.ItemSelectExercisesActivityBinding
 import vzijden.workout.domain.model.Exercise
+import vzijden.workout.domain.usecase.GetAllExercises
 import vzijden.workout.view.AbstractAdapter
+import javax.inject.Inject
 
-class SelectExerciseActivity : AppCompatActivity(), SelectExercisePresenter.SelectExerciseView {
+class SelectExerciseActivity : DaggerAppCompatActivity(), SelectExerciseViewModel.SelectExerciseView {
   companion object {
-    public const val RESULT_ID = "result"
+    const val RESULT_ID = "result"
   }
 
-  lateinit var presenter: SelectExercisePresenter
+  @Inject
+  lateinit var getAllExercises: GetAllExercises
+  lateinit var viewModel: SelectExerciseViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     val binding: ActivitySelectExerciseBinding = DataBindingUtil.setContentView(this, R.layout.activity_select_exercise)
-    presenter = SelectExercisePresenter(this)
-    binding.presenter = presenter
+    viewModel = SelectExerciseViewModel(this, getAllExercises)
+    binding.presenter = viewModel
     setupExercisesRecycler()
   }
 

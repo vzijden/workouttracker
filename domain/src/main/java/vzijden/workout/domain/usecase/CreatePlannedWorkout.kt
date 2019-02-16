@@ -12,8 +12,8 @@ class CreatePlannedWorkout(private val workoutRepository: WorkoutRepository,
                            subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler):
     SingleUseCase<Long, PlannedWorkout>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun build(params: PlannedWorkout?): Single<Long> {
-    return workoutRepository.createWorkout(params!!)
+  override fun build(params: PlannedWorkout): Single<Long> {
+    return workoutRepository.createWorkout(params)
   }
 
 }

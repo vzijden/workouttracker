@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import vzijden.workout.R
-import vzijden.workout.databinding.OnItemClickedListener
+import vzijden.workout.adapter.OnItemClickedListener
 import vzijden.workout.databinding.ScheduleFragmentBinding
 import vzijden.workout.databinding.ScheduleItemViewBinding
 import vzijden.workout.domain.model.PlannedWorkout

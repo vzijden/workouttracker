@@ -10,13 +10,9 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import vzijden.workout.data.model.PlannedWorkoutPojo
 import org.junit.Rule
-import vzijden.workout.data.model.ExercisePojo
-import vzijden.workout.data.model.MuscleGroupPojo
-import vzijden.workout.data.model.PlannedExercisePojo
+import vzijden.workout.data.model.*
 import vzijden.workout.data.repository.WorkoutRepositoryImpl
-import vzijden.workout.domain.model.MuscleGroup
 import vzijden.workout.domain.repository.WorkoutRepository
 
 
@@ -44,7 +40,7 @@ class TestWorkoutRepository {
     val workout = PlannedWorkoutPojo(0, "test1", 0)
     val workoutId = workoutDatabase.workoutDao().insert(workout)
 
-    val workoutId1 = workoutId.blockingGet().toInt()
+    val workoutId1 = workoutId.blockingGet()
     val workoutObservable = workoutRepository.getPlannedWorkout(workoutId1)
     var registrationCount = 0;
     workoutObservable.observeOn(AndroidSchedulers.mainThread()).subscribe {
@@ -55,6 +51,12 @@ class TestWorkoutRepository {
     val plannedExercisePojo = PlannedExercisePojo(workoutId1, exercisePojo)
     val plannedExerciseId = workoutDatabase.registrationDao().insert(plannedExercisePojo)
     registrationCount++
-    plannedExerciseId.blockingGet()
+
+
+    val plannedSet = PlannedSetPojo(8,plannedExerciseId.blockingGet())
+    val plannedSetId = workoutDatabase.setsDao().insert(plannedSet).blockingGet()
+
+    val set = workoutDatabase.setsDao().getById(plannedSetId.toInt()).blockingFirst()
+    Assert.assertEquals(set.id, plannedSetId.toInt())
   }
 }

@@ -5,7 +5,7 @@ import vzijden.workout.domain.model.PlannedExercise
 import vzijden.workout.domain.model.PlannedSet
 
 fun mapPlannedExerciseToPojo(plannedExercise: PlannedExercise): PlannedExercisePojo {
-  return PlannedExercisePojo(plannedExercise.id, mapExerciseToPojo(plannedExercise.exercise), plannedExercise.id)
+  return PlannedExercisePojo(plannedExercise.workoutId, mapExerciseToPojo(plannedExercise.exercise), plannedExercise.id)
 }
 
 fun mapPlannedExerciseToEntity(plannedExercisePojo: PlannedExercisePojo, plannedSets: List<PlannedSet>): PlannedExercise {
