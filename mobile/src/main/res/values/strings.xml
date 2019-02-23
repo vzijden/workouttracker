@@ -20,4 +20,5 @@
     <string name="kilo">KG</string>
     <string name="index">#</string>
     <string name="weight">weight</string>
+    <string name="set">Set</string>
 </resources>

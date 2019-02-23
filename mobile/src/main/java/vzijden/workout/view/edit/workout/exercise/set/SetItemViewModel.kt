@@ -4,17 +4,17 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableInt
 import vzijden.workout.domain.model.PlannedSet
 
-abstract class SetItemViewModel : BaseObservable() {
+abstract class SetItemViewModel(plannedSet: PlannedSet) : BaseObservable() {
   val index = ObservableInt()
   var id = 0L
   var reps = ObservableInt()
 
-  fun load(plannedSet: PlannedSet, index: Int) {
-    this.index.set(index)
+  init {
+//    this.index.set(plannedSe)
     reps.set(plannedSet.reps)
     id = plannedSet.id
-
+    index.set(plannedSet.index + 1)
   }
 
-   abstract fun onDeleteClick(setId: Long)
+   abstract fun onDeleteClick()
 }

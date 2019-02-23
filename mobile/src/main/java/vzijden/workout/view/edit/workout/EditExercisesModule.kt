@@ -4,16 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import vzijden.workout.domain.repository.WorkoutRepository
-import vzijden.workout.domain.usecase.CreatePlannedExercise
-import vzijden.workout.domain.usecase.DeletePlannedExercise
-import vzijden.workout.domain.usecase.GetWorkout
-import vzijden.workout.domain.usecase.UpdateWorkout
+import vzijden.workout.domain.usecase.*
 import vzijden.workout.scheduler.Schedulers
-import vzijden.workout.view.edit.workout.exercise.ExerciseItemModule
 
 @Module
 abstract class EditExercisesModule {
-  @ContributesAndroidInjector(modules = [ExerciseItemModule::class])
+  @ContributesAndroidInjector()
   abstract fun contributesExercisesFragment(): EditExercisesFragment
 
   @Module
@@ -36,6 +32,17 @@ abstract class EditExercisesModule {
     @Provides
     @JvmStatic
     fun provideCreatePlannedExercise(workoutRepository: WorkoutRepository, schedulers: Schedulers) = CreatePlannedExercise(workoutRepository, schedulers.subscribeOn(),
+        schedulers.observeOn())
+
+    @Provides
+    @JvmStatic
+    fun provideCreatePlannedSet(workoutRepository: WorkoutRepository, schedulers: Schedulers) = CreatePlannedSet(workoutRepository, schedulers.subscribeOn(),
+
+        schedulers.observeOn())
+
+    @Provides
+    @JvmStatic
+    fun provideDeletePlannedSet(workoutRepository: WorkoutRepository, schedulers: Schedulers) = DeletePlannedSet(workoutRepository, schedulers.subscribeOn(),
         schedulers.observeOn())
   }
 }

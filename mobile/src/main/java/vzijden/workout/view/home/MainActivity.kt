@@ -41,7 +41,8 @@ class MainActivity : DaggerAppCompatActivity() {
         val workoutId = workoutDatabase.workoutDao().insert(PlannedWorkoutPojo(scheduleId.toInt(), "Chest", 1)).blockingGet()
         val exercises = workoutDatabase.exerciseDao().getAll().blockingFirst()
         val registrationId = workoutDatabase.registrationDao().insert(PlannedExercisePojo(workoutId, exercises[0])).blockingGet()
-        workoutDatabase.setsDao().insert(PlannedSetPojo(8, registrationId)).blockingGet()
+        workoutDatabase.setsDao().insert(PlannedSetPojo(8, 0, registrationId)).blockingGet()
+        workoutDatabase.setsDao().insert(PlannedSetPojo(8, 1, registrationId)).blockingGet()
       }
 
       uiThread {

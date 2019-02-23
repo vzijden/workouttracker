@@ -8,9 +8,6 @@
         <variable
                 name="viewModel"
                 type="vzijden.workout.view.edit.workout.exercise.ExerciseItemViewModel"/>
-        <variable
-                name="index"
-                type="Integer"/>
     </data>
 
     <LinearLayout
@@ -30,12 +27,12 @@
                 android:textSize="28sp"
                 android:textColor="@color/colorAccent"
                 android:id="@+id/schedule_item_view_workout_name_text_field"
-                android:text="@{index.toString()}"
+                android:text="@{viewModel.index}"
                 tools:text="1"/>
 
         <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardview"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"

@@ -18,15 +18,16 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="@string/reps"
+                android:text="@string/set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/set_item_view_text_View"
                 android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/set_item_view_label"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.0" android:fontFamily="@font/work_sans"/>
+                app:layout_constraintVertical_bias="0.0"
+                android:fontFamily="@font/work_sans"/>
 
         <TextView
                 android:layout_marginStart="8dp"
@@ -35,17 +36,20 @@
                 android:id="@+id/set_item_view_amount"
                 app:layout_constraintStart_toEndOf="@+id/set_item_view_text_View"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                tools:text="8"
-                android:text="@{String.valueOf(viewModel.reps)}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" android:fontFamily="@font/work_sans_bold"/>
+                tools:text="1"
+                android:text="@{String.valueOf(viewModel.index)}"
+                app:layout_constraintBaseline_toBaselineOf="@id/set_item_view_text_View"
+                android:fontFamily="@font/work_sans_bold"/>
 
         <ImageButton
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/set_item_view_amount"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_clear"
-                android:onClick="@{() -> viewModel.onDeleteClick(viewModel.index)}"/>
+                android:onClick="@{() -> viewModel.onDeleteClick()}"
+                android:backgroundTint="@android:color/transparent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

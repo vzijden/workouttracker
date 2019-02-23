@@ -7,7 +7,6 @@ import vzijden.workout.data.WorkoutDatabase
 import vzijden.workout.data.mapper.*
 import vzijden.workout.domain.model.*
 import vzijden.workout.domain.repository.WorkoutRepository
-import kotlin.math.log
 
 class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase) : WorkoutRepository {
   override fun getPlannedWorkout(workoutId: Long): Observable<PlannedWorkout> {
@@ -40,6 +39,12 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase) : Work
     return workoutDatabase.exerciseDao().get(exerciseId).map { mapExerciseToEntity(it) }
   }
 
+  override fun getPlannedSets(plannedExerciseId: Long): Observable<List<PlannedSet>> {
+    return workoutDatabase.setsDao().getAllForPlannedExercise(plannedExerciseId).map {
+      it.map { plannedSetPojo -> mapPlannedSetToEntity(plannedSetPojo) }
+    }
+  }
+
   override fun logSet(loggedSet: LoggedSet): Single<Long> {
     TODO()
   }
@@ -54,8 +59,8 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase) : Work
     return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
   }
 
-  override fun deletePlannedSet(plannedSet: PlannedSet): Completable {
-    return workoutDatabase.setsDao().delete(mapPlannedSetToPojo(plannedSet))
+  override fun deletePlannedSet(plannedSetId: Long) {
+    workoutDatabase.setsDao().deleteById(plannedSetId)
   }
 
   override fun getPlannedExercise(plannedExerciseId: Int): Observable<PlannedExercise> {

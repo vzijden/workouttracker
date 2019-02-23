@@ -21,9 +21,7 @@ import org.jetbrains.anko.support.v4.ctx
 import vzijden.workout.R
 import vzijden.workout.databinding.ActivityEditWorkoutBinding
 import vzijden.workout.domain.model.PlannedExercise
-import vzijden.workout.domain.usecase.CreatePlannedExercise
-import vzijden.workout.domain.usecase.DeletePlannedExercise
-import vzijden.workout.domain.usecase.GetWorkout
+import vzijden.workout.domain.usecase.*
 import vzijden.workout.view.edit.exercise.EditExerciseFragment
 import vzijden.workout.view.edit.workout.exercise.ExercisesAdapter
 import vzijden.workout.view.exercises.SelectExerciseActivity
@@ -52,6 +50,10 @@ class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.Exercises
   lateinit var deletePlannedExercise: DeletePlannedExercise
   @Inject
   lateinit var createPlannedExercise: CreatePlannedExercise
+  @Inject
+  lateinit var createPlannedSet: CreatePlannedSet
+  @Inject
+  lateinit var deletePlannedSet: DeletePlannedSet
 
   private var binding: ActivityEditWorkoutBinding? = null
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +63,9 @@ class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.Exercises
       addTransition(ChangeTransform())
     }
 
-    viewModel = EditExercisesViewModel(getWorkout, deletePlannedExercise, createPlannedExercise)
+    viewModel = EditExercisesViewModel(getWorkout, deletePlannedExercise, createPlannedExercise,
+        deletePlannedSet, createPlannedSet)
+
     viewModel.exercisesFragmentView = this
     if (arguments?.containsKey(WORKOUT_ID_ARGUMENT) == true) {
       viewModel.loadWorkout(arguments!!.getInt(WORKOUT_ID_ARGUMENT, 0).toLong())

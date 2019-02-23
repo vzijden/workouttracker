@@ -12,8 +12,9 @@ interface WorkoutRepository {
   fun getLoggedWorkout(loggedWorkoutId: Int): Observable<LoggedWorkout>
   fun logSet(loggedSet: LoggedSet): Single<Long>
   fun getPlannedWorkouts(scheduleId: Long): Observable<List<PlannedWorkout>>
+  fun getPlannedSets(plannedExerciseId: Long): Observable<List<PlannedSet>>
   fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Long>
-  fun deletePlannedSet(plannedSet: PlannedSet): Completable
+  fun deletePlannedSet(plannedSetId: Long)
   fun getPlannedExercise(plannedExerciseId: Int): Observable<PlannedExercise>
   fun deletePlannedExercise(plannedExercise: PlannedExercise): Completable
   fun getAllExercises(): Observable<List<Exercise>>

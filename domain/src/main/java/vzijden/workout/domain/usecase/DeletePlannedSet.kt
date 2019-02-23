@@ -10,10 +10,10 @@ import vzijden.workout.domain.repository.WorkoutRepository
 
 class DeletePlannedSet(private val workoutRepository: WorkoutRepository,
                        subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
-    CompletableUseCase<PlannedSet>(subscribeScheduler, postExecutionScheduler) {
+    CompletableUseCase<Long>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun build(params: PlannedSet?): Completable {
-    return workoutRepository.deletePlannedSet(params!!)
+  override fun build(params: Long?): Completable {
+    return Completable.fromCallable { workoutRepository.deletePlannedSet(params!!) }
   }
 
 }

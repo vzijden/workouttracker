@@ -56,7 +56,7 @@ class TestWorkoutRepository {
     val plannedSet = PlannedSetPojo(8,plannedExerciseId.blockingGet())
     val plannedSetId = workoutDatabase.setsDao().insert(plannedSet).blockingGet()
 
-    val set = workoutDatabase.setsDao().getById(plannedSetId.toInt()).blockingFirst()
+    val set = workoutDatabase.setsDao().getById(plannedSetId).blockingFirst()
     Assert.assertEquals(set.id, plannedSetId.toInt())
   }
 }

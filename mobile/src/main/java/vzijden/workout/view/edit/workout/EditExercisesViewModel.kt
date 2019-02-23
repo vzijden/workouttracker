@@ -2,31 +2,21 @@ package vzijden.workout.view.edit.workout
 
 import androidx.databinding.*
 import vzijden.workout.adapter.OnAddItemListener
-import vzijden.workout.adapter.OnItemClickedListener
 import vzijden.workout.adapter.OnItemDeletedListener
 import vzijden.workout.domain.model.PlannedExercise
 import vzijden.workout.domain.model.PlannedWorkout
-import vzijden.workout.domain.usecase.CreatePlannedExercise
-import vzijden.workout.domain.usecase.DeletePlannedExercise
-import vzijden.workout.domain.usecase.GetWorkout
-import vzijden.workout.domain.usecase.UpdateWorkout
+import vzijden.workout.domain.usecase.*
 import vzijden.workout.view.edit.workout.exercise.ExerciseItemViewModel
 
 class EditExercisesViewModel(private val getWorkout: GetWorkout,
                              private val deletePlannedExercise: DeletePlannedExercise,
-                             private val createPlannedExercise: CreatePlannedExercise) : BaseObservable() {
+                             private val createPlannedExercise: CreatePlannedExercise,
+                             private val deletePlannedSet: DeletePlannedSet,
+                             private val createPlannedSet: CreatePlannedSet) : BaseObservable() {
   val workout = ObservableField<PlannedWorkout>()
   var exercisesFragmentView: ExercisesFragmentView? = null
   var exerciseItemViewModels = ObservableArrayList<ExerciseItemViewModel>()
   var workoutId = 0L
-
-  @get:Bindable
-  val onItemDeletedListener = object : OnItemClickedListener<PlannedExercise> {
-    override fun onItemClicked(item: PlannedExercise, pos: Int) {
-
-    }
-
-  }
 
   fun loadWorkout(workoutId: Long) {
     this.workoutId = workoutId
@@ -39,12 +29,17 @@ class EditExercisesViewModel(private val getWorkout: GetWorkout,
   private fun loadExerciseViewModel(index: Int, plannedExercise: PlannedExercise) {
     exerciseItemViewModels.add(object : ExerciseItemViewModel(plannedExercise, index) {
       override fun onClick() {
+
       }
 
       override fun onAddItemClick() {
+        createPlannedSet.execute(plannedExercise.id).subscribe { plannedSet ->
+          addPlannedSet(plannedSet)
+        }
       }
 
-      override fun onDeleteClick(setId: Int) {
+      override fun onDeleteClick(setId: Long) {
+        deletePlannedSet.execute(setId).subscribe()
       }
 
     })

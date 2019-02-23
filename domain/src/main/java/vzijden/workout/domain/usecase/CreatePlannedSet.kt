@@ -7,11 +7,17 @@ import vzijden.workout.domain.model.PlannedSet
 import vzijden.workout.domain.repository.WorkoutRepository
 
 class CreatePlannedSet(private val workoutRepository: WorkoutRepository,
-                       subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler):
-    SingleUseCase<Long, PlannedSet>(subscribeScheduler, postExecutionScheduler) {
+                       subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
+    SingleUseCase<PlannedSet, Long>(subscribeScheduler, postExecutionScheduler) {
 
-  public override fun build(params: PlannedSet): Single<Long> {
-    return workoutRepository.createPlannedSet(params)
+  public override fun build(registrationId: Long): Single<PlannedSet> {
+    return workoutRepository.getPlannedSets(registrationId).firstOrError().flatMap { plannedSets ->
+      val index = plannedSets.size
+      val plannedSet = PlannedSet(8, index, registrationId)
+      workoutRepository.createPlannedSet(plannedSet).map { plannedSetId ->
+        PlannedSet(8, index, registrationId, plannedSetId)
+      }
+    }
   }
 
 }
