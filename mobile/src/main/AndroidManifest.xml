@@ -31,7 +31,7 @@
 
         <activity android:name="vzijden.workout.view.exercises.SelectExerciseActivity"/>
 
-        <!--<activity android:name="vzijden.workout.view.workout.CurrentWorkoutActivity"/>-->
+        <activity android:name="vzijden.workout.view.workout.CurrentWorkoutActivity"/>
 
 
         <meta-data

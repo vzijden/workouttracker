@@ -23,5 +23,6 @@ class DataBaseModule {
 
   @Provides
   @Singleton
-  internal fun providesWorkoutRepository(workoutDatabase: WorkoutDatabase): WorkoutRepository = WorkoutRepositoryImpl(workoutDatabase)
+  internal fun providesWorkoutRepository(workoutDatabase: WorkoutDatabase, context: Context): WorkoutRepository =
+      WorkoutRepositoryImpl(workoutDatabase, context)
 }

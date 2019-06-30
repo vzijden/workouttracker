@@ -21,6 +21,15 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: ObservableA
   }
 }
 
+@BindingAdapter("data")
+fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: List<T>?) {
+  if (recyclerView.adapter is BindableAdapter2<*>) {
+    items?.let {
+      (recyclerView.adapter as BindableAdapter2<T>).bindData(it)
+    }
+  }
+}
+
 @BindingAdapter("changedPositions")
 fun <T> setDataChanged(recyclerView: RecyclerView, positions: Set<Int>?) {
   if (recyclerView.adapter is BindableAdapter<*> && positions != null) {
@@ -37,8 +46,8 @@ fun setItemAddedListener(recyclerView: RecyclerView, listener: OnAddItemListener
 
 @BindingAdapter("onItemClicked")
 fun <T> setOnItemClickedListener(recyclerView: RecyclerView, listener: OnItemClickedListener<T>) {
-  if (recyclerView.adapter is BindableAdapter<*> && listener != null) {
-    (recyclerView.adapter as BindableAdapter<T>).addOnItemClickedListener(listener)
+  if (recyclerView.adapter is ClickableAdapter<*> && listener != null) {
+    (recyclerView.adapter as ClickableAdapter<T>).addOnItemClickedListener(listener)
   }
 }
 

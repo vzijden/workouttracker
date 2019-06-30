@@ -31,7 +31,7 @@ import javax.inject.Inject
 class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.ExercisesFragmentView {
   companion object {
     private const val SELECT_EXERCISE_INTENT = 1
-    private const val WORKOUT_ID_ARGUMENT = "workout"
+    private const val WORKOUT_ID_ARGUMENT = "plannedWorkout"
 
     fun createInstance(workoutId: Int): EditExercisesFragment {
       val bundle = Bundle()

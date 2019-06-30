@@ -14,9 +14,12 @@ class CreatePlannedExercise(private val workoutRepository: WorkoutRepository,
     val (exerciseId, workoutId) = params
     return workoutRepository.getExercise(exerciseId).firstOrError()
         .flatMap { exercise ->
-          val plannedExercise = PlannedExercise(workoutId, exercise)
-          workoutRepository.createPlannedExercise(plannedExercise).map {plannedExerciseId ->
-            PlannedExercise(workoutId, exercise, plannedExerciseId, null)
+          workoutRepository.getPlannedWorkout(workoutId).firstOrError().flatMap { plannedWorkout ->
+            val currentExerciseCount = plannedWorkout.plannedExercises.size
+            val plannedExercise = PlannedExercise(workoutId, exercise, currentExerciseCount)
+            workoutRepository.createPlannedExercise(plannedExercise).map { plannedExerciseId ->
+              PlannedExercise(workoutId, exercise, plannedExerciseId, null, currentExerciseCount)
+            }
           }
         }
   }

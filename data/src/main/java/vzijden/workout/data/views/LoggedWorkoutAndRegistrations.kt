@@ -10,6 +10,6 @@ data class LoggedWorkoutAndRegistrations(
     @Embedded
     val loggedWorkoutPojo: LoggedWorkoutPojo
 ){
-    @Relation(parentColumn = "id", entityColumn = "plannedExercise_workoutId", entity = LoggedExercisePojo::class)
+    @Relation(parentColumn = "id", entityColumn = "loggedWorkoutId", entity = LoggedExercisePojo::class)
     var loggedExercises: List<LoggedExerciseAndLoggedSets> = listOf()
 }

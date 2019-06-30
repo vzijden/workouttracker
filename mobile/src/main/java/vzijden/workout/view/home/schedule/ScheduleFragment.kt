@@ -19,6 +19,7 @@ import vzijden.workout.domain.model.PlannedWorkout
 import vzijden.workout.domain.usecase.GetPlannedWorkouts
 import vzijden.workout.view.AbstractAdapter
 import vzijden.workout.view.edit.workout.EditWorkoutActivity
+import vzijden.workout.view.workout.CurrentWorkoutActivity
 import javax.inject.Inject
 
 
@@ -74,10 +75,10 @@ class ScheduleFragment : DaggerFragment(), SchedulePresenter.View {
   }
 
   override fun startWorkout(workout: PlannedWorkout) {
-//    val intent = Intent(context, CurrentWorkoutActivity::class.java)
-//    val bundle = CurrentWorkoutActivity.createBundle(workout.id)
-//    intent.putExtras(bundle)
-//    startActivity(intent)
+    val intent = Intent(context, CurrentWorkoutActivity::class.java)
+    val bundle = CurrentWorkoutActivity.createBundle(workout.id.toLong())
+    intent.putExtras(bundle)
+    startActivity(intent)
   }
 
   inner class ScheduleAdapter : AbstractAdapter<SchedulePresenter.ScheduleItemView>() {

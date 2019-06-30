@@ -6,3 +6,27 @@
 /build
 /captures
 .externalNativeBuild
+# Project exclude paths
+/data/build/.transforms/
+/data/build/intermediates/aapt_friendly_merged_manifests/
+/data/build/intermediates/annotation_processor_list/
+/data/build/intermediates/annotations_typedef_file/
+/data/build/intermediates/blame/
+/data/build/intermediates/compile_only_not_namespaced_r_class_jar/
+/data/build/intermediates/full_jar/
+/data/build/intermediates/incremental/
+/data/build/intermediates/intermediate-jars/
+/data/build/intermediates/javac/
+/data/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
+/data/build/intermediates/library_manifest/
+/data/build/intermediates/merged_manifests/
+/data/build/intermediates/packaged-classes/
+/data/build/intermediates/res/
+/data/build/intermediates/symbols/
+/data/build/intermediates/transforms/
+/data/build/kotlin/
+/data/build/outputs/
+/data/build/reports/
+/data/build/tmp/
+/data/build/
+/domain/build/

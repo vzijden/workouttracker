@@ -5,12 +5,12 @@ import vzijden.workout.data.views.LoggedExerciseAndLoggedSets
 import vzijden.workout.domain.model.LoggedSet
 
 fun mapLoggedSetToPojo(entity: LoggedSet): LoggedSetPojo {
-  return LoggedSetPojo(mapExerciseToPojo(entity.exercise), entity.loggedExerciseId, entity.weight, entity.loggedWorkoutId,
-      entity.unit)
+  return LoggedSetPojo(mapExerciseToPojo(entity.exercise),entity.weight, entity.reps, entity.loggedWorkoutId, entity.loggedExerciseId,
+      entity.unit, entity.id)
 }
 
  fun mapLoggedSetToEntity(pojo: LoggedSetPojo): LoggedSet {
-   return LoggedSet(mapExerciseToEntity(pojo.exercisePojo), pojo.loggedExerciseId, pojo.weight, pojo.loggedWorkoutId, pojo.unit,
+   return LoggedSet(mapExerciseToEntity(pojo.exercisePojo), pojo.loggedExerciseId, pojo.weight, pojo.reps, pojo.loggedWorkoutId, pojo.unit,
        pojo.id)
 }
 

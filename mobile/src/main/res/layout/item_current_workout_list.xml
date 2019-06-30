@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+  <data>
+
+    <variable
+        name="viewModel"
+        type="vzijden.workout.view.workout.ExerciseItemViewModel"/>
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginStart="16dp"
+        app:layout_constraintVertical_bias=".5"
+        android:text="@{viewModel.index}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1"
+        android:textSize="21sp"
+        android:id="@+id/item_current_workout_list_index"/>
+
+    <com.google.android.material.card.MaterialCardView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_current_workout_list_index"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="match_parent"
+          android:paddingStart="16sp"
+          android:paddingEnd="16sp"
+          android:paddingBottom="16dp"
+          android:layout_height="wrap_content">
+
+
+        <TextView
+            android:textColor="@color/text_dark"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            tools:text="Bench press"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="bottom"
+            android:id="@+id/item_current_workout_list_name"
+            android:text="@{viewModel.plannedExercise.exercise.name}"/>
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/item_current_workout_list_name"
+            app:layout_constraintStart_toStartOf="@id/item_current_workout_list_name"
+            tools:text="Biceps"
+            android:gravity="bottom"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            app:muscleGroups="@{viewModel.plannedExercise.exercise.muscleGroups}"
+            android:layout_height="22dp"
+            android:id="@+id/item_current_workout_list_musclegroup"/>
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

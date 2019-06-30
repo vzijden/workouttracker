@@ -8,9 +8,10 @@ import androidx.room.PrimaryKey
 class PlannedExercisePojo(
     var workoutId: Long,
     @Embedded(prefix = "exercise_")
-    var exercisePojo: ExercisePojo
+    var exercisePojo: ExercisePojo,
+    var index: Int
 ) {
-  constructor(workoutId: Long, exercisePojo: ExercisePojo, id: Long) : this(workoutId, exercisePojo) {
+  constructor(workoutId: Long, exercisePojo: ExercisePojo, index: Int, id: Long) : this(workoutId, exercisePojo, index) {
     this.id = id
   }
 

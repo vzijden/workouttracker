@@ -9,13 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.edit_workout_add_item_view.view.*
 import vzijden.workout.App
 import vzijden.workout.R
-import vzijden.workout.adapter.AddItemAdapter
-import vzijden.workout.adapter.BindableAdapter
-import vzijden.workout.adapter.OnAddItemListener
-import vzijden.workout.adapter.OnItemClickedListener
+import vzijden.workout.adapter.*
 import java.lang.RuntimeException
 
-abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<T>, AddItemAdapter {
+abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<T>, ClickableAdapter<T>, AddItemAdapter {
   companion object {
     const val ADD_ITEM_VIEW_TYPE = 0
   }

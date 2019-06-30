@@ -1,5 +1,6 @@
 package vzijden.workout.data.repository
 
+import android.content.Context
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -8,7 +9,38 @@ import vzijden.workout.data.mapper.*
 import vzijden.workout.domain.model.*
 import vzijden.workout.domain.repository.WorkoutRepository
 
-class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase) : WorkoutRepository {
+class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, context: Context) : WorkoutRepository {
+  companion object {
+    private const val SHARED_PREF_NAME = "VZIJDEN.SHAREDPREFS"
+    private const val PREF_CURRENT_WORKOUT = "CURRENT_WORKOUT"
+    private const val PREF_CURRENT_EXERCISE = "CURRENT_EXERCISE"
+  }
+
+  private val sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+  override fun getCurrentExercise(): Observable<LoggedExercise> {
+    return if (sharedPreferences.contains(PREF_CURRENT_EXERCISE)) {
+      val currentExerciseId = sharedPreferences.getLong(PREF_CURRENT_EXERCISE, 0)
+       workoutDatabase.registrationDao().get(currentExerciseId).map { mapLoggedExerciseToEntity(it) }
+    } else Observable.empty()
+  }
+
+  override fun setCurrentExercise(currentExerciseId: Long) {
+    sharedPreferences.edit().putLong(PREF_CURRENT_EXERCISE, currentExerciseId).apply()
+  }
+
+
+  override fun getCurrentWorkout(): Observable<LoggedWorkout> {
+    return if (sharedPreferences.contains(PREF_CURRENT_WORKOUT)) {
+      val currentWorkoutId = sharedPreferences.getInt(PREF_CURRENT_WORKOUT, 0)
+      workoutDatabase.workoutDao().getLoggedWorkout(currentWorkoutId).map { mapLoggedWorkoutToEntity(it) }
+    } else Observable.empty()
+  }
+
+  override fun setCurrentWorkout(workoutId: Int) {
+    sharedPreferences.edit().putInt(PREF_CURRENT_WORKOUT, workoutId).apply()
+  }
+
   override fun getPlannedWorkout(workoutId: Long): Observable<PlannedWorkout> {
     return workoutDatabase.workoutDao().getById(workoutId).map { mapPlannedWorkoutToEntity(it) }
   }
@@ -80,5 +112,9 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase) : Work
     return workoutDatabase.exerciseDao().getAll().map {
       it.map { mapExerciseToEntity(it) }
     }
+  }
+
+  override fun saveLoggedExercise(loggedExercise: LoggedExercise): Single<Long> {
+    return workoutDatabase.registrationDao().insert(mapLoggedExerciseToPojo(loggedExercise))
   }
 }

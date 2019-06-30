@@ -8,7 +8,7 @@ import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.RecyclerView
 import vzijden.workout.App
 
-abstract class AbstractBindableAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<T> {
+abstract class AbstractBindableAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<T>, ClickableAdapter<T> {
   private var onItemClickedListener: OnItemClickedListener<T>? = null
 
   protected var observableList = ObservableArrayList<T>()

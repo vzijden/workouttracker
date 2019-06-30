@@ -10,12 +10,12 @@ data class LoggedWorkout(
   private set
   var finished: Boolean = false
   private set
-  var loggedSets: List<LoggedExercise>? = mutableListOf()
+  var loggedExercises: List<LoggedExercise>? = mutableListOf()
   private set
 
-  constructor(date: Date, plannedWorkoutId: Int, id: Int, finished: Boolean, loggedSet: List<LoggedExercise>) : this(date, plannedWorkoutId) {
+  constructor(date: Date, plannedWorkoutId: Int, id: Int, finished: Boolean, loggedExercises: List<LoggedExercise>) : this(date, plannedWorkoutId) {
     this.id = id
     this.finished = finished
-    this.loggedSets = loggedSets
+    this.loggedExercises = loggedExercises
   }
 }

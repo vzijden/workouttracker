@@ -129,7 +129,7 @@ class EditExerciseFragment : Fragment(), EditExerciseViewModel.EditExercisesFrag
 //
 //    override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 //      (holder as SetViewHolder).let {
-//        it.binding.viewModel?.load(observableList[position], position)
+//        it.binding.viewModel?.load(list[position], position)
 //      }
 //    }
 //

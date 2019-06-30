@@ -17,7 +17,7 @@ class ExercisesAdapter : AbstractAddItemAdapter<ExerciseItemViewModel>(), ItemDe
 
   override fun createItemViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder {
     val exerciseItemView = ExerciseItemView(parent.context)
-    val layoutParams =  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     exerciseItemView.layoutParams = layoutParams
     return ExerciseViewHolder(exerciseItemView)
   }
