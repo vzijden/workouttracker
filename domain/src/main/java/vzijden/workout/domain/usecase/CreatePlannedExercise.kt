@@ -24,6 +24,6 @@ class CreatePlannedExercise(private val workoutRepository: WorkoutRepository,
         }
   }
 
-  data class Params(val exerciseId: Long, val workoutId: Long)
+  data class Params(val exerciseId: Int, val workoutId: Int)
 
 }

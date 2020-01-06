@@ -89,7 +89,7 @@ class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.Exercises
   }
 
 
-  override fun newRegistration(workoutId: Long) {
+  override fun newRegistration(workoutId: Int) {
     val intent = Intent(ctx, SelectExerciseActivity::class.java)
     startActivityForResult(intent, SELECT_EXERCISE_INTENT)
   }
@@ -108,7 +108,7 @@ class EditExercisesFragment : DaggerFragment(), EditExercisesViewModel.Exercises
   }
 
 
-  override fun openRegistration(plannedExercise: PlannedExercise, workoutId: Long) {
+  override fun openRegistration(plannedExercise: PlannedExercise, workoutId: Int) {
     val editExerciseFragment = EditExerciseFragment.createInstance(plannedExercise.id, workoutId)
     fragmentManager?.let {
       it.beginTransaction()

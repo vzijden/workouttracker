@@ -1,8 +1,6 @@
 package vzijden.workout.domain.usecase
 
 import io.reactivex.*
-import vzijden.workout.domain.CompletableUseCase
-import vzijden.workout.domain.ObservableUseCase
 import vzijden.workout.domain.SingleUseCase
 import vzijden.workout.domain.model.LoggedSet
 import vzijden.workout.domain.repository.WorkoutRepository
@@ -13,10 +11,10 @@ class LogSet(private var workoutRepository: WorkoutRepository, subscribeSchedule
   override fun build(params: Params): Single<LoggedSet> {
     val (reps, weight) = params
     return workoutRepository.getCurrentExercise().firstOrError().flatMap { currentExercise ->
-      val loggedSet = LoggedSet(currentExercise.plannedExercise.exercise, currentExercise.id.toLong(), weight, currentExercise.loggedWorkoutId, reps)
+      val loggedSet = LoggedSet(currentExercise.exercise!!.exercise, currentExercise.id, currentExercise.loggedWorkoutId, reps)
 
       workoutRepository.logSet(loggedSet).map { loggedSetId ->
-        LoggedSet(currentExercise.plannedExercise.exercise, currentExercise.id.toLong(), weight, reps, currentExercise.loggedWorkoutId, 0, loggedSetId)
+        LoggedSet(weight, reps, 0, loggedSetId)
       }
     }
   }

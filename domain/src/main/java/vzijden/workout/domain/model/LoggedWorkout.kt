@@ -8,9 +8,11 @@ data class LoggedWorkout(
 ) {
   var id: Int = 0
   private set
+
   var finished: Boolean = false
   private set
-  var loggedExercises: List<LoggedExercise>? = mutableListOf()
+
+  var loggedExercises: List<LoggedExercise> = listOf()
   private set
 
   constructor(date: Date, plannedWorkoutId: Int, id: Int, finished: Boolean, loggedExercises: List<LoggedExercise>) : this(date, plannedWorkoutId) {

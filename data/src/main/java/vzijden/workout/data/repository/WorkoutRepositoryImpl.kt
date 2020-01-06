@@ -20,13 +20,13 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
 
   override fun getCurrentExercise(): Observable<LoggedExercise> {
     return if (sharedPreferences.contains(PREF_CURRENT_EXERCISE)) {
-      val currentExerciseId = sharedPreferences.getLong(PREF_CURRENT_EXERCISE, 0)
-       workoutDatabase.registrationDao().get(currentExerciseId).map { mapLoggedExerciseToEntity(it) }
+      val currentExerciseId = sharedPreferences.getInt(PREF_CURRENT_EXERCISE, 0)
+       workoutDatabase.registrationDao().getWithLoggedSets(currentExerciseId).map { mapLoggedExerciseToEntity(it) }
     } else Observable.empty()
   }
 
-  override fun setCurrentExercise(currentExerciseId: Long) {
-    sharedPreferences.edit().putLong(PREF_CURRENT_EXERCISE, currentExerciseId).apply()
+  override fun setCurrentExercise(currentExerciseId: Int) {
+    sharedPreferences.edit().putInt(PREF_CURRENT_EXERCISE, currentExerciseId).apply()
   }
 
 
@@ -41,23 +41,23 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     sharedPreferences.edit().putInt(PREF_CURRENT_WORKOUT, workoutId).apply()
   }
 
-  override fun getPlannedWorkout(workoutId: Long): Observable<PlannedWorkout> {
+  override fun getPlannedWorkout(workoutId: Int): Observable<PlannedWorkout> {
     return workoutDatabase.workoutDao().getById(workoutId).map { mapPlannedWorkoutToEntity(it) }
   }
 
-  override fun createWorkout(plannedWorkout: PlannedWorkout): Single<Long> {
+  override fun createWorkout(plannedWorkout: PlannedWorkout): Single<Int> {
     return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
   }
 
-  override fun createPlannedSet(plannedSet: PlannedSet): Single<Long> {
+  override fun createPlannedSet(plannedSet: PlannedSet): Single<Int> {
     return workoutDatabase.setsDao().insert(mapPlannedSetToPojo(plannedSet))
   }
 
-  override fun createPlannedExercise(plannedExercise: PlannedExercise): Single<Long> {
+  override fun createPlannedExercise(plannedExercise: PlannedExercise): Single<Int> {
     return workoutDatabase.registrationDao().insert(mapPlannedExerciseToPojo(plannedExercise))
   }
 
-  override fun saveLoggedWorkout(loggedWorkout: LoggedWorkout): Single<Long> {
+  override fun saveLoggedWorkout(loggedWorkout: LoggedWorkout): Single<Int> {
     return workoutDatabase.workoutDao().insertLogged(mapLoggedWorkoutToPojo(loggedWorkout))
   }
 
@@ -67,31 +67,31 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     }
   }
 
-  override fun getExercise(exerciseId: Long): Observable<Exercise> {
+  override fun getExercise(exerciseId: Int): Observable<Exercise> {
     return workoutDatabase.exerciseDao().get(exerciseId).map { mapExerciseToEntity(it) }
   }
 
-  override fun getPlannedSets(plannedExerciseId: Long): Observable<List<PlannedSet>> {
+  override fun getPlannedSets(plannedExerciseId: Int): Observable<List<PlannedSet>> {
     return workoutDatabase.setsDao().getAllForPlannedExercise(plannedExerciseId).map {
       it.map { plannedSetPojo -> mapPlannedSetToEntity(plannedSetPojo) }
     }
   }
 
-  override fun logSet(loggedSet: LoggedSet): Single<Long> {
+  override fun logSet(loggedSet: LoggedSet): Single<Int> {
     TODO()
   }
 
-  override fun getPlannedWorkouts(scheduleId: Long): Observable<List<PlannedWorkout>> {
-    return workoutDatabase.workoutDao().getAllForSchedule(scheduleId.toInt()).map {
+  override fun getPlannedWorkouts(scheduleId: Int): Observable<List<PlannedWorkout>> {
+    return workoutDatabase.workoutDao().getAllForSchedule(scheduleId).map {
       it.map { mapPlannedWorkoutToEntity(it) }
     }
   }
 
-  override fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Long> {
+  override fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Int> {
     return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
   }
 
-  override fun deletePlannedSet(plannedSetId: Long) {
+  override fun deletePlannedSet(plannedSetId: Int) {
     workoutDatabase.setsDao().deleteById(plannedSetId)
   }
 
@@ -114,7 +114,15 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     }
   }
 
-  override fun saveLoggedExercise(loggedExercise: LoggedExercise): Single<Long> {
+  override fun saveLoggedExercise(loggedExercise: LoggedExercise): Single<Int> {
     return workoutDatabase.registrationDao().insert(mapLoggedExerciseToPojo(loggedExercise))
+  }
+
+  override fun addExerciseToLoggedWorkout(exercise: LoggedExercise, loggedWorkoutId: Int): Single<Int> {
+    return workoutDatabase.registrationDao().insert(mapLoggedExerciseToPojo(exercise, loggedWorkoutId))
+  }
+
+  override fun addLoggedSetToLoggedExercise(loggedSet: LoggedSet, loggedExerciseId: Int): Single<Int> {
+    return workoutDatabase.setsDao().insertLogged(mapLoggedSetToPojo(loggedSet, loggedExerciseId))
   }
 }

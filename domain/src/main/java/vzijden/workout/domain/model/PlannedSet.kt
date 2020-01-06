@@ -2,16 +2,14 @@ package vzijden.workout.domain.model
 
 
 data class PlannedSet(
-
     var reps: Int,
-    var index: Int,
-    var registrationId: Long
+    var index: Int
 ) {
 
-  var id: Long = 0
+  var id: Int = 0
     private set
 
-  constructor(reps: Int, index: Int, registrationId: Long, id: Long) : this(reps, index, registrationId) {
+  constructor(reps: Int, index: Int, id: Int) : this(reps, index) {
     this.id = id
   }
 }

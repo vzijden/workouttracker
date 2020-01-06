@@ -8,7 +8,7 @@ import vzijden.workout.data.model.SchedulePojo
 @Dao
 interface ScheduleDao {
     @Insert
-    fun insert(schedulePojo: SchedulePojo): Long
+    fun insert(schedulePojo: SchedulePojo): Int
 
     @Query("SELECT * from SchedulePojo")
     fun getAll(): List<SchedulePojo>

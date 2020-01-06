@@ -8,14 +8,14 @@ import vzijden.workout.domain.repository.WorkoutRepository
 
 class CreatePlannedSet(private val workoutRepository: WorkoutRepository,
                        subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler) :
-    SingleUseCase<PlannedSet, Long>(subscribeScheduler, postExecutionScheduler) {
+    SingleUseCase<PlannedSet, Int>(subscribeScheduler, postExecutionScheduler) {
 
-  public override fun build(registrationId: Long): Single<PlannedSet> {
+  public override fun build(registrationId: Int): Single<PlannedSet> {
     return workoutRepository.getPlannedSets(registrationId).firstOrError().flatMap { plannedSets ->
       val index = plannedSets.size
       val plannedSet = PlannedSet(8, index, registrationId)
       workoutRepository.createPlannedSet(plannedSet).map { plannedSetId ->
-        PlannedSet(8, index, registrationId, plannedSetId)
+        PlannedSet(8, index, plannedSetId)
       }
     }
   }

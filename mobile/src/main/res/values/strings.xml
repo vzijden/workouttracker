@@ -22,4 +22,5 @@
     <string name="weight">weight</string>
     <string name="set">Set</string>
     <string name="current_workout">Current workout</string>
+    <string name="completed_sets">%1$s / %2$s sets</string>
 </resources>

@@ -9,11 +9,11 @@ import vzijden.workout.data.model.ExercisePojo
 @Dao
 interface ExerciseDao {
   @Insert
-  fun insert(exercisePojo: ExercisePojo): Long
+  fun insert(exercisePojo: ExercisePojo): Int
 
   @Query("SELECT * FROM ExercisePojo ORDER BY ExercisePojo.name")
   fun getAll(): Observable<List<ExercisePojo>>
 
   @Query("SELECT * from ExercisePojo WHERE ExercisePojo.id = :id")
-  fun get(id: Long): Observable<ExercisePojo>
+  fun get(id: Int): Observable<ExercisePojo>
 }

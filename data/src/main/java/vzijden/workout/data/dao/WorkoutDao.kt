@@ -16,16 +16,16 @@ import vzijden.workout.domain.model.LoggedWorkout
 @Dao
 interface WorkoutDao {
   @Insert
-  fun insert(plannedWorkoutPojo: PlannedWorkoutPojo): Single<Long>
+  fun insert(plannedWorkoutPojo: PlannedWorkoutPojo): Single<Int>
 
   @Query("SELECT * from PlannedWorkoutPojo where PlannedWorkoutPojo.id = :workoutId")
-  fun getById(workoutId: Long): Observable<WorkoutAndRegistrations>
+  fun getById(workoutId: Int): Observable<WorkoutAndRegistrations>
 
   @Query("SELECT * FROM PlannedWorkoutPojo where PlannedWorkoutPojo.id = :workoutId")
   fun getWorkoutAndHistory(workoutId: Int): Observable<WorkoutAndHistory>
 
   @Insert
-  fun insertLogged(loggedWorkoutPojo: LoggedWorkoutPojo): Single<Long>
+  fun insertLogged(loggedWorkoutPojo: LoggedWorkoutPojo): Single<Int>
 
   @Query("SELECT * FROM LoggedWorkoutPojo where id = :loggedWorkoutId")
   fun getLoggedWorkout(loggedWorkoutId: Int): Observable<LoggedWorkoutAndRegistrations>

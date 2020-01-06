@@ -13,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import vzijden.workout.data.WorkoutDatabase
 import vzijden.workout.data.repository.WorkoutRepositoryImpl
-import vzijden.workout.domain.model.PlannedSet
 import vzijden.workout.domain.repository.WorkoutRepository
 import vzijden.workout.domain.usecase.CreatePlannedSet
 import vzijden.workout.scheduler.Schedulers
@@ -35,7 +34,7 @@ class TestWorkoutDatabase {
         .allowMainThreadQueries()
                 .build()
 
-        workoutRepository = WorkoutRepositoryImpl(workoutDatabase)
+        workoutRepository = WorkoutRepositoryImpl(workoutDatabase, InstrumentationRegistry.getContext())
 
         val schedulers: Schedulers = object: Schedulers {
             override fun observeOn(): Scheduler {
@@ -53,8 +52,8 @@ class TestWorkoutDatabase {
 
     @Test
     fun testAddSet() {
-        val plannedSetId = createPlannedSet.build(PlannedSet(8, 0)).blockingGet()
-        Assert.assertNotEquals(0, plannedSetId.toInt())
+        val plannedSetId = createPlannedSet.build(1).blockingGet()
+        Assert.assertNotEquals(0, plannedSetId)
 
     }
 }

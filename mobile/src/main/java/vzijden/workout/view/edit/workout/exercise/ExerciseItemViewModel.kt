@@ -36,6 +36,6 @@ abstract class ExerciseItemViewModel(val plannedExercise: PlannedExercise, mInde
 
   abstract fun onAddItemClick()
 
-  abstract fun onDeleteClick(setId: Long)
+  abstract fun onDeleteClick(setId: Int)
 
 }

@@ -18,7 +18,7 @@ class EditExercisesViewModel(private val getWorkout: GetWorkout,
   var exerciseItemViewModels = ObservableArrayList<ExerciseItemViewModel>()
   var workoutId = 0L
 
-  fun loadWorkout(workoutId: Long) {
+  fun loadWorkout(workoutId: Int) {
     this.workoutId = workoutId
     getWorkout.execute(workoutId).firstElement().subscribe {
       workout.set(it)
@@ -38,7 +38,7 @@ class EditExercisesViewModel(private val getWorkout: GetWorkout,
         }
       }
 
-      override fun onDeleteClick(setId: Long) {
+      override fun onDeleteClick(setId: Int) {
         deletePlannedSet.execute(setId).subscribe()
       }
 
@@ -65,7 +65,7 @@ class EditExercisesViewModel(private val getWorkout: GetWorkout,
 
   }
 
-  fun onNewExerciseSelected(exerciseId: Long) {
+  fun onNewExerciseSelected(exerciseId: Int) {
       createPlannedExercise.execute(CreatePlannedExercise.Params(exerciseId, workoutId)).subscribe { plannedExercise ->
         loadExerciseViewModel(exerciseItemViewModels.size - 1, plannedExercise)
       }
@@ -73,8 +73,8 @@ class EditExercisesViewModel(private val getWorkout: GetWorkout,
 
 
   interface ExercisesFragmentView {
-    fun openRegistration(plannedExercise: PlannedExercise, workoutId: Long)
-    fun newRegistration(workoutId: Long)
+    fun openRegistration(plannedExercise: PlannedExercise, workoutId: Int)
+    fun newRegistration(workoutId: Int)
   }
 }
 

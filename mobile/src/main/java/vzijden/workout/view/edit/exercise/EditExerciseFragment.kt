@@ -21,9 +21,9 @@ class EditExerciseFragment : Fragment(), EditExerciseViewModel.EditExercisesFrag
   companion object {
     private const val REGISTRATION_ID = "RegistrationID"
     private const val WORKOUT_ID = "workoutID"
-    private const val SELECT_EXERCISE = 1
+    const val SELECT_EXERCISE = 1
 
-    fun createInstance(registrationId: Long, workoutId: Long): EditExerciseFragment {
+    fun createInstance(registrationId: Int, workoutId: Int): EditExerciseFragment {
       val bundle = Bundle()
       bundle.putLong(REGISTRATION_ID, registrationId)
       bundle.putLong(WORKOUT_ID, workoutId)

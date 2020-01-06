@@ -8,9 +8,9 @@ import vzijden.workout.domain.repository.WorkoutRepository
 
 class CreatePlannedWorkout(private val workoutRepository: WorkoutRepository,
                            subscribeScheduler: Scheduler, postExecutionScheduler: Scheduler):
-    SingleUseCase<Long, PlannedWorkout>(subscribeScheduler, postExecutionScheduler) {
+    SingleUseCase<Int, PlannedWorkout>(subscribeScheduler, postExecutionScheduler) {
 
-  override fun build(params: PlannedWorkout): Single<Long> {
+  override fun build(params: PlannedWorkout): Single<Int> {
     return workoutRepository.createWorkout(params)
   }
 

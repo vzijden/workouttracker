@@ -11,24 +11,24 @@ import vzijden.workout.domain.model.PlannedSet
 @Dao
 interface RegistrationSetsDao {
   @Insert
-  fun insert(plannedSetPojo: PlannedSetPojo): Single<Long>
+  fun insert(plannedSetPojo: PlannedSetPojo): Single<Int>
 
   @Insert
-  fun insertLogged(loggedSetPojo: LoggedSetPojo): Single<Long>
+  fun insertLogged(loggedSetPojo: LoggedSetPojo): Single<Int>
 
   @Query("SELECT * FROM PlannedSetPojo WHERE id = :setId")
-  fun getById(setId: Long): Observable<PlannedSetPojo>
+  fun getById(setId: Int): Observable<PlannedSetPojo>
 
-  @Query("SELECT * FROM PlannedSetPojo WHERE registrationId = :registrationId")
-  fun getAllForPlannedExercise(registrationId: Long): Observable<List<PlannedSetPojo>>
+  @Query("SELECT * FROM PlannedSetPojo WHERE plannedExerciseId = :registrationId")
+  fun getAllForPlannedExercise(registrationId: Int): Observable<List<PlannedSetPojo>>
 
 //  @Query("SELECT * FROM PlannedSetPojo as 'set' WHERE id = :plannedSetId " +
 //      "and set.index > ")
-//  fun getSubsquentPlannedSets(plannedSetId: Long): Observable<List<PlannedSetPojo>>
+//  fun getSubsquentPlannedSets(plannedSetId: Int): Observable<List<PlannedSetPojo>>
 
   @Update()
   fun update(setPojo: PlannedSetPojo): Completable
 
   @Query("DELETE FROM PlannedSetPojo WHERE id = :plannedSetId")
-  fun deleteById(plannedSetId: Long)
+  fun deleteById(plannedSetId: Int)
 }

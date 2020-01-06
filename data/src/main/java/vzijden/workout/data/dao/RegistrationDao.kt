@@ -15,7 +15,7 @@ import vzijden.workout.domain.model.LoggedExercise
 @Dao
 interface RegistrationDao {
     @Insert
-    fun insert(plannedExercisePojo: PlannedExercisePojo): Single<Long>
+    fun insert(plannedExercisePojo: PlannedExercisePojo): Single<Int>
 
     @Delete
     fun delete(plannedExercisePojo: PlannedExercisePojo) : Completable
@@ -24,8 +24,8 @@ interface RegistrationDao {
     fun get(plannedExerciseId: Int) : Observable<PlannedExercisePojo>
 
     @Query("SELECT * FROM LoggedExercisePojo where id = :loggedExerciseId")
-    fun get(loggedExerciseId: Long): Observable<LoggedExerciseAndLoggedSets>
+    fun getWithLoggedSets(loggedExerciseId: Int): Observable<LoggedExerciseAndLoggedSets>
 
     @Insert
-    fun insert(loggedExercise: LoggedExercisePojo): Single<Long>
+    fun insert(loggedExercise: LoggedExercisePojo): Single<Int>
 }
