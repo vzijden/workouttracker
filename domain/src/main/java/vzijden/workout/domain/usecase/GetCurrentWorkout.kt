@@ -13,17 +13,15 @@ class GetCurrentWorkout(private val workoutRepository: WorkoutRepository, subscr
     ObservableUseCase<LoggedWorkout, Int>(subscribeScheduler, postExecutionScheduler) {
 
 
-  public override fun build(plannedWorkoutId: Int?): Observable<LoggedWorkout> {
-//    return
-//    workoutRepository.getCurrentWorkout().switchIfEmpty { observer ->
-    return workoutRepository.getPlannedWorkout(plannedWorkoutId!!).flatMap { plannedWorkout ->
+  public override fun build(plannedWorkoutId: Int): Observable<LoggedWorkout> {
+    return workoutRepository.getPlannedWorkout(plannedWorkoutId).flatMap { plannedWorkout ->
 
       val loggedWorkout = LoggedWorkout(Date(), plannedWorkoutId)
       val loggedWorkoutId = workoutRepository.saveLoggedWorkout(loggedWorkout).blockingGet()
 
       plannedWorkout.plannedExercises.forEach { plannedExercise ->
-        val loggedExercise = LoggedExercise(loggedWorkoutId, plannedExercise)
-        workoutRepository.saveLoggedExercise(loggedExercise).blockingGet()
+        AddExerciseToCurrentWorkout(workoutRepository, subscribeScheduler, postExecutionScheduler)
+            .build(plannedExercise.exercise.id)
       }
       workoutRepository.getLoggedWorkout(loggedWorkoutId)
     }

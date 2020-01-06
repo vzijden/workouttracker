@@ -24,7 +24,7 @@ class EditExerciseViewModel(private val workoutId: Int) : BaseObservable() {
 
   }
 
-  fun loadRegistration(registrationId: Int) {
+  fun loadRegistration(exerciseId: Int) {
     doAsync {
 
     }

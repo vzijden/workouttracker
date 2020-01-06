@@ -12,5 +12,6 @@ fun mapLoggedExerciseToPojo(loggedExercise: LoggedExercise, loggedWorkoutId: Int
 fun mapLoggedExerciseToEntity(loggedExerciseAndLoggedSets: LoggedExerciseAndLoggedSets): LoggedExercise {
   return LoggedExercise(loggedExerciseAndLoggedSets.loggedExercisePojo.id,
                         loggedExerciseAndLoggedSets.loggedSetPojos.map(::mapLoggedSetToEntity),
+                        loggedExerciseAndLoggedSets.exercise,
                         loggedExerciseAndLoggedSets.loggedExercisePojo.exerciseId)
 }

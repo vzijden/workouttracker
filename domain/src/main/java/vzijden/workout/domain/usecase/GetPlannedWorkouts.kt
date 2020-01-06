@@ -12,7 +12,7 @@ class GetPlannedWorkouts(private val workoutRepository: WorkoutRepository, subsc
     ObservableUseCase<List<PlannedWorkout>, Int>(subscribeScheduler, postExecutionScheduler) {
 
 
-  override fun build(scheduleId: Int?): Observable<List<PlannedWorkout>> {
-    return workoutRepository.getPlannedWorkouts(scheduleId!!)
+  override fun build(scheduleId: Int): Observable<List<PlannedWorkout>> {
+    return workoutRepository.getPlannedWorkouts(scheduleId)
   }
 }

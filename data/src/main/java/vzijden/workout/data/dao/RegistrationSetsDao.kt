@@ -19,8 +19,8 @@ interface RegistrationSetsDao {
   @Query("SELECT * FROM PlannedSetPojo WHERE id = :setId")
   fun getById(setId: Int): Observable<PlannedSetPojo>
 
-  @Query("SELECT * FROM PlannedSetPojo WHERE plannedExerciseId = :registrationId")
-  fun getAllForPlannedExercise(registrationId: Int): Observable<List<PlannedSetPojo>>
+  @Query("SELECT * FROM PlannedSetPojo WHERE plannedExerciseId = :exerciseId")
+  fun getAllForPlannedExercise(exerciseId: Int): Observable<List<PlannedSetPojo>>
 
 //  @Query("SELECT * FROM PlannedSetPojo as 'set' WHERE id = :plannedSetId " +
 //      "and set.index > ")

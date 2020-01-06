@@ -36,10 +36,12 @@ class CurrentWorkoutViewModel(
     getCurrentWorkout.execute(plannedWorkoutId).subscribe { loggedWorkout ->
       currentWorkout.set(loggedWorkout)
       exercises.clear()
-      loggedWorkout.loggedExercises?.forEach { loggedExercise ->
+      loggedWorkout.loggedExercises.forEach { loggedExercise ->
         exercises.add(ExerciseItemViewModel().apply {
           setLoggedExercise(loggedExercise)
-          setPlannedExercise(loggedExercise.exercise)
+          loggedExercise.exercise?.let {
+            setExercise(it)
+          }
         })
         notifyPropertyChanged(BR.exercises)
       }

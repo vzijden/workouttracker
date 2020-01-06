@@ -7,6 +7,6 @@ import vzijden.workout.data.model.PlannedSetPojo
 
 class RegistrationAndSets {
   @Embedded lateinit var plannedExercisePojo: PlannedExercisePojo
-  @Relation(parentColumn = "id", entityColumn = "registrationId", entity = PlannedSetPojo::class)
+  @Relation(parentColumn = "id", entityColumn = "exerciseId", entity = PlannedSetPojo::class)
   var plannedSetPojos: MutableList<PlannedSetPojo> = mutableListOf()
 }

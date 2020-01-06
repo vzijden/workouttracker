@@ -1,7 +1,6 @@
 package vzijden.workout.data.repository
 
 import android.content.Context
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import vzijden.workout.data.WorkoutDatabase
@@ -45,18 +44,6 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     return workoutDatabase.workoutDao().getById(workoutId).map { mapPlannedWorkoutToEntity(it) }
   }
 
-  override fun createWorkout(plannedWorkout: PlannedWorkout): Single<Int> {
-    return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
-  }
-
-  override fun createPlannedSet(plannedSet: PlannedSet): Single<Int> {
-    return workoutDatabase.setsDao().insert(mapPlannedSetToPojo(plannedSet))
-  }
-
-  override fun createPlannedExercise(plannedExercise: PlannedExercise): Single<Int> {
-    return workoutDatabase.registrationDao().insert(mapPlannedExerciseToPojo(plannedExercise))
-  }
-
   override fun saveLoggedWorkout(loggedWorkout: LoggedWorkout): Single<Int> {
     return workoutDatabase.workoutDao().insertLogged(mapLoggedWorkoutToPojo(loggedWorkout))
   }
@@ -71,12 +58,6 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     return workoutDatabase.exerciseDao().get(exerciseId).map { mapExerciseToEntity(it) }
   }
 
-  override fun getPlannedSets(plannedExerciseId: Int): Observable<List<PlannedSet>> {
-    return workoutDatabase.setsDao().getAllForPlannedExercise(plannedExerciseId).map {
-      it.map { plannedSetPojo -> mapPlannedSetToEntity(plannedSetPojo) }
-    }
-  }
-
   override fun logSet(loggedSet: LoggedSet): Single<Int> {
     TODO()
   }
@@ -87,35 +68,10 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     }
   }
 
-  override fun savePlannedWorkout(plannedWorkout: PlannedWorkout): Single<Int> {
-    return workoutDatabase.workoutDao().insert(mapPlannedWorkoutToPojo(plannedWorkout))
-  }
-
-  override fun deletePlannedSet(plannedSetId: Int) {
-    workoutDatabase.setsDao().deleteById(plannedSetId)
-  }
-
-  override fun getPlannedExercise(plannedExerciseId: Int): Observable<PlannedExercise> {
-    return workoutDatabase.registrationAndSetsDao().get(plannedExerciseId).map { registrationAndSets ->
-      mapPlannedExerciseToEntity(registrationAndSets.plannedExercisePojo,
-          registrationAndSets.plannedSetPojos.map { plannedSetPojo ->
-            mapPlannedSetToEntity(plannedSetPojo)
-          })
-    }
-  }
-
-  override fun deletePlannedExercise(plannedExercise: PlannedExercise): Completable {
-    return workoutDatabase.registrationDao().delete(mapPlannedExerciseToPojo(plannedExercise))
-  }
-
   override fun getAllExercises(): Observable<List<Exercise>> {
     return workoutDatabase.exerciseDao().getAll().map {
       it.map { mapExerciseToEntity(it) }
     }
-  }
-
-  override fun saveLoggedExercise(loggedExercise: LoggedExercise): Single<Int> {
-    return workoutDatabase.registrationDao().insert(mapLoggedExerciseToPojo(loggedExercise))
   }
 
   override fun addExerciseToLoggedWorkout(exercise: LoggedExercise, loggedWorkoutId: Int): Single<Int> {

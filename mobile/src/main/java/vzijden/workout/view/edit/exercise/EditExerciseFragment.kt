@@ -19,14 +19,14 @@ import vzijden.workout.view.exercises.SelectExerciseActivity
 
 class EditExerciseFragment : Fragment(), EditExerciseViewModel.EditExercisesFragmentView {
   companion object {
-    private const val REGISTRATION_ID = "RegistrationID"
+    private const val REGISTRATION_ID = "exerciseId"
     private const val WORKOUT_ID = "workoutID"
     const val SELECT_EXERCISE = 1
 
-    fun createInstance(registrationId: Int, workoutId: Int): EditExerciseFragment {
+    fun createInstance(exerciseId: Int, workoutId: Int): EditExerciseFragment {
       val bundle = Bundle()
-      bundle.putLong(REGISTRATION_ID, registrationId)
-      bundle.putLong(WORKOUT_ID, workoutId)
+      bundle.putInt(REGISTRATION_ID, exerciseId)
+      bundle.putInt(WORKOUT_ID, workoutId)
       return EditExerciseFragment().apply {
         arguments = bundle
       }
@@ -73,7 +73,7 @@ class EditExerciseFragment : Fragment(), EditExerciseViewModel.EditExercisesFrag
     super.onPause()
     arguments?.apply {
       viewModel.exercise.get()?.id?.let {
-        putLong(REGISTRATION_ID, it)
+        putInt(REGISTRATION_ID, it)
       }
     }
   }

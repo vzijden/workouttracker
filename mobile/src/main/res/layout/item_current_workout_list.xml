@@ -56,7 +56,7 @@
               android:layout_width="wrap_content"
               android:layout_height="40dp"
               android:gravity="bottom"
-              android:text="@{viewModel.plannedExercise.exercise.name}"
+              android:text="@{viewModel.exercise.name}"
               android:textColor="@color/text_dark"
               android:textSize="21sp"
               android:textStyle="bold"
@@ -72,7 +72,7 @@
               android:textSize="15sp"
               app:layout_constraintStart_toStartOf="@id/item_current_workout_list_name"
               app:layout_constraintTop_toBottomOf="@id/item_current_workout_list_name"
-              app:muscleGroups="@{viewModel.plannedExercise.exercise.muscleGroups}"
+              app:muscleGroups="@{viewModel.exercise.muscleGroups}"
               tools:text="Biceps" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,7 +97,7 @@
               android:layout_height="wrap_content"
               app:layout_constraintTop_toBottomOf="@id/item_current_workout_divider"
               app:layout_constraintLeft_toLeftOf="parent"
-              android:text="@{@string/completed_sets(viewModel.loggedExercise.loggedSets.size(), viewModel.plannedExercise.plannedSets.size())}"
+              android:text="@{@string/completed_sets(viewModel.loggedExercise.loggedSets.size(), 0)}"
               tools:text="3/4 sets completed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
       </LinearLayout>

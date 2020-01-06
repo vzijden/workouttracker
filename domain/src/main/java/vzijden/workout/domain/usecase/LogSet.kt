@@ -11,7 +11,7 @@ class LogSet(private var workoutRepository: WorkoutRepository, subscribeSchedule
   override fun build(params: Params): Single<LoggedSet> {
     val (reps, weight) = params
     return workoutRepository.getCurrentExercise().firstOrError().flatMap { currentExercise ->
-      val loggedSet = LoggedSet(currentExercise.exercise!!.exercise, currentExercise.id, currentExercise.loggedWorkoutId, reps)
+      val loggedSet = LoggedSet(weight, reps)
 
       workoutRepository.logSet(loggedSet).map { loggedSetId ->
         LoggedSet(weight, reps, 0, loggedSetId)

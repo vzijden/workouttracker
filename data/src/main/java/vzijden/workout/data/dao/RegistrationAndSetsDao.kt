@@ -11,6 +11,6 @@ interface RegistrationAndSetsDao {
   @Query("SELECT * from PlannedExercisePojo where PlannedExercisePojo.workoutId = :workoutId")
   fun getAllForWorkout(workoutId: Int): Flowable<RegistrationAndSets>
 
-  @Query("SELECT * FROM PlannedExercisePojo where PlannedExercisePojo.id = :registrationId")
-  fun get(registrationId: Int): Observable<RegistrationAndSets>
+  @Query("SELECT * FROM PlannedExercisePojo where PlannedExercisePojo.id = :exerciseId")
+  fun get(exerciseId: Int): Observable<RegistrationAndSets>
 }

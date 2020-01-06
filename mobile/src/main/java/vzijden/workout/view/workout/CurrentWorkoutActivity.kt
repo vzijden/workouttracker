@@ -24,7 +24,7 @@ class CurrentWorkoutActivity : DaggerAppCompatActivity(), CurrentWorkoutViewMode
 
     fun createBundle(plannedWorkoutId: Int): Bundle {
       return Bundle().apply {
-        putLong(PLANNED_WORKOUT_ID, plannedWorkoutId)
+        putInt(PLANNED_WORKOUT_ID, plannedWorkoutId)
       }
     }
   }
