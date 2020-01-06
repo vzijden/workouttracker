@@ -9,9 +9,9 @@ data class EquipmentPojo (
 )
 {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Long = 0
 
-    constructor(name: String, id: Int): this(name) {
+    constructor(name: String, id: Long): this(name) {
         this.id = id
     }
 }

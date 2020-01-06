@@ -7,5 +7,5 @@ import vzijden.workout.data.model.EquipmentPojo
 @Dao
 interface EquipmentDao {
     @Insert
-    fun insert(equipmentPojo: EquipmentPojo): Int
+    fun insert(equipmentPojo: EquipmentPojo): Long
 }

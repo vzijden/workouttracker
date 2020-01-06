@@ -3,7 +3,7 @@ package vzijden.workout.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.edit_workout_add_item_view.view.*
+import kotlinx.android.synthetic.main.adapter_add_item_view.view.*
 import vzijden.workout.R
 
 abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddItemAdapter {
@@ -30,7 +30,7 @@ abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddIt
 
   final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     val inflater = LayoutInflater.from(parent.context)
-    return if (viewType == ADD_ITEM_VIEW_TYPE) AddItemViewHolder(inflater.inflate(R.layout.edit_workout_add_item_view, parent, false) as ViewGroup)
+    return if (viewType == ADD_ITEM_VIEW_TYPE) AddItemViewHolder(inflater.inflate(R.layout.adapter_add_item_view, parent, false) as ViewGroup)
     else super.onCreateViewHolder(parent, viewType)
   }
 

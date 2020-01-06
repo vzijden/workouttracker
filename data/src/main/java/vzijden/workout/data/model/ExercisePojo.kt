@@ -11,11 +11,11 @@ data class ExercisePojo(
         var description: String,
         var muscleGroupPojos: List<MuscleGroupPojo>? = listOf()
 ) {
-        constructor(name: String, description: String, id: Int, muscleGroups: List<MuscleGroupPojo>): this(name, description, muscleGroups) {
+        constructor(name: String, description: String, id: Long, muscleGroups: List<MuscleGroupPojo>): this(name, description, muscleGroups) {
                 this.id = id
         }
 
         @PrimaryKey(autoGenerate = true)
-        var id: Int = 0
+        var id: Long = 0
 
 }

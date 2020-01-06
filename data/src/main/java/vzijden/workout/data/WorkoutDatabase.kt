@@ -3,20 +3,18 @@ package vzijden.workout.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import vzijden.workout.data.dao.*
-import vzijden.workout.data.model.*
-import vzijden.workout.data.model.PlannedSetPojo
+import vzijden.workout.data.dao.EquipmentDao
+import vzijden.workout.data.dao.ExerciseDao
+import vzijden.workout.data.dao.LogDao
+import vzijden.workout.data.model.EquipmentPojo
+import vzijden.workout.data.model.ExercisePojo
+import vzijden.workout.data.model.LoggedSetPojo
+import vzijden.workout.data.model.LoggedWorkoutPojo
 
-@Database(entities = [SchedulePojo::class, PlannedWorkoutPojo::class, ExercisePojo::class, PlannedSetPojo::class, EquipmentPojo::class, PlannedExercisePojo::class, LoggedWorkoutPojo::class, LoggedSetPojo::class, LoggedExercisePojo::class], version = 1)
+@Database(entities = [ExercisePojo::class, EquipmentPojo::class, LoggedSetPojo::class, LoggedWorkoutPojo::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class WorkoutDatabase: RoomDatabase() {
-    abstract fun scheduleDao(): ScheduleDao
-    abstract fun workoutAndRegistrationsDao() : WorkoutAndRegistrationsDao
     abstract fun exerciseDao() : ExerciseDao
-    abstract fun workoutDao() : WorkoutDao
-    abstract fun scheduleAndWorkoutsDao(): ScheduleAndWorkoutsDao
-    abstract fun setsDao(): RegistrationSetsDao
-    abstract fun registrationAndSetsDao(): RegistrationAndSetsDao
     abstract fun equipmentDao(): EquipmentDao
-    abstract fun registrationDao(): RegistrationDao
+    abstract fun registrationDao(): LogDao
 }

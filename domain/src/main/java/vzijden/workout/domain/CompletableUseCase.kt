@@ -5,8 +5,8 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 
-abstract class CompletableUseCase<in Params>(private val subscribeScheduler: Scheduler,
-                                             private val postExecutionScheduler: Scheduler) {
+abstract class CompletableUseCase<in Params>(protected val subscribeScheduler: Scheduler,
+                                             protected val postExecutionScheduler: Scheduler) {
 
   private val disposables: CompositeDisposable = CompositeDisposable()
 

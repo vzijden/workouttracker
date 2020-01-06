@@ -97,7 +97,7 @@
               android:layout_height="wrap_content"
               app:layout_constraintTop_toBottomOf="@id/item_current_workout_divider"
               app:layout_constraintLeft_toLeftOf="parent"
-              android:text="@{@string/completed_sets(viewModel.loggedExercise.loggedSets.size(), 0)}"
+              android:text="@{@string/completed_sets(0, 0)}"
               tools:text="3/4 sets completed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
       </LinearLayout>

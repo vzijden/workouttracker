@@ -1,18 +1,25 @@
 package vzijden.workout.domain.model
 
 data class LoggedSet(
-    var weight: Int,
-    var reps: Int
+    val reps: Int,
+    val exercise: Exercise
 ) {
-  constructor(weight: Int, reps: Int, unit: Int, id: Int) : this(weight, reps) {
-    this.unit = unit
+
+  // Data constructor
+  constructor(id: Long, reps: Int, exercise: Exercise, index: Int) : this(reps, exercise) {
     this.id = id
+    this.index = index
   }
 
-  var unit: Int = 0
+  var id: Long = 0
     private set
-  var id: Int = 0
+
+  var index = 0
+    private set
+
+  var weight: Int = 0
     private set
 
   var completed = false
+    private set
 }

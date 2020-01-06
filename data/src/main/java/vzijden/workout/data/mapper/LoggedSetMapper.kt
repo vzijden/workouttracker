@@ -1,13 +1,13 @@
 package vzijden.workout.data.mapper
 
+import vzijden.workout.data.model.ExercisePojo
 import vzijden.workout.data.model.LoggedSetPojo
 import vzijden.workout.domain.model.LoggedSet
 
-fun mapLoggedSetToPojo(entity: LoggedSet, loggedExerciseId: Int): LoggedSetPojo {
-  return LoggedSetPojo(entity.weight, entity.reps, entity.unit, loggedExerciseId)
+fun mapLoggedSetToPojo(loggedSet: LoggedSet, workoutId: Long): LoggedSetPojo {
+  return LoggedSetPojo(loggedSet.reps, loggedSet.exercise.id, loggedSet.index, workoutId)
 }
 
- fun mapLoggedSetToEntity(pojo: LoggedSetPojo): LoggedSet {
-   return LoggedSet(pojo.weight, pojo.reps, pojo.unit, pojo.id)
+fun mapLoggedSetToEntity(loggedSetPojo: LoggedSetPojo, exercise: ExercisePojo): LoggedSet {
+  return LoggedSet(loggedSetPojo.id, loggedSetPojo.reps, mapExerciseToEntity(exercise), loggedSetPojo.index)
 }
-

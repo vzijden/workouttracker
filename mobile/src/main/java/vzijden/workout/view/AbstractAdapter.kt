@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.edit_workout_add_item_view.view.*
+import kotlinx.android.synthetic.main.adapter_add_item_view.view.*
 import vzijden.workout.App
 import vzijden.workout.R
 import vzijden.workout.adapter.*
@@ -38,7 +38,7 @@ abstract class AbstractAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder
   final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     val inflater = LayoutInflater.from(parent.context)
     return when (viewType) {
-      ADD_ITEM_VIEW_TYPE -> AddItemViewHolder(inflater.inflate(R.layout.edit_workout_add_item_view, parent, false) as ViewGroup)
+      ADD_ITEM_VIEW_TYPE -> AddItemViewHolder(inflater.inflate(R.layout.adapter_add_item_view, parent, false) as ViewGroup)
       viewType -> createItemViewHolder(inflater, parent)
       else -> throw RuntimeException("Unknown viewType")
     }
