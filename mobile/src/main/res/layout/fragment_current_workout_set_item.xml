@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+        name="viewModel"
+        type="vzijden.workout.view.workout.LoggedSetViewModel" />
+  </data>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingTop="8dp"
+      android:paddingBottom="8dp">
+
+    <TextView
+        android:textColor="@{viewModel.current ? @color/colorPrimary : @android:color/secondary_text_light}"
+        android:layout_weight="1"
+        android:id="@+id/fragment_current_workout_set_item_reps_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{Integer.toString(viewModel.reps)}"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="8" />
+
+    <TextView
+        android:textColor="@{viewModel.current ? @color/colorPrimary : @android:color/secondary_text_light}"
+        android:layout_weight="1"
+        android:id="@+id/fragment_current_workout_set_item_weight_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{@string/kilo(viewModel.weight)}"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="8 KG" />
+  </LinearLayout>
+</layout>

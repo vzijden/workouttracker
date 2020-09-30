@@ -4,19 +4,24 @@ import android.text.Html
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.RecyclerView
-import vzijden.workout.adapter.*
 import vzijden.workout.adapter.AddItemAdapter
 import vzijden.workout.adapter.BindableAdapter
+import vzijden.workout.adapter.BindableAdapter2
+import vzijden.workout.adapter.ClickableAdapter
 import vzijden.workout.adapter.ItemDeleteAdapter
+import vzijden.workout.adapter.OnAddItemListener
 import vzijden.workout.adapter.OnItemClickedListener
+import vzijden.workout.adapter.OnItemDeletedListener
 import vzijden.workout.domain.model.MuscleGroup
 
 @BindingAdapter("data")
 fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: ObservableArrayList<T>?) {
-  if (recyclerView.adapter is BindableAdapter<*>) {
+  if (recyclerView.adapter is BindableAdapter2<*>) {
     items?.let {
-      (recyclerView.adapter as BindableAdapter<T>).bindData(it)
+      (recyclerView.adapter as BindableAdapter2<T>).bindData(it)
     }
   }
 }
@@ -51,10 +56,21 @@ fun <T> setOnItemClickedListener(recyclerView: RecyclerView, listener: OnItemCli
   }
 }
 
-@BindingAdapter("onItemDeleted")
-fun <T> setOnItemDeletedAdapter(recyclerView: RecyclerView, listener: OnItemDeletedListener<T>) {
-  if (recyclerView.adapter is ItemDeleteAdapter<*> && listener != null) {
-    (recyclerView.adapter as ItemDeleteAdapter<T>).addOnItemDeletedListener(listener)
+@BindingAdapter("onDeleteSwipe")
+fun <T> setOnItemDeletedAdapter(recyclerView: RecyclerView, listener: OnItemDeletedListener) {
+  if (recyclerView.adapter is ItemDeleteAdapter) {
+    val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+      override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) =
+          makeMovementFlags(0, RIGHT)
+
+      override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) =
+          true
+
+      override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        listener.onItemDeleted(viewHolder.layoutPosition)
+      }
+    })
+    itemTouchHelper.attachToRecyclerView(recyclerView)
   }
 }
 

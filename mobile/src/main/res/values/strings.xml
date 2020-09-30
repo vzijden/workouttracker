@@ -6,7 +6,7 @@
     <string name="workouts">Workouts</string>
     <string name="exercise_name">Exercise name</string>
     <string name="sets">Sets:</string>
-    <string name="reps">reps:</string>
+    <string name="reps">reps</string>
     <string name="workout_name">Workout name</string>
     <string name="day">Day </string>
     <string name="add">Add</string>
@@ -17,10 +17,11 @@
     <string name="search_exercises">Search exercises</string>
     <string name="start">Start</string>
     <string name="edit">Edit exercise</string>
-    <string name="kilo">KG</string>
+    <string name="kilo">%1$s KG</string>
     <string name="index">#</string>
     <string name="weight">weight</string>
     <string name="set">Set</string>
     <string name="current_workout">Current workout</string>
     <string name="completed_sets">%1$s / %2$s sets</string>
+    <string name="complete_set">Complete set</string>
 </resources>

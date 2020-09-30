@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import dagger.android.support.DaggerAppCompatActivity
 import org.jetbrains.anko.ctx
 import vzijden.workout.R
+import vzijden.workout.databinding.ActivityCurrentWorkoutBinding
 import vzijden.workout.domain.usecase.AddLoggedSetToCurrentWorkout
+import vzijden.workout.domain.usecase.CompleteSet
+import vzijden.workout.domain.usecase.DeleteLoggedExerciseFromCurrentWorkout
 import vzijden.workout.domain.usecase.GetOrCreateCurrentWorkout
 import vzijden.workout.view.exercises.SelectExerciseActivity
 import javax.inject.Inject
@@ -25,15 +27,21 @@ class CurrentWorkoutActivity : DaggerAppCompatActivity(), CurrentWorkoutViewMode
   lateinit var getOrCreateCurrentWorkout: GetOrCreateCurrentWorkout
   @Inject
   lateinit var addLoggedSetToCurrentWorkout: AddLoggedSetToCurrentWorkout
+  @Inject
+  lateinit var deleteLoggedExerciseFromCurrentWorkout: DeleteLoggedExerciseFromCurrentWorkout
+  @Inject
+  lateinit var completeSet: CompleteSet
 
   private lateinit var currentWorkoutViewModel: CurrentWorkoutViewModel
   private var showingExercisesList = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    currentWorkoutViewModel = CurrentWorkoutViewModel(getOrCreateCurrentWorkout, addLoggedSetToCurrentWorkout)
+    currentWorkoutViewModel = CurrentWorkoutViewModel(getOrCreateCurrentWorkout, addLoggedSetToCurrentWorkout,
+                                                      deleteLoggedExerciseFromCurrentWorkout, completeSet)
     currentWorkoutViewModel.bind(this)
-    DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_current_workout)
+    val contentView: ActivityCurrentWorkoutBinding = DataBindingUtil.setContentView(this, R.layout.activity_current_workout)
+    contentView.viewModel = currentWorkoutViewModel
     currentWorkoutViewModel.load()
   }
 

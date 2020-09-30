@@ -1,7 +1,7 @@
 package vzijden.workout.domain.model
 
 data class LoggedSet(
-    val reps: Int,
+    var reps: Int ,
     val exercise: Exercise
 ) {
 
@@ -15,11 +15,12 @@ data class LoggedSet(
     private set
 
   var index = 0
-    private set
+    internal set
 
   var weight: Int = 0
-    private set
+    internal set
 
   var completed = false
-    private set
+    internal set
+
 }

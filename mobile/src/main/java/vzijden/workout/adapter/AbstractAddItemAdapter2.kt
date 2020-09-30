@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.adapter_add_item_view.view.*
 import vzijden.workout.R
 
-abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddItemAdapter {
+abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddItemAdapter, ItemDeleteAdapter {
   companion object {
     const val ADD_ITEM_VIEW_TYPE = 0
   }
@@ -16,6 +16,10 @@ abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddIt
   final override fun addOnAddItemListener(onAddItemListener: OnAddItemListener) {
     this.onAddItemListener = onAddItemListener
     notifyItemChanged(list.size - 1)
+  }
+
+  override fun deleteItem(viewHolderPosition: Int) {
+
   }
 
   final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -35,10 +39,16 @@ abstract class AbstractAddItemAdapter2<T> : AbstractBindableAdapter2<T>(), AddIt
   }
 
   final override fun getItemViewType(position: Int): Int {
-    return if (position == itemCount - 1) ADD_ITEM_VIEW_TYPE else super.getItemViewType(position)
+    if (onAddItemListener != null)
+      return if (position == itemCount - 1) ADD_ITEM_VIEW_TYPE else super.getItemViewType(position)
+
+    return super.getItemViewType(position)
   }
 
   final override fun getItemCount(): Int {
-    return super.getItemCount() + 1
+    if (onAddItemListener != null)
+      return super.getItemCount() + 1
+
+    return super.getItemCount()
   }
 }

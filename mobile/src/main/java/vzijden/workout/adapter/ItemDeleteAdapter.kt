@@ -1,6 +1,7 @@
 package vzijden.workout.adapter
 
-interface ItemDeleteAdapter<T> {
-  fun addOnItemDeletedListener(onItemDeletedListener: OnItemDeletedListener<T>)
+import androidx.recyclerview.widget.RecyclerView
+
+interface ItemDeleteAdapter {
   fun deleteItem(viewHolderPosition: Int)
 }

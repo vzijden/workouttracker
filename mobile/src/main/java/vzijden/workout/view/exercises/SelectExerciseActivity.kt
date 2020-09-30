@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_select_exercise.*
 import vzijden.workout.R
+import vzijden.workout.adapter.AbstractBindableAdapter2
 import vzijden.workout.databinding.ActivitySelectExerciseBinding
 import vzijden.workout.databinding.ItemSelectExercisesActivityBinding
 import vzijden.workout.domain.model.Exercise
 import vzijden.workout.domain.usecase.GetAllExercises
-import vzijden.workout.view.AbstractAdapter
 import javax.inject.Inject
 
 class SelectExerciseActivity : DaggerAppCompatActivity(), SelectExerciseViewModel.SelectExerciseView {
@@ -57,13 +57,13 @@ class SelectExerciseActivity : DaggerAppCompatActivity(), SelectExerciseViewMode
     }
   }
 
-  internal class ExercisesAdapter : AbstractAdapter<Exercise>() {
+  internal class ExercisesAdapter : AbstractBindableAdapter2<Exercise>() {
     override fun getHolderViewType(pos: Int): Int = 1
 
 
     override fun bindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
       (holder as ExerciseViewHolder).apply {
-        binding.exercise = observableList[position]
+        binding.exercise = list[position]
       }
     }
 

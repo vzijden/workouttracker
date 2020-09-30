@@ -13,6 +13,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
                 app:data="@{viewModel.sets}"
+                app:onDeleteSwipe="@{viewModel.onDelete}"
                 app:onItemAdded="@{viewModel.onAddExerciseClick}"
                 android:id="@+id/fragment_current_workout_list_recyclerview"
                 android:layout_width="match_parent"

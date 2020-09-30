@@ -8,10 +8,13 @@ import java.util.Date
 // Mapping constructor
 data class LoggedWorkoutPojo(val date: Date) {
   // Room constructor
-  constructor(id: Long, date: Date) : this(date) {
+  constructor(id: Long, date: Date, currentLoggedSetId: Long) : this(date) {
     this.id = id
+    this.currentLoggedSetId = currentLoggedSetId
   }
 
   @PrimaryKey(autoGenerate = true)
   var id: Long = 0
+
+  var currentLoggedSetId: Long = -1
 }

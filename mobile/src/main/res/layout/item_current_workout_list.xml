@@ -28,24 +28,29 @@
         tools:text="1" />
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_current_workout_list_index"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:strokeColor="@android:color/darker_gray"
+        app:strokeWidth="1dp">
 
       <LinearLayout
           android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
           android:paddingStart="16sp"
           android:paddingEnd="16sp"
-          android:paddingBottom="16sp"
-          android:layout_height="wrap_content"
-          android:orientation="vertical">
+          android:paddingBottom="16sp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,6 +64,7 @@
               android:text="@{viewModel.exercise.name}"
               android:textColor="@color/text_dark"
               android:textSize="21sp"
+              android:fontFamily="sans-serif-black"
               android:textStyle="bold"
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="parent"
@@ -77,28 +83,62 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/item_current_workout_list_active_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
           <View
-              android:layout_marginTop="8sp"
               android:id="@+id/item_current_workout_divider"
               android:layout_width="match_parent"
               android:layout_height="1dp"
+              android:layout_marginTop="8sp"
               android:background="?android:attr/dividerVertical"
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="parent" />
 
           <TextView
-              android:layout_marginTop="8sp"
               android:id="@+id/item_current_workout_list_sets_completed"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              app:layout_constraintTop_toBottomOf="@id/item_current_workout_divider"
+              android:layout_marginTop="8sp"
+              android:text="@{@string/completed_sets(viewModel.setsCompleted, viewModel.setCount)}"
               app:layout_constraintLeft_toLeftOf="parent"
-              android:text="@{@string/completed_sets(0, 0)}"
+              app:layout_constraintTop_toBottomOf="@id/item_current_workout_divider"
               tools:text="3/4 sets completed" />
+
+          <LinearLayout
+              android:id="@+id/item_current_workout_list_sets_header"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/item_current_workout_list_sets_completed">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-black"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="@string/reps"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-black"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="@string/weight"/>
+          </LinearLayout>
+
+          <vzijden.workout.view.BindingRecyclerView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              app:data="@{viewModel.sets}"
+              app:layoutId="@{@layout/fragment_current_workout_set_item}"
+              app:layout_constraintTop_toBottomOf="@id/item_current_workout_list_sets_header" />
         </androidx.constraintlayout.widget.ConstraintLayout>
       </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

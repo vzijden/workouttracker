@@ -1,5 +1,5 @@
 package vzijden.workout.adapter
 
-interface OnItemDeletedListener<T> {
-  fun onItemDeleted(item: T, pos: Int)
+interface OnItemDeletedListener {
+  fun onItemDeleted(pos: Int)
 }

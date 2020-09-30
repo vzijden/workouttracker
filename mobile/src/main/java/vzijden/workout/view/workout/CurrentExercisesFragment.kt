@@ -30,12 +30,10 @@ class CurrentExercisesFragment : Fragment() {
     viewModel?.let { viewModel ->
       binding!!.viewModel = viewModel
     }
-
   }
 
   private fun setupRecyclerView() {
     val exercisesAdapter = ExercisesAdapter()
-    ExercisesAdapter
     fragment_current_workout_list_recyclerview.apply {
       adapter = exercisesAdapter
       layoutManager = LinearLayoutManager(this@CurrentExercisesFragment.context)

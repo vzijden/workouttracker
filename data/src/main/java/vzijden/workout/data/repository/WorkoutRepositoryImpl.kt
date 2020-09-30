@@ -1,6 +1,7 @@
 package vzijden.workout.data.repository
 
 import android.content.Context
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import vzijden.workout.data.WorkoutDatabase
@@ -9,6 +10,7 @@ import vzijden.workout.data.model.LoggedSetPojo
 import vzijden.workout.data.model.LoggedWorkoutPojo
 import vzijden.workout.domain.model.*
 import vzijden.workout.domain.repository.WorkoutRepository
+import java.lang.RuntimeException
 import java.util.Date
 
 class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, context: Context) : WorkoutRepository {
@@ -52,6 +54,10 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
     }
   }
 
+  override fun deleteLoggedSet(loggedSetId: Long): Completable {
+    return workoutDatabase.registrationDao().deleteLoggedSet(loggedSetId)
+  }
+
   override fun getSetsForLoggedWorkout(workoutId: Long): Observable<List<LoggedSet>> {
     return workoutDatabase.registrationDao().getLoggedSetsForWorkout(workoutId).map { loggedSetPojos ->
       loggedSetPojos.map { loggedSetPojo ->
@@ -59,5 +65,19 @@ class WorkoutRepositoryImpl(private val workoutDatabase: WorkoutDatabase, contex
         mapLoggedSetToEntity(loggedSetPojo, exercise)
       }
     }
+  }
+
+  override fun getCurrentLoggedSet(): Single<LoggedSet> {
+    val workoutId = getCurrentWorkoutId() ?: throw RuntimeException("No current workout")
+
+    return workoutDatabase.registrationDao().getCurrentLoggedSet(workoutId).flatMap { loggedSetPojo ->
+      workoutDatabase.exerciseDao().get(loggedSetPojo.exerciseId).map { exercise ->
+        mapLoggedSetToEntity(loggedSetPojo, exercise)
+      }.singleOrError()
+    }
+  }
+
+  override fun updateLoggedSet(loggedSet: LoggedSet, workoutId: Long): Completable {
+    return workoutDatabase.registrationDao().update(mapLoggedSetToPojo(loggedSet, workoutId))
   }
 }
